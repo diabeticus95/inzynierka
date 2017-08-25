@@ -4,6 +4,9 @@
 #include <math.h>
 #include "Bitmap.h"
 using namespace std;
+/* TO DO:
+ * - dodac wersje bez przyblizenia przyosiowego
+ */
 
 int main(int argc, char** argv){
 	double probkowanie = pow(10,5);
@@ -17,29 +20,21 @@ int main(int argc, char** argv){
 	Bitmap bitmap(MAX_ROW, MAX_COL);
 	int norm = 255;
 	double max_bitmap_value = 0;
-	//https://stackoverfl	ow.com/questions/936687/how-do-i-declare-a-2d-array-in-c-using-new
-
 	for (int row = 0; row < MAX_ROW; row++){
 		for (int col = 0; col < MAX_COL; col++){
-//		bitmap.bmap[bitmap.index(row,col)] = fmod(- ((-k)/(2*f)) * (pow(row,2)) + pow(col,2), 2*M_PI);
+			// w przyblizeniu przyosiowym
 		bitmap.bmap[bitmap.index(row,col)]	= fmod(coeff*(pow(row,2) + pow(col,2)),2*M_PI);
-//		cout<<"wartosc  "<<bitmap.bmap[bitmap.index(row,col)]<<"  ";
 		if (bitmap.bmap[bitmap.index(row,col)]>max_bitmap_value) max_bitmap_value = bitmap.bmap[bitmap.index(row,col)];
-//		cout<<"max  "<<max_bitmap_value<<endl;
 		}
 	}
-	//	cout << "max = "<< max_bitmap_value<<endl;
 		for (int row = 0; row < MAX_ROW; row++){
 				for (int col = 0; col < MAX_COL; col++){
 					bitmap.bmap[bitmap.index(row,col)] = (bitmap.bmap[bitmap.index(row,col)] * norm/max_bitmap_value);
-		//			cout<<bitmap.bmap[bitmap.index(row,col)]<<endl;
 				}
 		}
 
-	//przyosiowe t(x,y) = exp( - (i*k)/(2*f) * (x^2 + y^2))
 	BMP AnImage;
 	AnImage.SetSize(MAX_ROW,MAX_COL);
-	// Set its color depth to 8-bits
 	AnImage.SetBitDepth(bit_depth);
 	for (int row = 0; row < MAX_ROW; row++){
 			for (int col = 0; col < MAX_COL; col++){
