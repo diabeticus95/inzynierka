@@ -14,6 +14,10 @@ using namespace std;
 
 int main(int argc, char** argv){
 	Zernike zerxample;
+//	BMP AnImage;
+//	AnImage.ReadFromFile("zernike.bmp");
+
+
 }
 
 
