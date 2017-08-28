@@ -30,12 +30,13 @@ Lens::Lens() {
 			bitmap->bmap[bitmap->index(row,col)]	= fmod(coeff*(pow(row,2) + pow(col,2)),2*M_PI);
 			if (bitmap->bmap[bitmap->index(row,col)]>max_bitmap_value) max_bitmap_value = bitmap->bmap[bitmap->index(row,col)];
 			}
-		}
+	}
+	bitmap->printMap();
 			for (int row = 0; row < MAX_ROW; row++){
 					for (int col = 0; col < MAX_COL; col++){
 						bitmap->bmap[bitmap->index(row,col)] = (bitmap->bmap[bitmap->index(row,col)] * norm/max_bitmap_value);
-					}
 			}
+	}
 
 		BMP AnImage;
 		AnImage.SetSize(MAX_ROW,MAX_COL);

@@ -10,11 +10,13 @@
 
 class Bitmap {
 public:
-	double* bmap;
-
+	double* bmap; //sztuczka z indeksowaniem
 	int index( int x, int y );
+	void printMap();
+
 	Bitmap(int row_count, int col_count);
 	virtual ~Bitmap();
+
 private:
 	int row_count, col_count;
 
