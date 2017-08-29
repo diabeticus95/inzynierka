@@ -54,10 +54,18 @@ void Bitmap::generateImage(){
 				AnImage(row,col)-> Blue = bmap[ index(row,col)];
 		 }
 	}
-	AnImage.WriteToFile("example.bmp");
+	AnImage.WriteToFile("normalizedZer.bmp");
 }
 void Bitmap::setMaxValue(double max){
 	max_bitmap_value = max;
 }
-//Bitmap Bitmap::mergeMaps(Bitmap a, Bitmap b){
-//}
+Bitmap mergeMaps(Bitmap* a, Bitmap* b){
+	int count = a->row_count;
+	Bitmap nowa(count,count);
+	for (int row = 0; row < count; row++){
+			for (int col = 0; col < count; col++){
+				nowa.bmap[nowa.index(row,col)] = fmod(a->bmap[a->index(row,col)] + b->bmap[b->index(row,col)],2*M_PI);
+			}
+	}
+	return nowa;
+}

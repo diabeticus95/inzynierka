@@ -24,6 +24,13 @@ Zernike::Zernike() {
 		}
 	}
 	bitmap->setMaxValue(max_bitmap_value);
+	// normalize to 2*pi, to make it compatibile with lens
+	for (int row = 0; row < MAX_ROW; row++){
+		for (int col = 0; col < MAX_COL; col++){
+			bitmap->bmap[bitmap->index(row,col)] = (bitmap->bmap[bitmap->index(row,col)] * 2*M_PI/max_bitmap_value);
+		}
+	}
+	bitmap->setMaxValue(2*M_PI);
 }
 
 Zernike::~Zernike() {
