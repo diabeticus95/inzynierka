@@ -13,11 +13,8 @@ using namespace std;
  */
 
 int main(int argc, char** argv){
-	Lens example;
-//	BMP AnImage;
-//	AnImage.ReadFromFile("zernike.bmp");
-
-
+	Zernike example;
+	(example.returnBitmap())->generateImage();
 }
 
 

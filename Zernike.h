@@ -7,17 +7,21 @@
 
 #ifndef ZERNIKE_H_
 #define ZERNIKE_H_
-
+#include "Bitmap.h"
 class Zernike {
 public:
 
 	Zernike();
 	virtual ~Zernike();
+
+	Bitmap* returnBitmap();
+
 private:
 	double probkowanie;
 	int MAX_ROW;
 	int MAX_COL;
 	int bit_depth;
+	Bitmap* bitmap;
 
 double Z0(int x,int y);
 double Z1(int x,int y);

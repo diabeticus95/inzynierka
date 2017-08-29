@@ -12,6 +12,9 @@ class Lens {
 public:
 	Lens();
 	virtual ~Lens();
+
+	Bitmap* returnBitmap();
+
 private:
 	double probkowanie;
 	double lambda;
