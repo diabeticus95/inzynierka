@@ -19,13 +19,11 @@ private:
 	double probkowanie;
 	double lambda;
 	double k;
-	int bit_depth;
 	int f;
 	double coeff;
 	int MAX_ROW;
 	int MAX_COL;
 	Bitmap* bitmap;
-	int norm;
 	double max_bitmap_value;
 };
 

@@ -15,6 +15,7 @@ public:
 	void printMap();
 	void generateImage();
 	void setMaxValue(double max);
+	Bitmap mergeMaps(Bitmap a, Bitmap b);
 
 //	Bitmap(Bitmap bmap, double max_bitmap_value);
 	Bitmap(int row_count, int col_count);

@@ -22,16 +22,17 @@ Lens::Lens() {
 	max_bitmap_value = 0;
 
 	for (int row = -MAX_ROW/2; row < MAX_ROW/2; row++){
-			for (int col = -MAX_COL/2; col < MAX_COL/2; col++){
-				// w przyblizeniu przyosiowym
-			bitmap->bmap[bitmap->index(row+MAX_COL/2,col+MAX_COL/2)] = fmod(coeff*(pow(row,2) + pow(col,2)),2*M_PI);
-			if (bitmap->bmap[bitmap->index(row+MAX_COL/2,col+MAX_COL/2)]>max_bitmap_value) max_bitmap_value = bitmap->bmap[bitmap->index(row,col)];
-			}
+		for (int col = -MAX_COL/2; col < MAX_COL/2; col++){
+					// w przyblizeniu przyosiowym
+			bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)] = fmod(coeff*(pow(row,2) + pow(col,2)),2*M_PI);
+			if (bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)]>max_bitmap_value) max_bitmap_value = bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)];
+		}
 	}
+
 	bitmap->setMaxValue(max_bitmap_value);
 }
 Lens::~Lens() {
-	// TODO Auto-generated destructor stub
+	delete bitmap;
 }
 
 Bitmap* Lens::returnBitmap(){

@@ -24,7 +24,7 @@ Bitmap::Bitmap(int row_count, int col_count) : norm(255), max_bitmap_value(0),
 }
 
 Bitmap::~Bitmap() {
-
+	delete bmap;
 }
 int Bitmap::index(int x, int y ){
 	 return x + col_count * y;
@@ -59,3 +59,5 @@ void Bitmap::generateImage(){
 void Bitmap::setMaxValue(double max){
 	max_bitmap_value = max;
 }
+//Bitmap Bitmap::mergeMaps(Bitmap a, Bitmap b){
+//}

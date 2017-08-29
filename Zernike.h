@@ -20,7 +20,6 @@ private:
 	double probkowanie;
 	int MAX_ROW;
 	int MAX_COL;
-	int bit_depth;
 	Bitmap* bitmap;
 
 double Z0(int x,int y);
