@@ -14,12 +14,12 @@ using namespace std;
 
 int main(int argc, char** argv){
 	Zernike wielomian;
-	Lens soczewka;
-	Bitmap mercz(2048, 2048);
-	mercz = mergeMaps(wielomian.returnBitmap(), soczewka.returnBitmap());
-	mercz.generateImage();
+//	Lens soczewka;
+//	Bitmap mercz(2048, 2048);
+//	mercz = mergeMaps(wielomian.returnBitmap(), soczewka.returnBitmap());
+//	mercz.generateImage();
 //	(example.returnBitmap())->printMap();
-//	(example.returnBitmap())->generateImage();
+	(wielomian.returnBitmap())->generateImage();
 }
 
 

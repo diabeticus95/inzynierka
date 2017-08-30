@@ -17,9 +17,9 @@ Zernike::Zernike() {
 	MAX_COL = 2048;
 	bitmap = new Bitmap(MAX_ROW, MAX_COL);
 	double max_bitmap_value = 0;
-	for (int row = -MAX_ROW/2; row < MAX_ROW/2; row++){
-		for (int col = -MAX_COL/2; col < MAX_COL/2; col++){
-			bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)] = fmod(2*row*col,2*2048*2048);
+	for (double row = -MAX_ROW/2; row < MAX_ROW/2; row++){
+		for (double col = -MAX_COL/2; col < MAX_COL/2; col++){
+			bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)] = pow(row/1024,2) - pow(col/1024,2);
 			if (bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)]>max_bitmap_value) max_bitmap_value = bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)];
 		}
 	}
