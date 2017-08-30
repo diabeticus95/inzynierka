@@ -14,12 +14,26 @@ using namespace std;
 
 int main(int argc, char** argv){
 	Zernike wielomian;
-//	Lens soczewka;
-//	Bitmap mercz(2048, 2048);
-//	mercz = mergeMaps(wielomian.returnBitmap(), soczewka.returnBitmap());
-//	mercz.generateImage();
-//	(example.returnBitmap())->printMap();
-	(wielomian.returnBitmap())->generateImage();
+//	Zernike wielomian2;
+	Lens soczewka;
+	Bitmap* mercz = new Bitmap(2048, 2048);
+	mercz = mergeMaps(wielomian.returnBitmap(), soczewka.returnBitmap());
+//	mercz->printMap();
+	wielomian.returnBitmap()->generateImage("testZer.bmp");
+	soczewka.returnBitmap()->generateImage("testLens.bmp");
+	mercz->generateImage("merge.bmp");
+//	(wielomian.returnBitmap())->printMap();
+//	(wielomian.returnBitmap())->generateImage("test.bmp");
+
+/*	BMP AnImage;
+	AnImage.ReadFromFile("merge.bmp");
+	for(int x = 0; x<1024; x++){
+	cout << "(" << (int) AnImage(x,x)->Red << ","
+	<< (int) AnImage(x,x)->Green << ","
+	<< (int) AnImage(x,x)->Blue << ","
+	<< (int) AnImage(x,x)->Alpha << ")" << endl;
+	}
+*/
 }
 
 

@@ -8,6 +8,7 @@
 #ifndef LENS_H_
 #define LENS_H_
 #include "Bitmap.h"
+
 class Lens {
 public:
 	Lens();
