@@ -57,7 +57,6 @@ void Bitmap::generateImage(char* fileName){
 				bmap[index(row,col)] = (bmap[index(row,col)] * norm/max_bitmap_value);
 			}
 	}
-	this->printMap("debug.txt");
 
 	BMP AnImage;
 	AnImage.SetSize(row_count,col_count);
@@ -76,8 +75,6 @@ void Bitmap::setMaxValue(double max){
 	max_bitmap_value = max;
 }
 Bitmap* mergeMaps(Bitmap* a, Bitmap* b){
-//	a->printMap("debug.txt");
-//	b->printMap("debug.txt");
 	int count = a->row_count;
 	Bitmap* nowa = new Bitmap(count,count);
 	for (int row = 0; row < count; row++){
@@ -86,6 +83,5 @@ Bitmap* mergeMaps(Bitmap* a, Bitmap* b){
 			}
 	}
 	nowa->setMaxValue(2*M_PI);
-//	nowa->printMap("debug.txt");
 	return nowa;
 }
