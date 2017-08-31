@@ -11,7 +11,7 @@
 #include <tgmath.h>
 #include <math.h>
 #include "Bitmap.h"
-Zernike::Zernike(int max_row, int max_col, double (*ZernFunc)(double, double)):MAX_ROW(max_row), MAX_COL(max_col) {
+Zernike::Zernike(int max_row, int max_col,double coeff, double (*ZernFunc)(double, double)):MAX_ROW(max_row), MAX_COL(max_col) {
 	probkowanie = pow(10,5);
 	bitmap = new Bitmap(MAX_ROW, MAX_COL);
 	double max_bitmap_value = 0;
@@ -24,8 +24,10 @@ Zernike::Zernike(int max_row, int max_col, double (*ZernFunc)(double, double)):M
 	}
 	bitmap->setMaxValue(max_bitmap_value);
 	// normalize to 2*pi, to make it compatibile with lens && deal with negatives
+	// tu przemnoz n razy
 	for (int row = 0; row < MAX_ROW; row++){
 		for (int col = 0; col < MAX_COL; col++){
+			bitmap->bmap[bitmap->index(row,col)] = coeff * bitmap->bmap[bitmap->index(row,col)]; //eksperyment
 			bitmap->bmap[bitmap->index(row,col)] = (bitmap->bmap[bitmap->index(row,col)] * 2*M_PI/max_bitmap_value) + 4*M_PI;
 			bitmap->bmap[bitmap->index(row,col)] = fmod(bitmap->bmap[bitmap->index(row,col)], 2*M_PI);
 		}

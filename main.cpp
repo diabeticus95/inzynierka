@@ -13,11 +13,11 @@ using namespace std;
  */
 
 int main(int argc, char** argv){
-	Zernike wielomian0(256,256,Z0);
-	Zernike wielomian1(256,256,Z1);
-	Zernike wielomian2(256,256,Z2);
-	Zernike wielomian3(256,256,Z3);
-	Zernike wielomian4(256,256,Z4);
+//	Zernike wielomian0(256,256,100,Z0);
+//	Zernike wielomian1(256,256,Z1);
+//	Zernike wielomian2(256,256,Z2);
+	Zernike wielomian3(256,256,1,Z3);
+/*	Zernike wielomian4(256,256,Z4);
 	Zernike wielomian5(256,256,Z5);
 	Zernike wielomian6(256,256,Z6);
 	Zernike wielomian7(256,256,Z7);
@@ -34,14 +34,14 @@ int main(int argc, char** argv){
 	Zernike wielomian18(256,256,Z18);
 	Zernike wielomian19(256,256,Z19);
 	Zernike wielomian20(256,256,Z20);
+*/
 
-//	Zernike wielomian2;
-//	Lens soczewka;
+	Lens soczewka(256,256);
 //	Bitmap* mercz = new Bitmap(2048, 2048);
 //	mercz = mergeMaps(wielomian.returnBitmap(), wielomian2.returnBitmap());
 //	mercz->printMap();
-	wielomian0.returnBitmap()->generateImage("Zer0.bmp");
-	wielomian1.returnBitmap()->generateImage("Zer1.bmp");
+//	wielomian0.returnBitmap()->generateImage("maps/Zer0.bmp");
+/*	wielomian1.returnBitmap()->generateImage("Zer1.bmp");
 	wielomian2.returnBitmap()->generateImage("Zer2.bmp");
 	wielomian3.returnBitmap()->generateImage("Zer3.bmp");
 	wielomian4.returnBitmap()->generateImage("Zer4.bmp");
@@ -60,7 +60,7 @@ int main(int argc, char** argv){
 	wielomian17.returnBitmap()->generateImage("Zer17.bmp");
 	wielomian18.returnBitmap()->generateImage("Zer18.bmp");
 	wielomian19.returnBitmap()->generateImage("Zer19.bmp");
-	wielomian20.returnBitmap()->generateImage("Zer20.bmp");
+	wielomian20.returnBitmap()->generateImage("Zer20.bmp");*/
 
 //	soczewka.returnBitmap()->generateImage("testLens.bmp");
 //	mercz->generateImage("merge.bmp");

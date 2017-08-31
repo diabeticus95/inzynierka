@@ -11,7 +11,7 @@
 
 class Lens {
 public:
-	Lens();
+	Lens(int max_row, int max_col);
 	virtual ~Lens();
 
 	Bitmap* returnBitmap();

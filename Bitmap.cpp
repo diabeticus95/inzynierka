@@ -51,7 +51,6 @@ void Bitmap::printMap(char* fileName){
 	plik.close();
 }
 void Bitmap::generateImage(char* fileName){
-//	this->printMap("debug.txt");
 	for (double row = 0; row < row_count; row++){
 			for (double col = 0; col < col_count; col++){
 				bmap[index(row,col)] = (bmap[index(row,col)] * norm/max_bitmap_value);

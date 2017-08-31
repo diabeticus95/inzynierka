@@ -10,7 +10,7 @@
 #include <tgmath.h>
 #include <math.h>
 #include "Bitmap.h"
-Lens::Lens() {
+Lens::Lens(int max_row, int max_col):MAX_ROW(max_row), MAX_COL(max_col) {
 	probkowanie = pow(10,5);
 	lambda = 632.8*0.000000001 * probkowanie;
 	k = 2*M_PI/lambda;

@@ -12,7 +12,7 @@ class Zernike {
 public:
 
 //	Zernike();
-	Zernike(int row, int col, double (*ZernFunc)(double, double));
+	Zernike(int row, int col,double coeff, double (*ZernFunc)(double, double));
 	virtual ~Zernike();
 
 	Bitmap* returnBitmap();
