@@ -5,7 +5,7 @@
 #include "Bitmap.h"
 #include "Lens.h"
 #include "Zernike.h"
-using namespace std;
+#include "DiffractiveStructure.h"
 /* TO DO:
  * - dodac wersje bez przyblizenia przyosiowego
  */
@@ -13,12 +13,8 @@ using namespace std;
 int main(int argc, char** argv){
 //	Zernike wielomian0(256,256,100,Z0);
 //	Zernike wielomian1(256,256,Z1);
-//	Zernike wielomian2(256,256,Z2);
-	Zernike wielomian3(256,256,1,Z3);
-	wielomian3.returnBitmap()->printMap();
-//	DiffractiveStructure* wsk;
-//	*wsk = wielomian3;
-//	wsk->returnBitmap()->printMap();
+	DiffractiveStructure *wsk = new Zernike(256,256,1,Z2);
+	DiffractiveStructure *wsk2 = new Zernike(256,256,1,Z2);
 /*	Zernike wielomian4(256,256,Z4);
 	Zernike wielomian5(256,256,Z5);
 	Zernike wielomian6(256,256,Z6);
@@ -39,8 +35,8 @@ int main(int argc, char** argv){
 */
 
 //	Lens soczewka(256,256);
-//	Bitmap* mercz = new Bitmap(2048, 2048);
-//	mercz = mergeMaps(wielomian.returnBitmap(), wielomian2.returnBitmap());
+	Bitmap* mercz = new Bitmap(2048, 2048);
+	mercz = mergeMaps(wsk, wsk2);
 //	mercz->printMap();
 //	wielomian0.returnBitmap()->generateImage("maps/Zer0.bmp");
 /*	wielomian1.returnBitmap()->generateImage("Zer1.bmp");
@@ -65,7 +61,7 @@ int main(int argc, char** argv){
 	wielomian20.returnBitmap()->generateImage("Zer20.bmp");*/
 
 //	soczewka.returnBitmap()->generateImage("testLens.bmp");
-//	mercz->generateImage("merge.bmp");
+	mercz->generateImage("merge.bmp");
 //	(wielomian.returnBitmap())->printMap("debug.txt");
 
 }

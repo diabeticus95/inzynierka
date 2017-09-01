@@ -11,19 +11,8 @@
 #include "DiffractiveStructure.h"
 class Zernike : public DiffractiveStructure {
 public:
-
-//	Zernike();
-	Zernike(int row, int col,double coeff, double (*ZernFunc)(double, double));
+	Zernike(int max_row, int max_col,double coeff, double (*ZernFunc)(double, double));
 	virtual ~Zernike();
-
-//	Bitmap* returnBitmap();
-
-private:
-	double probkowanie;
-
-
-
-
 };
 double Z0(double x, double y);
 double Z1(double x, double y);

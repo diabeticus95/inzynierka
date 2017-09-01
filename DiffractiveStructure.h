@@ -20,6 +20,5 @@ protected:
 	int MAX_ROW;
 	int MAX_COL;
 };
-//DiffractiveStructure::~DiffractiveStructure() {}
-Bitmap* mergeMaps(Bitmap* a, Bitmap* b);
+Bitmap* mergeMaps(DiffractiveStructure* a, DiffractiveStructure* b);
 #endif

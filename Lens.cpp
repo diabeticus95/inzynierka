@@ -29,6 +29,5 @@ Lens::Lens(int max_row, int max_col):DiffractiveStructure(max_row, max_col) {
 	bitmap->setMaxValue(max_bitmap_value);
 }
 Lens::~Lens() {
-	delete bitmap;
 }
 
