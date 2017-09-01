@@ -8,19 +8,18 @@
 #ifndef ZERNIKE_H_
 #define ZERNIKE_H_
 #include "Bitmap.h"
-class Zernike {
+#include "DiffractiveStructure.h"
+class Zernike : public DiffractiveStructure {
 public:
 
 //	Zernike();
 	Zernike(int row, int col,double coeff, double (*ZernFunc)(double, double));
 	virtual ~Zernike();
 
-	Bitmap* returnBitmap();
+//	Bitmap* returnBitmap();
 
 private:
 	double probkowanie;
-	const int MAX_ROW, MAX_COL;
-	Bitmap* bitmap;
 
 
 

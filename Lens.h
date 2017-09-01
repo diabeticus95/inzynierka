@@ -8,13 +8,14 @@
 #ifndef LENS_H_
 #define LENS_H_
 #include "Bitmap.h"
+#include "DiffractiveStructure.h"
 
-class Lens {
+class Lens : public DiffractiveStructure {
 public:
 	Lens(int max_row, int max_col);
 	virtual ~Lens();
 
-	Bitmap* returnBitmap();
+//	Bitmap* returnBitmap();
 
 private:
 	double probkowanie;
@@ -22,9 +23,6 @@ private:
 	double k;
 	int f;
 	double coeff;
-	int MAX_ROW;
-	int MAX_COL;
-	Bitmap* bitmap;
 	double max_bitmap_value;
 };
 

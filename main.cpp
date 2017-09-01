@@ -8,8 +8,6 @@
 using namespace std;
 /* TO DO:
  * - dodac wersje bez przyblizenia przyosiowego
- * - zainteresuj sie biblioteka goptical
- * - skminic probkowanie w Zernike
  */
 
 int main(int argc, char** argv){
@@ -17,6 +15,10 @@ int main(int argc, char** argv){
 //	Zernike wielomian1(256,256,Z1);
 //	Zernike wielomian2(256,256,Z2);
 	Zernike wielomian3(256,256,1,Z3);
+	wielomian3.returnBitmap()->printMap();
+//	DiffractiveStructure* wsk;
+//	*wsk = wielomian3;
+//	wsk->returnBitmap()->printMap();
 /*	Zernike wielomian4(256,256,Z4);
 	Zernike wielomian5(256,256,Z5);
 	Zernike wielomian6(256,256,Z6);
@@ -36,7 +38,7 @@ int main(int argc, char** argv){
 	Zernike wielomian20(256,256,Z20);
 */
 
-	Lens soczewka(256,256);
+//	Lens soczewka(256,256);
 //	Bitmap* mercz = new Bitmap(2048, 2048);
 //	mercz = mergeMaps(wielomian.returnBitmap(), wielomian2.returnBitmap());
 //	mercz->printMap();

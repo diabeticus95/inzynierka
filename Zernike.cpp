@@ -11,13 +11,11 @@
 #include <tgmath.h>
 #include <math.h>
 #include "Bitmap.h"
-Zernike::Zernike(int max_row, int max_col,double coeff, double (*ZernFunc)(double, double)):MAX_ROW(max_row), MAX_COL(max_col) {
+Zernike::Zernike(int max_row, int max_col,double coeff, double (*ZernFunc)(double, double)):DiffractiveStructure(max_row, max_col) {
 	probkowanie = pow(10,5);
-	bitmap = new Bitmap(MAX_ROW, MAX_COL);
 	double max_bitmap_value = 0;
 	for (double row = -MAX_ROW/2; row < MAX_ROW/2; row++){
 		for (double col = -MAX_COL/2; col < MAX_COL/2; col++){
-//			bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)] = pow(row/(MAX_ROW/2),2) - pow(col/(MAX_COL/2),2);
 			bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)] = ZernFunc(row/(MAX_ROW/2), col/(MAX_COL/2));
 			if (bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)]>max_bitmap_value) max_bitmap_value = bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)];
 		}
@@ -39,9 +37,6 @@ Zernike::~Zernike() {
 	delete bitmap;
 }
 
-Bitmap* Zernike::returnBitmap(){
-	return bitmap;
-}
 double Z0(double x, double y){ //Piston
  return 1;
 }

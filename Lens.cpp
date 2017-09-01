@@ -10,15 +10,12 @@
 #include <tgmath.h>
 #include <math.h>
 #include "Bitmap.h"
-Lens::Lens(int max_row, int max_col):MAX_ROW(max_row), MAX_COL(max_col) {
+Lens::Lens(int max_row, int max_col):DiffractiveStructure(max_row, max_col) {
 	probkowanie = pow(10,5);
 	lambda = 632.8*0.000000001 * probkowanie;
 	k = 2*M_PI/lambda;
 	f = 1 * probkowanie;
 	coeff = (double)k/(2*f);
-	MAX_ROW = 2048;
-	MAX_COL = 2048;
-	bitmap = new Bitmap(MAX_ROW, MAX_COL);
 	max_bitmap_value = 0;
 
 	for (int row = -MAX_ROW/2; row < MAX_ROW/2; row++){
@@ -35,6 +32,3 @@ Lens::~Lens() {
 	delete bitmap;
 }
 
-Bitmap* Lens::returnBitmap(){
-	return bitmap;
-}

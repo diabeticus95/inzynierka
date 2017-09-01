@@ -8,15 +8,8 @@
 #include "Bitmap.h"
 #include <iostream>
 #include "bmp/EasyBMP.h"
-#include <iostream>
 #include <fstream>
-/*Bitmap::Bitmap(int row_count, int col_count, double MAX_VALUE) : norm(255), max_bitmap_value(MAX_VALUE),
-																bit_depth(24) {
-	this->row_count = row_count;
-	this->col_count = col_count;
-	bmap = new double[row_count * col_count];
-}
-*/
+
 Bitmap::Bitmap(int row_count, int col_count) : norm(255), max_bitmap_value(0),
 																bit_depth(24) {
 	this->row_count = row_count;
@@ -73,14 +66,4 @@ void Bitmap::generateImage(char* fileName){
 void Bitmap::setMaxValue(double max){
 	max_bitmap_value = max;
 }
-Bitmap* mergeMaps(Bitmap* a, Bitmap* b){
-	int count = a->row_count;
-	Bitmap* nowa = new Bitmap(count,count);
-	for (int row = 0; row < count; row++){
-			for (int col = 0; col < count; col++){
-				nowa->bmap[nowa->index(row,col)] = fmod(a->bmap[a->index(row,col)] + b->bmap[b->index(row,col)],2*M_PI);
-			}
-	}
-	nowa->setMaxValue(2*M_PI);
-	return nowa;
-}
+

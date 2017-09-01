@@ -28,5 +28,4 @@ private:
 	int bit_depth;
 
 };
-Bitmap* mergeMaps(Bitmap* a, Bitmap* b);
 #endif /* BITMAP_H_ */
