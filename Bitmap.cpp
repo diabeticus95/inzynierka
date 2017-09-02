@@ -9,6 +9,7 @@
 #include <iostream>
 #include "bmp/EasyBMP.h"
 #include <fstream>
+#include "DiffractiveStructure.h"
 
 Bitmap::Bitmap(int row_count, int col_count) : norm(255), max_bitmap_value(0),
 																bit_depth(24) {
@@ -67,3 +68,18 @@ void Bitmap::setMaxValue(double max){
 	max_bitmap_value = max;
 }
 
+void Bitmap::mergeMaps(DiffractiveStructure* a, DiffractiveStructure* b){
+	for (int row = 0; row < row_count; row++){
+			for (int col = 0; col < col_count; col++){
+				bmap[index(row,col)] = fmod(a->returnBitmap()->bmap[a->returnBitmap()->index(row,col)] + b->returnBitmap()->bmap[b->returnBitmap()->index(row,col)],2*M_PI);
+			}
+	}
+	delete a;
+	delete b;
+	setMaxValue(2*M_PI);
+}
+/*Bitmap* Bitmap::mergeMaps(std::vector<DiffractiveStructure*> toMerge){
+	std::vector<DiffractiveStructure*>::iterator it = toMerge.begin();
+
+}
+*/

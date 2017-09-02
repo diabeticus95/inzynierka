@@ -6,22 +6,24 @@
 #include "Lens.h"
 #include "Zernike.h"
 #include "DiffractiveStructure.h"
+#include <vector>
 /* TO DO:
  * - dodac wersje bez przyblizenia przyosiowego
+ * - making DiffractiveStr "guaranteed to not throw while moving (move constructible) makes vector optimise moving
  */
 
 int main(int argc, char** argv){
 //	Zernike wielomian0(256,256,100,Z0);
 //	Zernike wielomian1(256,256,Z1);
-	DiffractiveStructure *wsk = new Zernike(256,256,1,Z2);
-	DiffractiveStructure *wsk2 = new Zernike(256,256,1,Z2);
-/*	Zernike wielomian4(256,256,Z4);
-	Zernike wielomian5(256,256,Z5);
-	Zernike wielomian6(256,256,Z6);
-	Zernike wielomian7(256,256,Z7);
-	Zernike wielomian8(256,256,Z8);
-	Zernike wielomian9(256,256,Z9);
-	Zernike wielomian10(256,256,Z10);
+	DiffractiveStructure *wielomian2 = new Zernike(256,256,1,Z2);
+	DiffractiveStructure *soczewka = new Lens(256,256);
+/*	DiffractiveStructure *wielomian4 = new Zernike(256,256,1,Z4);
+	DiffractiveStructure *wielomian5 = new Zernike(256,256,1,Z5);
+	DiffractiveStructure *wielomian6 = new Zernike(256,256,1,Z6);
+	DiffractiveStructure *wielomian7 = new Zernike(256,256,1,Z7);
+	DiffractiveStructure *wielomian8 = new Zernike(256,256,1,Z8);
+	DiffractiveStructure *wielomian9 = new Zernike(256,256,1,Z9);	*/
+/*	Zernike wielomian10(256,256,Z10);
 	Zernike wielomian11(256,256,Z11);
 	Zernike wielomian12(256,256,Z12);
 	Zernike wielomian13(256,256,Z13);
@@ -34,9 +36,9 @@ int main(int argc, char** argv){
 	Zernike wielomian20(256,256,Z20);
 */
 
-//	Lens soczewka(256,256);
-	Bitmap* mercz = new Bitmap(2048, 2048);
-	mercz = mergeMaps(wsk, wsk2);
+//	Lens soczewka(2048,2048);
+	Bitmap* mercz = new Bitmap(256,256);
+	mercz->mergeMaps(soczewka, wielomian2);
 //	mercz->printMap();
 //	wielomian0.returnBitmap()->generateImage("maps/Zer0.bmp");
 /*	wielomian1.returnBitmap()->generateImage("Zer1.bmp");
@@ -61,9 +63,18 @@ int main(int argc, char** argv){
 	wielomian20.returnBitmap()->generateImage("Zer20.bmp");*/
 
 //	soczewka.returnBitmap()->generateImage("testLens.bmp");
-	mercz->generateImage("merge.bmp");
+	mercz->generateImage("merge2.bmp");
+//	wielomian4.returnBitmap()->generateImage("cojest.bmp");
 //	(wielomian.returnBitmap())->printMap("debug.txt");
-
+/*	std::vector<DiffractiveStructure*> toMerge;
+	toMerge.push_back(soczewka);
+	toMerge.push_back(wielomian2);
+	toMerge.push_back(wielomian4);
+	toMerge.push_back(wielomian5);
+	toMerge.push_back(wielomian6);
+	toMerge.push_back(wielomian7);
+	toMerge.push_back(wielomian8);
+	toMerge.push_back(wielomian9);	*/
 }
 
 

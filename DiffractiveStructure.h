@@ -6,8 +6,9 @@
  */
 #ifndef DIFFRACTIVESTRUCTURE_H_
 #define DIFFRACTIVESTRUCTURE_H_
-#include "Bitmap.h"
+#include <vector>
 
+class Bitmap;
 class DiffractiveStructure {
 public:
 	DiffractiveStructure(int max_row, int max_col);
@@ -20,5 +21,5 @@ protected:
 	int MAX_ROW;
 	int MAX_COL;
 };
-Bitmap* mergeMaps(DiffractiveStructure* a, DiffractiveStructure* b);
+
 #endif

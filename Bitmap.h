@@ -8,6 +8,8 @@
 #ifndef BITMAP_H_
 #define BITMAP_H_
 
+
+class DiffractiveStructure;
 class Bitmap {
 public:
 	int row_count, col_count;
@@ -17,6 +19,7 @@ public:
 	void printMap(char* fileName);
 	void generateImage(char* filename);
 	void setMaxValue(double max);
+	void mergeMaps(DiffractiveStructure* a, DiffractiveStructure* b);
 
 //	Bitmap(Bitmap bmap, double max_bitmap_value);
 	Bitmap(int row_count, int col_count);
