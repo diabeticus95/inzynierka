@@ -7,9 +7,9 @@
 
 #ifndef BITMAP_H_
 #define BITMAP_H_
-
-
+#include <vector>
 class DiffractiveStructure;
+void outerMergeMaps(DiffractiveStructure* a, DiffractiveStructure* b);
 class Bitmap {
 public:
 	int row_count, col_count;
@@ -19,10 +19,11 @@ public:
 	void printMap(char* fileName);
 	void generateImage(char* filename);
 	void setMaxValue(double max);
-	void mergeMaps(DiffractiveStructure* a, DiffractiveStructure* b);
+	void mergeMaps(std::vector<DiffractiveStructure*> toMerge);
 
 //	Bitmap(Bitmap bmap, double max_bitmap_value);
 	Bitmap(int row_count, int col_count);
+	Bitmap(Bitmap &);
 	virtual ~Bitmap();
 
 private:
@@ -31,4 +32,5 @@ private:
 	int bit_depth;
 
 };
+
 #endif /* BITMAP_H_ */
