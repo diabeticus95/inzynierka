@@ -30,6 +30,20 @@ Bitmap::Bitmap(Bitmap &b){
 			}
 	}
 }
+Bitmap& Bitmap::operator=(Bitmap &b){
+	norm = b.norm;
+	max_bitmap_value = b.max_bitmap_value;
+	bit_depth = b.bit_depth;
+	row_count = b.row_count;
+	col_count = b.col_count;
+	bmap = new double[row_count * col_count];
+	for (int row = 0; row < row_count; row++){
+			for (int col = 0; col < col_count; col++){
+				bmap[index(row,col)] = b.bmap[b.index(row,col)];
+			}
+	}
+	return *this;
+}
 
 Bitmap::~Bitmap() {
 	delete bmap;
@@ -80,13 +94,14 @@ void Bitmap::generateImage(char* fileName){
 void Bitmap::setMaxValue(double max){
 	max_bitmap_value = max;
 }
-void Bitmap::mergeMaps(std::vector<DiffractiveStructure*> toMerge){
+void Bitmap::mergeMaps(std::vector<DiffractiveStructure*> &toMerge){
 	std::vector<DiffractiveStructure*>::iterator it;
 	for (it = toMerge.begin() + 1; it < toMerge.end(); it++){
 		outerMergeMaps(*(it-1),*it);
 	}
 	*this = *(toMerge.back()->returnBitmap());
-//	delete toMerge.back(); ???
+	delete toMerge.back();
+	//wyglada na to, ze przypisuje bitmapie jedynei wskaznik? usuwanie wektora modyfikuje bitmape. Wiec nie trzeba zwalniac
 }
 
 
@@ -96,5 +111,4 @@ void outerMergeMaps(DiffractiveStructure* a, DiffractiveStructure* b){
 				b->returnBitmap()->bmap[b->returnBitmap()->index(row,col)] = fmod(a->returnBitmap()->bmap[a->returnBitmap()->index(row,col)] + b->returnBitmap()->bmap[b->returnBitmap()->index(row,col)],2*M_PI);
 			}
 	}
-	delete a;
 }

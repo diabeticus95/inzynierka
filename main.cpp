@@ -7,7 +7,6 @@
 #include "Zernike.h"
 #include "DiffractiveStructure.h"
 #include <vector>
-#include <typeinfo>
 /* TO DO:
  * - dodac wersje bez przyblizenia przyosiowego
  * - making DiffractiveStr "guaranteed to not throw while moving (move constructible) makes vector optimise moving
@@ -17,14 +16,14 @@ int main(int argc, char** argv){
 	int size = 1024	;
 //	Zernike wielomian0(256,256,100,Z0);
 //	Zernike wielomian1(256,256,Z1);
-	DiffractiveStructure *wielomian2 = new Zernike(size,size,4,Z2);
+//	DiffractiveStructure *wielomian2 = new Zernike(size,size,4,Z2);
 	DiffractiveStructure *soczewka = new Lens(size,size);
-	DiffractiveStructure *wielomian3 = new Zernike(size,size,1,Z3);
-	DiffractiveStructure *wielomian5 = new Zernike(size,size,5,Z5);
-	DiffractiveStructure *wielomian6 = new Zernike(size,size,1,Z6);
-	DiffractiveStructure *wielomian7 = new Zernike(size,size,1,Z7);
-	DiffractiveStructure *wielomian8 = new Zernike(size,size,1,Z8);
-	DiffractiveStructure *wielomian9 = new Zernike(size,size,1,Z9);
+//	DiffractiveStructure *wielomian3 = new Zernike(size,size,1,Z3);
+	DiffractiveStructure *wielomian5 = new Zernike(size,size,1,Z4);
+//	DiffractiveStructure *wielomian6 = new Zernike(size,size,1,Z6);
+//	DiffractiveStructure *wielomian7 = new Zernike(size,size,1,Z7);
+//	DiffractiveStructure *wielomian8 = new Zernike(size,size,1,Z8);
+//	DiffractiveStructure *wielomian9 = new Zernike(size,size,1,Z9);
 
 	Bitmap* mercz = new Bitmap(256,256);
 
@@ -41,6 +40,7 @@ int main(int argc, char** argv){
 	soczewka->returnBitmap()->generateImage("soczewka.bmp");
 	mercz->mergeMaps(toMerge);
 	mercz->generateImage("merge2.bmp");
+
 
 //	wielomian0.returnBitmap()->generateImage("maps/Zer0.bmp");
 /*	wielomian1.returnBitmap()->generateImage("Zer1.bmp");

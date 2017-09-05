@@ -9,6 +9,7 @@
 #define BITMAP_H_
 #include <vector>
 class DiffractiveStructure;
+void releaseVector(std::vector<DiffractiveStructure*> &toMerge);
 void outerMergeMaps(DiffractiveStructure* a, DiffractiveStructure* b);
 class Bitmap {
 public:
@@ -19,11 +20,12 @@ public:
 	void printMap(char* fileName);
 	void generateImage(char* filename);
 	void setMaxValue(double max);
-	void mergeMaps(std::vector<DiffractiveStructure*> toMerge);
+	void mergeMaps(std::vector<DiffractiveStructure*> &toMerge);
 
 //	Bitmap(Bitmap bmap, double max_bitmap_value);
 	Bitmap(int row_count, int col_count);
 	Bitmap(Bitmap &);
+	Bitmap& operator=(Bitmap &b);
 	virtual ~Bitmap();
 
 private:
