@@ -15,7 +15,7 @@ class Bitmap {
 public:
 	int row_count, col_count;
 	double* bmap; //sztuczka z indeksowaniem
-	int index( int x, int y );
+	int index( int x, int y ) const;
 	void printMap();
 	void printMap(char* fileName);
 	void generateImage(char* filename);
@@ -24,8 +24,8 @@ public:
 
 //	Bitmap(Bitmap bmap, double max_bitmap_value);
 	Bitmap(int row_count, int col_count);
-	Bitmap(Bitmap &);
-	Bitmap& operator=(Bitmap &b);
+	Bitmap(const Bitmap &);
+	Bitmap& operator=(const Bitmap &b);
 	virtual ~Bitmap();
 
 private:

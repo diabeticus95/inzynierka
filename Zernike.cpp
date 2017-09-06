@@ -21,7 +21,6 @@ Zernike::Zernike(int max_row, int max_col,double coeff, double (*ZernFunc)(doubl
 	}
 	bitmap->setMaxValue(max_bitmap_value);
 	// normalize to 2*pi, to make it compatibile with lens && deal with negatives
-	// tu przemnoz n razy
 	for (int row = 0; row < MAX_ROW; row++){
 		for (int col = 0; col < MAX_COL; col++){
 			bitmap->bmap[bitmap->index(row,col)] = coeff * bitmap->bmap[bitmap->index(row,col)]; //eksperyment
