@@ -10,8 +10,7 @@
 #include <tgmath.h>
 #include "Bitmap.h"
 #define M_PI 3.14159265358979323846
-Lens::Lens(int max_row, int max_col):DiffractiveStructure(max_row, max_col) {
-	probkowanie = pow(10,5);
+Lens::Lens(int max_row, int max_col, double PROBKOWANIE):DiffractiveStructure(max_row, max_col), probkowanie(PROBKOWANIE)  {
 	lambda = 632.8*0.000000001 * probkowanie;
 	k = 2*M_PI/lambda;
 	f = 1 * probkowanie;

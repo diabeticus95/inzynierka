@@ -14,10 +14,11 @@
 
 int main(int argc, char** argv){
 	int size = 1024	;
+	double probkowanie = pow(10,5);
 //	Zernike wielomian0(256,256,100,Z0);
 //	Zernike wielomian1(256,256,Z1);
 //	DiffractiveStructure *wielomian2 = new Zernike(size,size,4,Z2);
-	DiffractiveStructure *soczewka = new Lens(size,size);
+	DiffractiveStructure *soczewka = new Lens(size,size,probkowanie);
 //	DiffractiveStructure *wielomian3 = new Zernike(size,size,1,Z3);
 	DiffractiveStructure *wielomian5 = new Zernike(size,size,1,Z4);
 //	DiffractiveStructure *wielomian6 = new Zernike(size,size,1,Z6);
@@ -36,10 +37,13 @@ int main(int argc, char** argv){
 	toMerge.push_back(wielomian7);
 	toMerge.push_back(wielomian8);
 	toMerge.push_back(wielomian9);	*/
-	wielomian5->returnBitmap()->generateImage("astigmatism.bmp");
-	soczewka->returnBitmap()->generateImage("soczewka.bmp");
+	char zernik[] = "zernik.bmp";
+	char socz[] = "soczewka.bmp";
+	char mer[] = "merge.bmp";
+	wielomian5->returnBitmap()->generateImage(zernik);
+	soczewka->returnBitmap()->generateImage(socz);
 	mercz->mergeMaps(toMerge);
-	mercz->generateImage("merge2.bmp");
+	mercz->generateImage(mer);
 
 
 //	wielomian0.returnBitmap()->generateImage("maps/Zer0.bmp");

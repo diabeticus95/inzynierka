@@ -12,10 +12,8 @@
 
 class Lens : public DiffractiveStructure {
 public:
-	Lens(int max_row, int max_col);
+	Lens(int max_row, int max_col, double probkowanie);
 	virtual ~Lens();
-
-//	Bitmap* returnBitmap();
 
 private:
 	double probkowanie;
