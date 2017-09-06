@@ -8,8 +8,8 @@
 #include "Lens.h"
 #include <iostream>
 #include <tgmath.h>
-#include <math.h>
 #include "Bitmap.h"
+#define M_PI 3.14159265358979323846
 Lens::Lens(int max_row, int max_col):DiffractiveStructure(max_row, max_col) {
 	probkowanie = pow(10,5);
 	lambda = 632.8*0.000000001 * probkowanie;

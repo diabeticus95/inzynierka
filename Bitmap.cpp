@@ -11,6 +11,7 @@
 #include <fstream>
 #include "DiffractiveStructure.h"
 #include <vector>
+#define M_PI 3.14159265358979323846
 Bitmap::Bitmap(int row_count, int col_count) : norm(255), max_bitmap_value(0),
 																bit_depth(24) {
 	this->row_count = row_count;
