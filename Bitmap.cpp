@@ -16,7 +16,7 @@ Bitmap::Bitmap(int row_count, int col_count) : norm(255), max_bitmap_value(0),
 																bit_depth(24) {
 	this->row_count = row_count;
 	this->col_count = col_count;
-	bmap = new double[row_count * col_count];
+	bmap = std::make_unique<double[]>(row_count * col_count);
 }
 Bitmap::Bitmap(const Bitmap &b){
 	*this = b;
@@ -27,7 +27,7 @@ Bitmap& Bitmap::operator=(const Bitmap &b){
 	bit_depth = b.bit_depth;
 	row_count = b.row_count;
 	col_count = b.col_count;
-	bmap = new double[row_count * col_count];
+	bmap = std::make_unique<double[]>(row_count * col_count);
 	for (int row = 0; row < row_count; row++){
 			for (int col = 0; col < col_count; col++){
 				bmap[index(row,col)] = b.bmap[b.index(row,col)];
@@ -37,7 +37,7 @@ Bitmap& Bitmap::operator=(const Bitmap &b){
 }
 
 Bitmap::~Bitmap() {
-	delete bmap;
+	std::cerr<<"usunalem bitmape"<<std::endl;
 }
 int Bitmap::index(int x, int y ) const{
 	 return x + col_count * y;
@@ -90,7 +90,6 @@ void Bitmap::mergeMaps(std::vector<DiffractiveStructure*> &toMerge){
 		outerMergeMaps(*(it-1),*it);
 	}
 	*this = *(toMerge.back()->returnBitmap());
-	delete toMerge.back();
 	//wyglada na to, ze przypisuje bitmapie jedynei wskaznik? usuwanie wektora modyfikuje bitmape. Wiec nie trzeba zwalniac
 }
 

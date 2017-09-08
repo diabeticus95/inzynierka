@@ -8,13 +8,14 @@
 #ifndef BITMAP_H_
 #define BITMAP_H_
 #include <vector>
+#include <memory>
 class DiffractiveStructure;
 void releaseVector(std::vector<DiffractiveStructure*> &toMerge);
 void outerMergeMaps(DiffractiveStructure* a, DiffractiveStructure* b);
 class Bitmap {
 public:
 	int row_count, col_count;
-	double* bmap; //sztuczka z indeksowaniem
+	std::unique_ptr<double[]> bmap; //sztuczka z indeksowaniem
 	int index( int x, int y ) const;
 	void printMap();
 	void printMap(char* fileName);

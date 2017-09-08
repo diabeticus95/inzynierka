@@ -7,6 +7,7 @@
 #ifndef DIFFRACTIVESTRUCTURE_H_
 #define DIFFRACTIVESTRUCTURE_H_
 #include <vector>
+#include <memory>
 
 class Bitmap;
 class DiffractiveStructure {
@@ -17,7 +18,7 @@ public:
 	int getRowCount();
 	int getColCount();
 protected:
-	Bitmap* bitmap;
+	std::unique_ptr<Bitmap> bitmap;
 	int MAX_ROW;
 	int MAX_COL;
 };
