@@ -22,6 +22,7 @@ Bitmap::Bitmap(const Bitmap &b){
 	*this = b;
 }
 Bitmap& Bitmap::operator=(const Bitmap &b){
+	if (row_count != b.row_count)  throw std::invalid_argument("size not matching");
 	norm = b.norm;
 	max_bitmap_value = b.max_bitmap_value;
 	bit_depth = b.bit_depth;
@@ -89,8 +90,13 @@ void Bitmap::mergeMaps(std::vector<DiffractiveStructure*> &toMerge){
 	for (auto it = toMerge.begin() + 1; it < toMerge.end(); it++){
 		outerMergeMaps(*(it-1),*it);
 	}
-	*this = *(toMerge.back()->returnBitmap());
-	//wyglada na to, ze przypisuje bitmapie jedynei wskaznik? usuwanie wektora modyfikuje bitmape. Wiec nie trzeba zwalniac
+	try{
+		*this = *(toMerge.back()->returnBitmap());
+	}
+	catch (const std::invalid_argument& e ) {
+		std::cerr << "exception: " << e.what() << std::endl;
+}
+
 }
 
 

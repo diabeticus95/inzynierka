@@ -11,23 +11,26 @@
 /* TO DO:
  * - dodac wersje bez przyblizenia przyosiowego
  * - making Diffractivestr "guaranteed to not throw while moving (move constructible) makes vector optimise moving
+ * - Z3 jest nieciągły
+ * - wszystkie merge'e są nieciagle - moze dlatego ze bitmapa bedaca potega dwojki zawsze jest dluzsza w ktoras strone?
  */
 
 int main(int argc, char** argv){
-	int size = 1024;
-	double probkowanie = pow(10,5);
+	int size = 2048;
+//	double probkowanie = pow(10,5);
+	double probkowanie = pow(10,6);
 //	Zernike wielomian0(256,256,100,Z0);
 //	Zernike wielomian1(256,256,Z1);
 //	DiffractiveStructure *wielomian2 = new Zernike(size,size,4,Z2);
 	std::unique_ptr<DiffractiveStructure> soczewka = std::make_unique<Lens>(size,size,probkowanie);
 //	DiffractiveStructure *wielomian3 = new Zernike(size,size,1,Z3);
-	std::unique_ptr<DiffractiveStructure> wielomian5 = std::make_unique<Zernike>(size,size,1,Z4);
+	std::unique_ptr<DiffractiveStructure> wielomian5 = std::make_unique<Zernike>(size,size,3,Z7);
 //	DiffractiveStructure *wielomian6 = new Zernike(size,size,1,Z6);
 //	DiffractiveStructure *wielomian7 = new Zernike(size,size,1,Z7);
 //	DiffractiveStructure *wielomian8 = new Zernike(size,size,1,Z8);
 //	DiffractiveStructure *wielomian9 = new Zernike(size,size,1,Z9);
 
-	Bitmap mercz(256,256);
+	Bitmap mercz(size,size);
 
 	std::vector<DiffractiveStructure*> toMerge;
 	toMerge.push_back(soczewka.get());
