@@ -12,8 +12,10 @@
 #include "DiffractiveStructure.h"
 #include <vector>
 #define M_PI 3.14159265358979323846
-Bitmap::Bitmap(int row_count, int col_count) : norm(255), max_bitmap_value(0),
-																bit_depth(24) {
+Bitmap::Bitmap(int row_count, int col_count) :
+		norm(255),
+		max_bitmap_value(0),
+		bit_depth(24) {
 	this->row_count = row_count;
 	this->col_count = col_count;
 	bmap = std::make_unique<double[]>(row_count * col_count);
@@ -43,7 +45,7 @@ Bitmap::~Bitmap() {
 int Bitmap::index(int x, int y ) const{
 	 return x + col_count * y;
 }
-void Bitmap::printMap(){
+void Bitmap::printMap(){	//debugging
 	for (int row = 0; row < row_count; row++){
 			for (int col = 0; col < col_count; col++){
 				if (col == col_count - 1) std::cout<<std::endl;
@@ -95,15 +97,19 @@ void Bitmap::mergeMaps(std::vector<DiffractiveStructure*> &toMerge){
 	}
 	catch (const std::invalid_argument& e ) {
 		std::cerr << "exception: " << e.what() << std::endl;
-}
-
+	}
+	for (int row = 0; row < row_count; row++){
+			for (int col = 0; col < col_count; col++){
+				this->bmap[this->index(row,col)] = fmod(this->bmap[this->index(row,col)],2*M_PI);
+			}
+	}
 }
 
 
 void outerMergeMaps(DiffractiveStructure* a, DiffractiveStructure* b){
 	for (int row = 0; row < a->getRowCount(); row++){
 			for (int col = 0; col < a->getColCount(); col++){
-				b->returnBitmap()->bmap[b->returnBitmap()->index(row,col)] = fmod(a->returnBitmap()->bmap[a->returnBitmap()->index(row,col)] + b->returnBitmap()->bmap[b->returnBitmap()->index(row,col)],2*M_PI);
+				b->returnBitmap()->bmap[b->returnBitmap()->index(row,col)] = a->returnBitmap()->bmap[a->returnBitmap()->index(row,col)] + b->returnBitmap()->bmap[b->returnBitmap()->index(row,col)];
 			}
 	}
 }
