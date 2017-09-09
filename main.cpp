@@ -63,7 +63,7 @@ int main(int argc, char** argv){
 	toMerge.push_back(wielomian9);	*/
 	char zernik[] = "zernik.bmp";
 	char socz[] = "soczewka.bmp";
-	char mer[] = "merge2.bmp";
+	char mer[] = "merge.bmp";
 
         end = std::chrono::system_clock::now(); diff = end - start;
         std::cout << diff.count() << " seconds\nIMAGING...\n";

@@ -20,24 +20,31 @@ Zernike::Zernike(int max_row, int max_col,double coeff, double (*ZernFunc)(doubl
 		}
 	}
 	bitmap->setMaxValue(max_bitmap_value);
-	// normalize to 2*pi, to make it compatibile with lens && deal with negatives
-//POPRAWIC MOTYW Z +4PI!!!
+        
+        double tmp;
         for(int i = 0; i < MAX_ROW*MAX_COL; i++) {
-            bitmap->bmap[i] *= coeff * 2*M_PI/max_bitmap_value;
-            bitmap->bmap[i] = fmod(bitmap->bmap[i]+4*M_PI, 2*M_PI);
+            tmp = bitmap->bmap[i]*coeff/max_bitmap_value; //normalizacja do 1
+            bitmap->bmap[i] = 2*M_PI*(tmp - floor(tmp));
+/* floor(1) = 1. floor(ulamek) = 0. floor (ujemna - -1). wynik zawsze jest dodatni i jego wartosc % 2pi sie nii zmienia
+ *
+ */
         }
+
 	bitmap->setMaxValue(2*M_PI);
 }
 
 Zernike::~Zernike() {}
 
 double Z0(double x, double y){ //Piston
+    (void)x; (void)y;
  return 1;
 }
 double Z1(double x, double y){ //Tilt in y direction
+    (void)x;
 	return y;
 }
 double Z2(double x, double y){ //Tilt in x direction
+    (void)y;
 	return x;
 }
 double Z3(double x, double y){ //Astigmatism with axis at +/- 45
