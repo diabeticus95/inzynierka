@@ -8,6 +8,8 @@
 #include "DiffractiveStructure.h"
 #include <vector>
 #include <memory>
+#include <chrono>
+
 /* TO DO:
  * - dodac wersje bez przyblizenia przyosiowego
  * - making Diffractivestr "guaranteed to not throw while moving (move constructible) makes vector optimise moving
@@ -16,21 +18,39 @@
  */
 
 int main(int argc, char** argv){
+        std::chrono::time_point<std::chrono::system_clock> start, end;
+        std::chrono::duration<double> diff;
+
 	int size = 2048;
 //	double probkowanie = pow(10,5);
 	double probkowanie = pow(10,6);
 //	Zernike wielomian0(256,256,100,Z0);
 //	Zernike wielomian1(256,256,Z1);
 //	DiffractiveStructure *wielomian2 = new Zernike(size,size,4,Z2);
+        
+        std::cout << "BUILDING...\n";
+        start = std::chrono::system_clock::now();
+
 	std::unique_ptr<DiffractiveStructure> soczewka = std::make_unique<Lens>(size,size,probkowanie);
 //	DiffractiveStructure *wielomian3 = new Zernike(size,size,1,Z3);
-	std::unique_ptr<DiffractiveStructure> wielomian5 = std::make_unique<Zernike>(size,size,3,Z7);
+
+        end = std::chrono::system_clock::now(); diff = end - start;
+        std::cout << diff.count() << " seconds\nZERNIK...\n";
+        start = end;
+
+        std::unique_ptr<DiffractiveStructure> wielomian5 = std::make_unique<Zernike>(size,size,3,Z7);
 //	DiffractiveStructure *wielomian6 = new Zernike(size,size,1,Z6);
 //	DiffractiveStructure *wielomian7 = new Zernike(size,size,1,Z7);
 //	DiffractiveStructure *wielomian8 = new Zernike(size,size,1,Z8);
 //	DiffractiveStructure *wielomian9 = new Zernike(size,size,1,Z9);
 
+        
+
 	Bitmap mercz(size,size);
+
+        end = std::chrono::system_clock::now(); diff = end - start;
+        std::cout << diff.count() << " seconds\nVECTORIZING...\n";
+        start = end;
 
 	std::vector<DiffractiveStructure*> toMerge;
 	toMerge.push_back(soczewka.get());
@@ -43,10 +63,23 @@ int main(int argc, char** argv){
 	toMerge.push_back(wielomian9);	*/
 	char zernik[] = "zernik.bmp";
 	char socz[] = "soczewka.bmp";
-	char mer[] = "merge.bmp";
+	char mer[] = "merge2.bmp";
+
+        end = std::chrono::system_clock::now(); diff = end - start;
+        std::cout << diff.count() << " seconds\nIMAGING...\n";
+        start = end;
+
 	wielomian5->returnBitmap()->generateImage(zernik);
 	soczewka->returnBitmap()->generateImage(socz);
+        
+        end = std::chrono::system_clock::now(); diff = end - start;
+        std::cout << diff.count() << " seconds\nMERGING...\n";
+        start = end;
+
 	mercz.mergeMaps(toMerge);
+
+        end = std::chrono::system_clock::now(); diff = end - start;
+        std::cout << diff.count() << " seconds\nMERGING FINISHED\n";
 	mercz.generateImage(mer);
 
 

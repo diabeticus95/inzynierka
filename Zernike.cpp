@@ -13,7 +13,7 @@
 #define M_PI 3.14159265358979323846
 Zernike::Zernike(int max_row, int max_col,double coeff, double (*ZernFunc)(double, double)) : DiffractiveStructure(max_row, max_col) {
 	double max_bitmap_value = 0;
-	for (double row = -MAX_ROW/2; row < MAX_ROW/2; row++){
+        for (double row = -MAX_ROW/2; row < MAX_ROW/2; row++){
 		for (double col = -MAX_COL/2; col < MAX_COL/2; col++){
 			bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)] = ZernFunc(row/(MAX_ROW/2), col/(MAX_COL/2));
 			if (bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)]>max_bitmap_value) max_bitmap_value = bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)];
@@ -21,15 +21,12 @@ Zernike::Zernike(int max_row, int max_col,double coeff, double (*ZernFunc)(doubl
 	}
 	bitmap->setMaxValue(max_bitmap_value);
 	// normalize to 2*pi, to make it compatibile with lens && deal with negatives
-	for (int row = 0; row < MAX_ROW; row++){
-		for (int col = 0; col < MAX_COL; col++){
-			bitmap->bmap[bitmap->index(row,col)] = coeff * bitmap->bmap[bitmap->index(row,col)]; //eksperyment
-			bitmap->bmap[bitmap->index(row,col)] = (bitmap->bmap[bitmap->index(row,col)] * 2*M_PI/max_bitmap_value) + 4*M_PI;
-			bitmap->bmap[bitmap->index(row,col)] = fmod(bitmap->bmap[bitmap->index(row,col)], 2*M_PI);
-		}
-	}
+//POPRAWIC MOTYW Z +4PI!!!
+        for(int i = 0; i < MAX_ROW*MAX_COL; i++) {
+            bitmap->bmap[i] *= coeff * 2*M_PI/max_bitmap_value;
+            bitmap->bmap[i] = fmod(bitmap->bmap[i]+4*M_PI, 2*M_PI);
+        }
 	bitmap->setMaxValue(2*M_PI);
-
 }
 
 Zernike::~Zernike() {}
