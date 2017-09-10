@@ -13,8 +13,8 @@
 #define M_PI 3.14159265358979323846
 Zernike::Zernike(int max_row, int max_col,double coeff, double (*ZernFunc)(double, double)) : DiffractiveStructure(max_row, max_col) {
 	double max_bitmap_value = 0;
-        for (double row = -MAX_ROW/2; row < MAX_ROW/2; row++){
-		for (double col = -MAX_COL/2; col < MAX_COL/2; col++){
+        for (double col = -MAX_COL/2; col < MAX_COL/2; col++){
+		for (double row = -MAX_ROW/2; row < MAX_ROW/2; row++){
 			bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)] = ZernFunc(row/(MAX_ROW/2), col/(MAX_COL/2));
 			if (bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)]>max_bitmap_value) max_bitmap_value = bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)];
 		}
