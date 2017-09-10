@@ -15,12 +15,8 @@ public:
 	DiffractiveStructure(int max_row, int max_col);
 	virtual ~DiffractiveStructure();
 	Bitmap* returnBitmap();
-	int getRowCount();
-	int getColCount();
 protected:
 	std::unique_ptr<Bitmap> bitmap;
-	int MAX_ROW;
-	int MAX_COL;
 };
 
 #endif

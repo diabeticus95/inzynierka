@@ -17,7 +17,8 @@ Lens::Lens(int max_row, int max_col, double PROBKOWANIE):DiffractiveStructure(ma
 	k = 2*M_PI/lambda;
 	f = 1 * probkowanie;
 	coeff = (double)k/(2*f);
-
+	int MAX_ROW = bitmap->row_count;
+	int MAX_COL = bitmap->col_count;
 
 	for (int row = -MAX_ROW/2; row < MAX_ROW/2; row++){
 		for (int col = -MAX_COL/2; col < MAX_COL/2; col++){

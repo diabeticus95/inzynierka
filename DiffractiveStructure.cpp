@@ -12,18 +12,10 @@
 
 
 
-DiffractiveStructure::DiffractiveStructure(int max_row, int max_col)
-	: MAX_ROW(max_row)
-	, MAX_COL(max_col){
+DiffractiveStructure::DiffractiveStructure(int max_row, int max_col){
 		bitmap = std::make_unique<Bitmap>(max_row, max_col);
 }
-int DiffractiveStructure::getRowCount(){
-	return MAX_ROW;
-}
 
-int DiffractiveStructure::getColCount(){
-	return MAX_COL;
-}
 Bitmap* DiffractiveStructure::returnBitmap(){
 	return bitmap.get();
 }

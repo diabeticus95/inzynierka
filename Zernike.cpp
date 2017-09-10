@@ -11,7 +11,10 @@
 #include <tgmath.h>
 #include "Bitmap.h"
 #define M_PI 3.14159265358979323846
-Zernike::Zernike(int max_row, int max_col,double coeff, double (*ZernFunc)(double, double)) : DiffractiveStructure(max_row, max_col) {
+Zernike::Zernike(int max_row, int max_col,double coeff, double (*ZernFunc)(double, double)) :
+			DiffractiveStructure(max_row, max_col) {
+	int MAX_ROW = bitmap->row_count;
+	int MAX_COL = bitmap->col_count;
 	double max_bitmap_value = 0;
         for (double col = -MAX_COL/2; col < MAX_COL/2; col++){
 		for (double row = -MAX_ROW/2; row < MAX_ROW/2; row++){
