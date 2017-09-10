@@ -66,22 +66,21 @@ void Bitmap::printMap(char* fileName){
 	plik.close();
 }
 void Bitmap::generateImage(char* fileName){
-	for (double row = 0; row < row_count; row++){
-			for (double col = 0; col < col_count; col++){
-				bmap[index(row,col)] = (bmap[index(row,col)] * norm/max_bitmap_value);
-			}
+	for(int i=0; i<row_count*col_count; i++){
+	    bmap[i] *= norm/max_bitmap_value;
 	}
 
 	BMP AnImage;
 	AnImage.SetSize(row_count,col_count);
 	AnImage.SetBitDepth(bit_depth);
-	for (int row = 0; row < row_count; row++){
-			for (int col = 0; col < col_count; col++){
+	for (int col = 0; col < col_count; col++){
+			for (int row = 0; row < row_count; row++){
 				AnImage(row,col)-> Green = bmap[ index(row,col)];
 				AnImage(row,col)-> Red = bmap[ index(row,col)];
 				AnImage(row,col)-> Blue = bmap[ index(row,col)];
 		 }
 	}
+
 	AnImage.WriteToFile(fileName);
 
 }
@@ -107,9 +106,12 @@ void Bitmap::mergeMaps(std::vector<DiffractiveStructure*> &toMerge){
 
 
 void outerMergeMaps(DiffractiveStructure* a, DiffractiveStructure* b){
-	for (int row = 0; row < a->getRowCount(); row++){
-			for (int col = 0; col < a->getColCount(); col++){
-				b->returnBitmap()->bmap[b->returnBitmap()->index(row,col)] = a->returnBitmap()->bmap[a->returnBitmap()->index(row,col)] + b->returnBitmap()->bmap[b->returnBitmap()->index(row,col)];
+	/*for (int col = 0; col < a->getRowCount(); col++){
+			for (int row = 0; row < a->getColCount(); row++){
+				b->returnBitmap()->bmap[b->returnBitmap()->index(row,col)] += a->returnBitmap()->bmap[a->returnBitmap()->index(row,col)];
 			}
-	}
+	}*/
+        int sizee = a->getRowCount()*a->getColCount();
+        for(int i=9; i<sizee; i++)
+            b->returnBitmap()->bmap[i] += a->returnBitmap()->bmap[i];
 }
