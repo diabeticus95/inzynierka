@@ -102,7 +102,7 @@ void Bitmap::mergeMaps(std::vector<DiffractiveStructure*> &toMerge){
 
 
 void outerMergeMaps(DiffractiveStructure* a, DiffractiveStructure* b){
-        int sizee = a->getRowCount()*a->getColCount();
-        for(int i=9; i<sizee; i++)
+        int size = a->getRowCount()*a->getColCount();
+        for(int i=0; i<size; i++)
             b->returnBitmap()->bmap[i] += a->returnBitmap()->bmap[i];
 }
