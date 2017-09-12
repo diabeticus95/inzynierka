@@ -71,9 +71,9 @@ void Bitmap::generateImage(char* fileName){
 	AnImage.SetBitDepth(bit_depth);
 	for (int col = 0; col < col_count; col++){
 			for (int row = 0; row < row_count; row++){
-				AnImage(row,col)->Green = 255-bmap[index(row,col)]*norm/max_bitmap_value;
-				AnImage(row,col)->Red = 255-bmap[index(row,col)]*norm/max_bitmap_value;
-				AnImage(row,col)->Blue = 255-bmap[index(row,col)]*norm/max_bitmap_value;
+				AnImage(row,col)->Green = bmap[index(row,col)]*norm/max_bitmap_value;
+				AnImage(row,col)->Red = bmap[index(row,col)]*norm/max_bitmap_value;
+				AnImage(row,col)->Blue = bmap[index(row,col)]*norm/max_bitmap_value;
 		 }
 	}
 

@@ -17,9 +17,9 @@ Zernike::Zernike(int max_row, int max_col,double coeff, double (*ZernFunc)(doubl
 	int MAX_COL = bitmap->col_count;
 	double max_bitmap_value = 0;
         for (double col = -MAX_COL/2; col < MAX_COL/2; col++){
-		for (double row = -MAX_ROW/2; row < MAX_ROW/2; row++){
+        	for (double row = -MAX_ROW/2; row < MAX_ROW/2; row++){
                     if( (pow(row/(MAX_ROW/2),2) + pow(col/(MAX_COL/2),2)) > 1.0 ) {
-			bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)] = 0;
+                    	bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)] = 0;
                         continue;
                     }
 			bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)] = ZernFunc(row/(MAX_ROW/2), col/(MAX_COL/2));

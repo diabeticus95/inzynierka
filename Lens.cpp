@@ -23,8 +23,14 @@ Lens::Lens(int max_row, int max_col, double PROBKOWANIE):DiffractiveStructure(ma
 
 	for (int row = -MAX_ROW/2; row < MAX_ROW/2; row++){
 		for (int col = -MAX_COL/2; col < MAX_COL/2; col++){
+//Apertura kołowa dopasowana do zernike'a
+            if( (pow(row,2) + pow(col,2)) > pow(MAX_ROW/2,2) ) {
+            	bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)] = 0;
+                continue;
+            }
 					// w przyblizeniu przyosiowym
-			bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)] = fmod(coeff*(pow(row,2) + pow(col,2)),2*M_PI);
+// 2pi - wynik aby odwrocic kolory (minus przed fazą)
+			bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)] = 2*M_PI - fmod(coeff*(pow(row,2) + pow(col,2)),2*M_PI);
 		}
 	}
 }
