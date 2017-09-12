@@ -18,6 +18,10 @@ Zernike::Zernike(int max_row, int max_col,double coeff, double (*ZernFunc)(doubl
 	double max_bitmap_value = 0;
         for (double col = -MAX_COL/2; col < MAX_COL/2; col++){
 		for (double row = -MAX_ROW/2; row < MAX_ROW/2; row++){
+                    if( (pow(row/(MAX_ROW/2),2) + pow(col/(MAX_COL/2),2)) > 1.0 ) {
+			bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)] = 0;
+                        continue;
+                    }
 			bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)] = ZernFunc(row/(MAX_ROW/2), col/(MAX_COL/2));
 			if (bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)]>max_bitmap_value) max_bitmap_value = bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)];
 		}
@@ -26,7 +30,7 @@ Zernike::Zernike(int max_row, int max_col,double coeff, double (*ZernFunc)(doubl
         
         double tmp;
         for(int i = 0; i < MAX_ROW*MAX_COL; i++) {
-            tmp = bitmap->bmap[i]*coeff/max_bitmap_value; //normalizacja do 1
+            tmp = bitmap->bmap[i]*coeff;
             bitmap->bmap[i] = 2*M_PI*(tmp - floor(tmp));
 /* floor(1) = 1. floor(ulamek) = 0. floor (ujemna - -1). wynik zawsze jest dodatni i jego wartosc % 2pi sie nii zmienia
  *
