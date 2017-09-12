@@ -22,14 +22,14 @@ Bitmap::Bitmap(int row_count, int col_count) :
 }
 Bitmap::Bitmap(const Bitmap &b){
 	*this = b;
+	norm = b.norm;
+	max_bitmap_value = b.max_bitmap_value;
+	bit_depth = b.bit_depth;
+	row_count = b.row_count;
+	col_count = b.col_count;
 }
 Bitmap& Bitmap::operator=(const Bitmap &b){
 	if (row_count != b.row_count)  throw std::invalid_argument("size not matching");
-//	norm = b.norm;
-//	max_bitmap_value = b.max_bitmap_value;
-//	bit_depth = b.bit_depth;
-//	row_count = b.row_count;
-//	col_count = b.col_count;
 	bmap = std::make_unique<double[]>(row_count * col_count);
 	for (int col = 0; col < col_count; col++){
 			for (int row = 0; row < row_count; row++){

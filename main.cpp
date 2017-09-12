@@ -12,9 +12,6 @@
 
 /* TO DO:
  * - dodac wersje bez przyblizenia przyosiowego
- * - probkowanie zmienia wygląd struktury???
- * - co wlasciwie oznacza wielkosc soczewki. jak dopasowywac zerniki do roznych wielkosci?
- * - jakie dane powinien podawac user - fizyczny rozmiar soczewki, rozdzielczosc, czy probkowanie?
  *  - update zernike poly - w pliku od pani ag.
  *  - fft ze strony fftw.org
  *  - czy brzegi zernike'a nie psują normalizacji PSUJĄ
