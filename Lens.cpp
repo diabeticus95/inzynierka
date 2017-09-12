@@ -7,7 +7,7 @@
 
 #include "Lens.h"
 #include <iostream>
-#include <tgmath.h>
+#include <cmath>
 #include "Bitmap.h"
 //usunac max bitmap value - powinno zawsze = 2pi.
 #define M_PI 3.14159265358979323846

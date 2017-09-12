@@ -1,7 +1,5 @@
 #include <iostream>
 #include "bmp/EasyBMP.h"
-#include <tgmath.h>
-#include <math.h>
 #include "Bitmap.h"
 #include "Lens.h"
 #include "Zernike.h"
@@ -15,6 +13,7 @@
  *  - update zernike poly - w pliku od pani ag.
  *  - fft ze strony fftw.org
  *  - czy brzegi zernike'a nie psują normalizacji PSUJĄ
+ *  - biale to jest 2 pi, czy zero?
  */
 
 int main(int argc, char** argv){
@@ -33,8 +32,9 @@ int main(int argc, char** argv){
         std::cout << diff.count() << " seconds\nZERNIK...\n";
         start = end;
 
-    std::unique_ptr<DiffractiveStructure> wielomian5 = std::make_unique<Zernike>(size,size,1,Z3);
-    std::unique_ptr<DiffractiveStructure> wielomian4 = std::make_unique<Zernike>(size,size,3,Z4);
+
+    std::unique_ptr<DiffractiveStructure> wielomian5 = std::make_unique<Zernike>(size,size,1,Z1);
+//    std::unique_ptr<DiffractiveStructure> wielomian4 = std::make_unique<Zernike>(size,size,3,Z4);
         
     Bitmap mercz(size,size);
 
