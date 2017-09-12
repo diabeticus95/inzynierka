@@ -12,8 +12,12 @@
 
 /* TO DO:
  * - dodac wersje bez przyblizenia przyosiowego
- * - making Diffractivestr "guaranteed to not throw while moving (move constructible) makes vector optimise moving
- * - normalizowac do 1 zamiast do 2 pi
+ * - probkowanie zmienia wygląd struktury???
+ * - co wlasciwie oznacza wielkosc soczewki. jak dopasowywac zerniki do roznych wielkosci?
+ * - jakie dane powinien podawac user - fizyczny rozmiar soczewki, rozdzielczosc, czy probkowanie?
+ *  - update zernike poly - w pliku od pani ag.
+ *  - fft ze strony fftw.org
+ *  - czy brzegi zernike'a nie psują normalizacji PSUJĄ
  */
 
 int main(int argc, char** argv){
@@ -22,12 +26,8 @@ int main(int argc, char** argv){
 
 	int size = 2048;
 	double probkowanie = pow(10,5);
-//	double probkowanie = pow(10,6);
-//	Zernike wielomian0(256,256,100,Z0);
-//	Zernike wielomian1(256,256,Z1);
-//	DiffractiveStructure *wielomian2 = new Zernike(size,size,4,Z2);
         
-        std::cout << "BUILDING...\n";
+        std::cout << "LENS...\n";
         start = std::chrono::system_clock::now();
 
 	std::unique_ptr<DiffractiveStructure> soczewka = std::make_unique<Lens>(size,size,probkowanie);
@@ -37,8 +37,8 @@ int main(int argc, char** argv){
         std::cout << diff.count() << " seconds\nZERNIK...\n";
         start = end;
 
-        std::unique_ptr<DiffractiveStructure> wielomian5 = std::make_unique<Zernike>(size,size,136.5,Z3);
-        std::unique_ptr<DiffractiveStructure> wielomian4 = std::make_unique<Zernike>(size,size,30,Z4);
+//        std::unique_ptr<DiffractiveStructure> wielomian5 = std::make_unique<Zernike>(size,size,1,Z3);
+//        std::unique_ptr<DiffractiveStructure> wielomian4 = std::make_unique<Zernike>(size,size,3,Z4);
 //	DiffractiveStructure *wielomian6 = new Zernike(size,size,1,Z6);
 //	DiffractiveStructure *wielomian7 = new Zernike(size,size,1,Z7);
 //	DiffractiveStructure *wielomian8 = new Zernike(size,size,1,Z8);
@@ -52,15 +52,16 @@ int main(int argc, char** argv){
         std::cout << diff.count() << " seconds\nVECTORIZING...\n";
         start = end;
 
-	std::vector<DiffractiveStructure*> toMerge;
+/*	std::vector<DiffractiveStructure*> toMerge;
 	toMerge.push_back(soczewka.get());
 //	toMerge.push_back(wielomian2);
 	toMerge.push_back(wielomian4.get());
 	toMerge.push_back(wielomian5.get());
-/*	toMerge.push_back(wielomian6);
+	toMerge.push_back(wielomian6);
 	toMerge.push_back(wielomian7);
 	toMerge.push_back(wielomian8);
 	toMerge.push_back(wielomian9);	*/
+
 	char zernik[] = "zernik.bmp";
 	char socz[] = "soczewka.bmp";
 	char mer[] = "merge.bmp";
@@ -69,18 +70,18 @@ int main(int argc, char** argv){
         std::cout << diff.count() << " seconds\nIMAGING...\n";
         start = end;
 
-	wielomian5->returnBitmap()->generateImage(zernik);
+//	wielomian5->returnBitmap()->generateImage(zernik);
 	soczewka->returnBitmap()->generateImage(socz);
         
         end = std::chrono::system_clock::now(); diff = end - start;
         std::cout << diff.count() << " seconds\nMERGING...\n";
         start = end;
 
-	mercz.mergeMaps(toMerge);
+//	mercz.mergeMaps(toMerge);
 
         end = std::chrono::system_clock::now(); diff = end - start;
         std::cout << diff.count() << " seconds\nMERGING FINISHED\n";
-	mercz.generateImage(mer);
+//	mercz.generateImage(mer);
 
 
 //	wielomian0.returnBitmap()->generateImage("maps/Zer0.bmp");

@@ -21,7 +21,7 @@ private:
 	double k;
 	int f;
 	double coeff;
-	double max_bitmap_value;
+//	double max_bitmap_value;
 };
 
 #endif /* LENS_H_ */

@@ -14,7 +14,7 @@
 #define M_PI 3.14159265358979323846
 Bitmap::Bitmap(int row_count, int col_count) :
 		norm(255),
-		max_bitmap_value(0),
+		max_bitmap_value(2*M_PI),
 		bit_depth(24) {
 	this->row_count = row_count;
 	this->col_count = col_count;
@@ -25,11 +25,11 @@ Bitmap::Bitmap(const Bitmap &b){
 }
 Bitmap& Bitmap::operator=(const Bitmap &b){
 	if (row_count != b.row_count)  throw std::invalid_argument("size not matching");
-	norm = b.norm;
-	max_bitmap_value = b.max_bitmap_value;
-	bit_depth = b.bit_depth;
-	row_count = b.row_count;
-	col_count = b.col_count;
+//	norm = b.norm;
+//	max_bitmap_value = b.max_bitmap_value;
+//	bit_depth = b.bit_depth;
+//	row_count = b.row_count;
+//	col_count = b.col_count;
 	bmap = std::make_unique<double[]>(row_count * col_count);
 	for (int col = 0; col < col_count; col++){
 			for (int row = 0; row < row_count; row++){
