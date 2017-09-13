@@ -10,12 +10,10 @@
 #include "bmp/EasyBMP.h"
 #include <cmath>
 #include "Bitmap.h"
-#define M_PI 3.14159265358979323846
 Zernike::Zernike(int max_row, int max_col,double coeff, double (*ZernFunc)(double, double)) :
 			DiffractiveStructure(max_row, max_col) {
 	int MAX_ROW = bitmap->row_count;
 	int MAX_COL = bitmap->col_count;
-	double max_bitmap_value = 0;
         for (double col = -MAX_COL/2; col < MAX_COL/2; col++){
         	for (double row = -MAX_ROW/2; row < MAX_ROW/2; row++){
                     if( (pow(row/(MAX_ROW/2),2) + pow(col/(MAX_COL/2),2)) > 1.0 ) {
@@ -23,21 +21,13 @@ Zernike::Zernike(int max_row, int max_col,double coeff, double (*ZernFunc)(doubl
                         continue;
                     }
 			bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)] = ZernFunc(row/(MAX_ROW/2), col/(MAX_COL/2));
-			if (bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)]>max_bitmap_value) max_bitmap_value = bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)];
 		}
 	}
-	bitmap->setMaxValue(max_bitmap_value);
-        
         double tmp;
         for(int i = 0; i < MAX_ROW*MAX_COL; i++) {
             tmp = bitmap->bmap[i]*coeff;
-            bitmap->bmap[i] = 2*M_PI*(tmp - floor(tmp));
-/* floor(1) = 1. floor(ulamek) = 0. floor (ujemna - -1). wynik zawsze jest dodatni i jego wartosc % 2pi sie nii zmienia
- *
- */
+            bitmap->bmap[i] = (tmp - floor(tmp)); //modulo 1
         }
-
-	bitmap->setMaxValue(2*M_PI);
 }
 
 Zernike::~Zernike() {}
@@ -68,6 +58,7 @@ double Z6(double x, double y){ //
 }
 double Z7(double x, double y){ //Coma along x axis
 	return  (2*sqrt(2))*(3*pow(y,3) + 3*pow(x,2)*y - 2*y);
+//	return  (3*pow(y,3) + 3*pow(x,2)*y - 2*y);
 }
 double Z8(double x, double y){ //Coma along y axis
 	return  (2*sqrt(2))*(3*pow(x,3) + 3*pow(y,2)*x - 2*x);

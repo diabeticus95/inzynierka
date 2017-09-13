@@ -11,10 +11,8 @@
 #include <fstream>
 #include "DiffractiveStructure.h"
 #include <vector>
-#define M_PI 3.14159265358979323846
 Bitmap::Bitmap(int row_count, int col_count) :
 		norm(255),
-		max_bitmap_value(2*M_PI),
 		bit_depth(24) {
 	this->row_count = row_count;
 	this->col_count = col_count;
@@ -23,7 +21,6 @@ Bitmap::Bitmap(int row_count, int col_count) :
 Bitmap::Bitmap(const Bitmap &b){
 	*this = b;
 	norm = b.norm;
-	max_bitmap_value = b.max_bitmap_value;
 	bit_depth = b.bit_depth;
 	row_count = b.row_count;
 	col_count = b.col_count;
@@ -71,18 +68,16 @@ void Bitmap::generateImage(char* fileName){
 	AnImage.SetBitDepth(bit_depth);
 	for (int col = 0; col < col_count; col++){
 			for (int row = 0; row < row_count; row++){
-				AnImage(row,col)->Green = bmap[index(row,col)]*norm/max_bitmap_value;
-				AnImage(row,col)->Red = bmap[index(row,col)]*norm/max_bitmap_value;
-				AnImage(row,col)->Blue = bmap[index(row,col)]*norm/max_bitmap_value;
+				AnImage(row,col)->Green = bmap[index(row,col)]*norm;
+				AnImage(row,col)->Red = bmap[index(row,col)]*norm;
+				AnImage(row,col)->Blue = bmap[index(row,col)]*norm;
 		 }
 	}
 
 	AnImage.WriteToFile(fileName);
 
 }
-void Bitmap::setMaxValue(double max){
-	max_bitmap_value = max;
-}
+
 void Bitmap::mergeMaps(std::vector<DiffractiveStructure*> &toMerge){
 	for (auto it = toMerge.begin() + 1; it < toMerge.end(); it++){
 		outerMergeMaps(*(it-1),*it);
@@ -93,10 +88,11 @@ void Bitmap::mergeMaps(std::vector<DiffractiveStructure*> &toMerge){
 	catch (const std::invalid_argument& e ) {
 		std::cerr << "exception: " << e.what() << std::endl;
 	}
-
-        for(int i=0; i<row_count*col_count; i++) {
-            this->bmap[i] = fmod(this->bmap[i], 2*M_PI);
-        }
+	double tmp = 0;
+	for(int i=0; i<row_count*col_count; i++) {
+		tmp = this->bmap[i];
+		this->bmap[i] = tmp - floor(tmp);
+	}
 
 }
 

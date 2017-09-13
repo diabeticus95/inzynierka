@@ -12,8 +12,8 @@
  * - dodac wersje bez przyblizenia przyosiowego
  *  - update zernike poly - w pliku od pani ag.
  *  - fft ze strony fftw.org
- *  - czy brzegi zernike'a nie psują normalizacji PSUJĄ
  *  - biale to jest 2 pi, czy zero?
+ *  - pozbyc sie normalizacji do 2pi
  */
 
 int main(int argc, char** argv){
@@ -44,7 +44,7 @@ int main(int argc, char** argv){
 
 	std::vector<DiffractiveStructure*> toMerge;
 	toMerge.push_back(soczewka.get());
-	toMerge.push_back(wielomian4.get());
+//	toMerge.push_back(wielomian4.get());
 	toMerge.push_back(wielomian5.get());
 
 	char zernik[] = "zernik.bmp";

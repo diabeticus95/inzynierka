@@ -18,7 +18,6 @@ public:
 private:
 	double probkowanie;
 	double lambda;
-	double k;
 	int f;
 	double coeff;
 //	double max_bitmap_value;

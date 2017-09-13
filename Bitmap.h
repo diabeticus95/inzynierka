@@ -20,7 +20,6 @@ public:
 	void printMap();
 	void printMap(char* fileName);
 	void generateImage(char* filename);
-	void setMaxValue(double max);
 	void mergeMaps(std::vector<DiffractiveStructure*> &toMerge);
 
 //	Bitmap(Bitmap bmap, double max_bitmap_value);
@@ -31,7 +30,6 @@ public:
 
 private:
 	double norm;
-	double max_bitmap_value;
 	int bit_depth;
 
 };
