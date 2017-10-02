@@ -11,6 +11,7 @@
 #include <fstream>
 #include "DiffractiveStructure.h"
 #include <vector>
+#include "fftw/fftw3.h"
 Bitmap::Bitmap(int row_count, int col_count) :
 		norm(255),
 		bit_depth(24) {
@@ -102,3 +103,30 @@ void outerMergeMaps(DiffractiveStructure* a, DiffractiveStructure* b){
         for(int i=0; i<size; i++)
             b->returnBitmap()->bmap[i] += a->returnBitmap()->bmap[i];
 }
+
+Bitmap fft(const Bitmap& b){
+
+	fftw_complex *out;
+	fftw_plan p;
+	out = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * b.col_count * b.row_count);
+	p = fftw_plan_dft_r2c_2d(b.row_count, b.col_count, b.bmap.get(), out, FFTW_ESTIMATE);
+	fftw_execute(p);
+	Bitmap result(b.row_count, b.col_count);
+	double* tmp_pointer = result.bmap.get();
+	double tmp = 0;
+	double max_val = 0;
+	for (int i = 0; i < b.col_count; i++){
+		tmp = sqrt(pow(out[0][i],2) + pow(out[1][i],2));
+		tmp_pointer[i] = tmp;
+		if(tmp>max_val) max_val = tmp;
+		std::cout<<tmp_pointer[i]<<" "<<std::endl;
+	}
+	for (int i = 0; i < b.col_count; i++){
+		tmp_pointer[i] /= (double)max_val;
+		std::cout<<tmp_pointer[i]<<" ";
+	}
+	fftw_destroy_plan(p);
+	fftw_free(out);
+	return result;
+}
+

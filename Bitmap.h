@@ -9,9 +9,10 @@
 #define BITMAP_H_
 #include <vector>
 #include <memory>
+#include "fftw/fftw3.h"
 class DiffractiveStructure;
-void releaseVector(std::vector<DiffractiveStructure*> &toMerge);
-void outerMergeMaps(DiffractiveStructure* a, DiffractiveStructure* b);
+
+
 class Bitmap {
 public:
 	int row_count, col_count;
@@ -33,5 +34,6 @@ private:
 	int bit_depth;
 
 };
-
+void outerMergeMaps(DiffractiveStructure* a, DiffractiveStructure* b);
+Bitmap fft(const Bitmap& b);
 #endif /* BITMAP_H_ */

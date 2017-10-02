@@ -8,13 +8,10 @@
 #include <memory>
 #include <chrono>
 
+
 /* TO DO:
  * - dodac wersje bez przyblizenia przyosiowego
- *  - update zernike poly - w pliku od pani ag.
- *  - fft ze strony fftw.org
- *  - biale to jest 2 pi, czy zero?
- *  - pozbyc sie normalizacji do 2pi
- */
+*/
 
 int main(int argc, char** argv){
         std::chrono::time_point<std::chrono::system_clock> start, end;
@@ -22,7 +19,7 @@ int main(int argc, char** argv){
 
 	int size = 2048;
 	double probkowanie = pow(10,5);
-        
+
         std::cout << "LENS...\n";
         start = std::chrono::system_clock::now();
 
@@ -33,8 +30,8 @@ int main(int argc, char** argv){
         start = end;
 
 
-    std::unique_ptr<DiffractiveStructure> wielomian5 = std::make_unique<Zernike>(size,size,1,Z1);
-//    std::unique_ptr<DiffractiveStructure> wielomian4 = std::make_unique<Zernike>(size,size,3,Z4);
+    std::unique_ptr<DiffractiveStructure> wielomian5 = std::make_unique<Zernike>(size,size,10,Z7);
+    std::unique_ptr<DiffractiveStructure> wielomian4 = std::make_unique<Zernike>(size,size,3,Z4);
         
     Bitmap mercz(size,size);
 
@@ -44,12 +41,12 @@ int main(int argc, char** argv){
 
 	std::vector<DiffractiveStructure*> toMerge;
 	toMerge.push_back(soczewka.get());
-//	toMerge.push_back(wielomian4.get());
 	toMerge.push_back(wielomian5.get());
 
 	char zernik[] = "zernik.bmp";
 	char socz[] = "soczewka.bmp";
 	char mer[] = "merge.bmp";
+	char psf[] = "psf.bmp";
 
         end = std::chrono::system_clock::now(); diff = end - start;
         std::cout << diff.count() << " seconds\nIMAGING...\n";
@@ -57,7 +54,9 @@ int main(int argc, char** argv){
 
 	wielomian5->returnBitmap()->generateImage(zernik);
 	soczewka->returnBitmap()->generateImage(socz);
-        
+	Bitmap transform = fft(*(wielomian5->returnBitmap()));
+	transform.generateImage(psf);
+
         end = std::chrono::system_clock::now(); diff = end - start;
         std::cout << diff.count() << " seconds\nMERGING...\n";
         start = end;
@@ -66,6 +65,7 @@ int main(int argc, char** argv){
 
         end = std::chrono::system_clock::now(); diff = end - start;
         std::cout << diff.count() << " seconds\nMERGING FINISHED\n";
+
 	mercz.generateImage(mer);
 
 
@@ -90,6 +90,7 @@ int main(int argc, char** argv){
 	wielomian18.returnBitmap()->generateImage("Zer18.bmp");
 	wielomian19.returnBitmap()->generateImage("Zer19.bmp");
 	wielomian20.returnBitmap()->generateImage("Zer20.bmp");*/
+
 }
 
 
