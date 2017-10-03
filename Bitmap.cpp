@@ -152,7 +152,7 @@ Bitmap fft(const Bitmap& b){
 	}
 
 	std::cout<<max_val;
-	for (int i = 0; i < n_out; i++){
+	for (int i = 0; i < result.row_count*result.col_count; i++){
 		tmp_pointer[i] /= (double)max_val;
 	}
 	fftw_destroy_plan(p);
