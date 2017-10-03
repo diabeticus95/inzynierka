@@ -30,7 +30,7 @@ int main(int argc, char** argv){
         start = end;
 
 
-    std::unique_ptr<DiffractiveStructure> wielomian5 = std::make_unique<Zernike>(size,size,10,Z7);
+    std::unique_ptr<DiffractiveStructure> wielomian5 = std::make_unique<Zernike>(size,size,15,Z7);
  //   std::unique_ptr<DiffractiveStructure> wielomian4 = std::make_unique<Zernike>(size,size,3,Z4);
         
     Bitmap mercz(size,size);
