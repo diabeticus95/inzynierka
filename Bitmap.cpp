@@ -120,11 +120,12 @@ Bitmap fft(const Bitmap& b){
 
 	fftw_complex *out;
 	fftw_plan p;
-	int n_out = (((b.row_count/2) + 1)*b.col_count);
+	int fft_size = (b.row_count/2) + 1;
+	int n_out = (fft_size*b.col_count);
 	out = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * n_out);
 	p = fftw_plan_dft_r2c_2d(b.row_count, b.col_count, b.bmap.get(), out, FFTW_ESTIMATE);
 	fftw_execute(p);
-	int fft_size = (b.row_count/2) + 1;
+
 //	Bitmap result(fft_size,b.col_count);
 	Bitmap result(b.row_count, b.col_count);
 	double* tmp_pointer = result.bmap.get();
@@ -143,11 +144,11 @@ Bitmap fft(const Bitmap& b){
 					tmp_pointer[result.index(i,j)] = tmp;
 					if(tmp>max_val) max_val = tmp;
 			}
-/*			for (int i = (b.row_count/2) + 1; i < b.row_count; i++){
-					tmp = log10(sqrt(pow(out[i-(i - b.row_count/2)][0],2) + pow(out[i-(i - b.row_count/2)+(j*((b.row_count/2) + 1))][1],2)));
+		for (int i = fft_size; i < b.row_count; i++){
+					tmp = log10(sqrt(pow(out[b.row_count/2-(i - b.row_count/2)+(j*fft_size)][0],2) + pow(out[b.row_count/2-(i - b.row_count/2)+(j*fft_size)][1],2)));
 					tmp_pointer[b.index(i,j)] = tmp;
 					if(tmp>max_val) max_val = tmp;
-			}*/
+		}
 	}
 
 	std::cout<<max_val;
