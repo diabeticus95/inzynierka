@@ -12,6 +12,7 @@
 #include "DiffractiveStructure.h"
 #include <vector>
 #include "fftw/fftw3.h"
+#include <algorithm>
 Bitmap::Bitmap(int row_count, int col_count) :
 		norm(255),
 		bit_depth(24) {
@@ -41,7 +42,7 @@ Bitmap::~Bitmap() {
 	std::cerr<<"usunalem bitmape"<<std::endl;
 }
 int Bitmap::index(int x, int y ) const{
-	 return x + col_count * y;
+	 return x + row_count * y;
 }
 void Bitmap::printMap(){	//debugging
 	for (int col = 0; col < col_count; col++){
@@ -50,6 +51,10 @@ void Bitmap::printMap(){	//debugging
 				std::cout<<bmap[index(row,col)]<<" ";
 			}
 	}
+/*	for (int i = 0; i < col_count*row_count; i++){
+			std::cout<<i<<"  "<<bmap[i]<<std::endl;
+	}
+*/
 }
 void Bitmap::printMap(char* fileName){
 	std::fstream plik;
@@ -104,7 +109,13 @@ void outerMergeMaps(DiffractiveStructure* a, DiffractiveStructure* b){
         for(int i=0; i<size; i++)
             b->returnBitmap()->bmap[i] += a->returnBitmap()->bmap[i];
 }
-
+/*void fftShift(double *data, int row_count, int col_count){
+	//parzyste
+	if (row_count%2 == 0)
+		std::rotate(&data[0], &data[row_count>>1], &data[row_count]);
+	else
+		std::rotate(&data[0], &data[(row_count>>1) + 1], &data[row_count]);
+}*/
 Bitmap fft(const Bitmap& b){
 
 	fftw_complex *out;
@@ -113,7 +124,7 @@ Bitmap fft(const Bitmap& b){
 	out = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * n_out);
 	p = fftw_plan_dft_r2c_2d(b.row_count, b.col_count, b.bmap.get(), out, FFTW_ESTIMATE);
 	fftw_execute(p);
-	Bitmap result(b.col_count,((b.row_count/2) + 1));
+	Bitmap result(((b.row_count/2) + 1),b.col_count);
 	double* tmp_pointer = result.bmap.get();
 	double tmp = 0;
 	double max_val = 0;

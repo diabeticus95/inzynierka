@@ -56,6 +56,7 @@ int main(int argc, char** argv){
 	soczewka->returnBitmap()->generateImage(socz);
 
 	transform.generateImage(psf);
+	//transform.printMap();
 
         end = std::chrono::system_clock::now(); diff = end - start;
         std::cout << diff.count() << " seconds\nMERGING...\n";
