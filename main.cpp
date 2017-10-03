@@ -17,7 +17,7 @@ int main(int argc, char** argv){
         std::chrono::time_point<std::chrono::system_clock> start, end;
         std::chrono::duration<double> diff;
 
-	int size = 2048;
+	int size = 1024;
 	double probkowanie = pow(10,5);
 
         std::cout << "LENS...\n";
@@ -31,7 +31,7 @@ int main(int argc, char** argv){
 
 
     std::unique_ptr<DiffractiveStructure> wielomian5 = std::make_unique<Zernike>(size,size,10,Z7);
-    std::unique_ptr<DiffractiveStructure> wielomian4 = std::make_unique<Zernike>(size,size,3,Z4);
+ //   std::unique_ptr<DiffractiveStructure> wielomian4 = std::make_unique<Zernike>(size,size,3,Z4);
         
     Bitmap mercz(size,size);
 
@@ -51,10 +51,10 @@ int main(int argc, char** argv){
         end = std::chrono::system_clock::now(); diff = end - start;
         std::cout << diff.count() << " seconds\nIMAGING...\n";
         start = end;
-
+    Bitmap transform = fft(*(wielomian5->returnBitmap()));
 	wielomian5->returnBitmap()->generateImage(zernik);
 	soczewka->returnBitmap()->generateImage(socz);
-	Bitmap transform = fft(*(wielomian5->returnBitmap()));
+
 	transform.generateImage(psf);
 
         end = std::chrono::system_clock::now(); diff = end - start;

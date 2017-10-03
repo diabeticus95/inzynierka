@@ -69,6 +69,7 @@ void Bitmap::generateImage(char* fileName){
 	AnImage.SetBitDepth(bit_depth);
 	for (int col = 0; col < col_count; col++){
 			for (int row = 0; row < row_count; row++){
+//				if(row_count!=col_count)	std::cout<<"row: "<<row<<"  col:  "<<col<<std::endl;
 				AnImage(row,col)->Green = bmap[index(row,col)]*norm;
 				AnImage(row,col)->Red = bmap[index(row,col)]*norm;
 				AnImage(row,col)->Blue = bmap[index(row,col)]*norm;
@@ -108,22 +109,22 @@ Bitmap fft(const Bitmap& b){
 
 	fftw_complex *out;
 	fftw_plan p;
-	out = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * b.col_count * b.row_count);
+	int n_out = (((b.row_count/2) + 1)*b.col_count);
+	out = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * n_out);
 	p = fftw_plan_dft_r2c_2d(b.row_count, b.col_count, b.bmap.get(), out, FFTW_ESTIMATE);
 	fftw_execute(p);
-	Bitmap result(b.row_count, b.col_count);
+	Bitmap result(b.col_count,((b.row_count/2) + 1));
 	double* tmp_pointer = result.bmap.get();
 	double tmp = 0;
 	double max_val = 0;
-	for (int i = 0; i < b.col_count; i++){
-		tmp = sqrt(pow(out[0][i],2) + pow(out[1][i],2));
+	for (int i = 0; i < n_out; i++){
+		tmp = log10(sqrt(pow(out[i][0],2) + pow(out[i][1],2)));
 		tmp_pointer[i] = tmp;
 		if(tmp>max_val) max_val = tmp;
-		std::cout<<tmp_pointer[i]<<" "<<std::endl;
 	}
-	for (int i = 0; i < b.col_count; i++){
+	std::cout<<max_val;
+	for (int i = 0; i < n_out; i++){
 		tmp_pointer[i] /= (double)max_val;
-		std::cout<<tmp_pointer[i]<<" ";
 	}
 	fftw_destroy_plan(p);
 	fftw_free(out);
