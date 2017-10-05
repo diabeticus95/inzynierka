@@ -109,12 +109,12 @@ void outerMergeMaps(DiffractiveStructure* a, DiffractiveStructure* b){
         for(int i=0; i<size; i++)
             b->returnBitmap()->bmap[i] += a->returnBitmap()->bmap[i];
 }
-/*void fftShift(double *data, int row_count, int col_count){
-	//parzyste
-	if (row_count%2 == 0)
-		std::rotate(&data[0], &data[row_count>>1], &data[row_count]);
+/*void fftVerticalShift(double *data, int col_count){
+	//parzyste, N>>1 to po prostu N/2 które się szybciej liczy
+	if (col_count%2 == 0)
+		std::rotate(&data[0], &data[col_count>>1], &data[col_count]);
 	else
-		std::rotate(&data[0], &data[(row_count>>1) + 1], &data[row_count]);
+		std::rotate(&data[0], &data[(col_count>>1) + 1], &data[col_count]);
 }*/
 Bitmap fft(const Bitmap& b){
 
@@ -122,21 +122,21 @@ Bitmap fft(const Bitmap& b){
 	fftw_plan p;
 	int fft_size = (b.row_count/2) + 1;
 	int n_out = (fft_size*b.col_count);
-	out = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * n_out);
-	p = fftw_plan_dft_r2c_2d(b.row_count, b.col_count, b.bmap.get(), out, FFTW_ESTIMATE);
-	fftw_execute(p);
-
-//	Bitmap result(fft_size,b.col_count);
 	Bitmap result(b.row_count, b.col_count);
 	double* tmp_pointer = result.bmap.get();
+	for (int j = 0; j < result.col_count; j++){
+		for (int i = 0; i < result.row_count; i++){
+			tmp_pointer[result.index(i,j)] = b.bmap[b.index(i,j)] * pow(-1,i+j);
+		}
+	}
+	out = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * n_out);
+	p = fftw_plan_dft_r2c_2d(result.row_count, result.col_count, tmp_pointer, out, FFTW_ESTIMATE);
+	fftw_execute(p);
+
+
+
 	double tmp = 0;
 	double max_val = 0;
-/*	for (int i = 0; i < n_out; i++){
-			tmp = log10(sqrt(pow(out[i][0],2) + pow(out[i][1],2)));
-			tmp_pointer[i] = tmp;
-			if(tmp>max_val) max_val = tmp;
-		}*/
-
 
 	for (int j = 0; j < b.col_count; j++){
 		for (int i = 0; i < fft_size; i++){
@@ -146,11 +146,10 @@ Bitmap fft(const Bitmap& b){
 			}
 		for (int i = fft_size; i < b.row_count; i++){
 					tmp = log10(sqrt(pow(out[b.row_count/2-(i - b.row_count/2)+(j*fft_size)][0],2) + pow(out[b.row_count/2-(i - b.row_count/2)+(j*fft_size)][1],2)));
-					tmp_pointer[b.index(i,j)] = tmp;
+					tmp_pointer[result.index(i,j)] = tmp;
 					if(tmp>max_val) max_val = tmp;
 		}
 	}
-
 	std::cout<<max_val;
 	for (int i = 0; i < result.row_count*result.col_count; i++){
 		tmp_pointer[i] /= (double)max_val;
