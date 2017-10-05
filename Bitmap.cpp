@@ -124,11 +124,12 @@ Bitmap fft(const Bitmap& b){
 	int n_out = (fft_size*b.col_count);
 	Bitmap result(b.row_count, b.col_count);
 	double* tmp_pointer = result.bmap.get();
-	for (int j = 0; j < result.col_count; j++){
-		for (int i = 0; i < result.row_count; i++){
-			tmp_pointer[result.index(i,j)] = b.bmap[b.index(i,j)] * pow(-1,i+j);
-		}
-	}
+        int size = result.row_count*result.col_count;
+	
+        for(int i=0; i<size; i++)
+            tmp_pointer[i] = ((i + i/result.row_count)%2)?b.bmap[i]:-b.bmap[i];
+            
+
 	out = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * n_out);
 	p = fftw_plan_dft_r2c_2d(result.row_count, result.col_count, tmp_pointer, out, FFTW_ESTIMATE);
 	fftw_execute(p);
@@ -139,18 +140,17 @@ Bitmap fft(const Bitmap& b){
 	double max_val = 0;
 
 	for (int j = 0; j < b.col_count; j++){
-		for (int i = 0; i < fft_size; i++){
-					tmp = log10(sqrt(pow(out[i+(j*fft_size)][0],2) + pow(out[i+(j*fft_size)][1],2)));
-					tmp_pointer[result.index(i,j)] = tmp;
-					if(tmp>max_val) max_val = tmp;
-			}
-		for (int i = fft_size; i < b.row_count; i++){
-					tmp = log10(sqrt(pow(out[b.row_count/2-(i - b.row_count/2)+(j*fft_size)][0],2) + pow(out[b.row_count/2-(i - b.row_count/2)+(j*fft_size)][1],2)));
-					tmp_pointer[result.index(i,j)] = tmp;
-					if(tmp>max_val) max_val = tmp;
-		}
-	}
-	std::cout<<max_val;
+	    for (int i = 0; i < b.row_count; i++){
+                if(i>=fft_size) {
+                    tmp_pointer[result.index(i,j)] = tmp_pointer[result.index(result.row_count-i,j)];
+                    continue;
+                }
+		tmp = log10(sqrt(pow(out[i+(j*fft_size)][0],2) + pow(out[i+(j*fft_size)][1],2)));
+		tmp_pointer[result.index(i,j)] = tmp;
+		if(tmp>max_val) max_val = tmp;
+	    }
+        }
+	//std::cout<<max_val;
 	for (int i = 0; i < result.row_count*result.col_count; i++){
 		tmp_pointer[i] /= (double)max_val;
 	}
