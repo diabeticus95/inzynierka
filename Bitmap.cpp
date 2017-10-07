@@ -127,7 +127,7 @@ Bitmap fft(const Bitmap& b){
         int size = result.row_count*result.col_count;
 	
         for(int i=0; i<size; i++)
-            tmp_pointer[i] = ((i + i/result.row_count)%2)?b.bmap[i]:-b.bmap[i];
+            tmp_pointer[i] = ((i%result.row_count + i/result.row_count)%2)?-b.bmap[i]:b.bmap[i];
             
 
 	out = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * n_out);
