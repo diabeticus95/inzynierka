@@ -126,27 +126,29 @@ Bitmap fft(const Bitmap& b){
 	double* tmp_pointer = result.bmap.get();
         int size = result.row_count*result.col_count;
 	
-        for(int i=0; i<size; i++)
-            tmp_pointer[i] = ((i%result.row_count + i/result.row_count)%2)?-b.bmap[i]:b.bmap[i];
-            
+
+        memcpy(tmp_pointer, b.bmap.get(), size*sizeof(double));
+        for(int i=0, row=0; i<size; i+=2) {
+            if(i >= (row+1)*result.row_count) {
+                i++; row++;
+            }
+            tmp_pointer[i] *= -1;
+        }
 
 	out = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * n_out);
 	p = fftw_plan_dft_r2c_2d(result.row_count, result.col_count, tmp_pointer, out, FFTW_ESTIMATE);
 	fftw_execute(p);
 
 
-
 	double tmp = 0;
 	double max_val = 0;
-
+        double *tmpptr;
 	for (int j = 0; j < b.col_count; j++){
-	    for (int i = 0; i < b.row_count; i++){
-                if(i>=fft_size) {
-                    tmp_pointer[result.index(i,j)] = tmp_pointer[result.index(result.row_count-i,j)];
-                    continue;
-                }
-		tmp = log10(sqrt(pow(out[i+(j*fft_size)][0],2) + pow(out[i+(j*fft_size)][1],2)));
+	    for (int i = 0; i < fft_size; i++){
+		tmpptr = out[i+(j*fft_size)];
+                tmp = log10(sqrt( tmpptr[0]*tmpptr[0] + tmpptr[1]*tmpptr[1] ));
 		tmp_pointer[result.index(i,j)] = tmp;
+                tmp_pointer[result.index(result.row_count-i,j)] = tmp;
 		if(tmp>max_val) max_val = tmp;
 	    }
         }
