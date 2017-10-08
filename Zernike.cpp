@@ -12,19 +12,20 @@
 #include "Bitmap.h"
 Zernike::Zernike(int max_row, int max_col,double coeff, double (*ZernFunc)(double, double)) :
 			DiffractiveStructure(max_row, max_col) {
-	int MAX_ROW = bitmap->row_count;
-	int MAX_COL = bitmap->col_count;
-        for (double col = -MAX_COL/2; col < MAX_COL/2; col++){
-        	for (double row = -MAX_ROW/2; row < MAX_ROW/2; row++){
-                    if( (pow(row/(MAX_ROW/2),2) + pow(col/(MAX_COL/2),2)) > 1.0 ) {
-                    	bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)] = 0;
+	int MAX_ROW = bitmap->row_count/2;
+	int MAX_COL = bitmap->col_count/2;
+        for (int col = -MAX_COL; col < MAX_COL; col++){
+        	for (int row = -MAX_ROW; row < MAX_ROW; row++){
+                    double xx = (double)row/MAX_ROW, yy = (double)col/MAX_COL;
+                    if( xx*xx + yy*yy > 1.0) {
+                    	bitmap->bmap[bitmap->index(row+MAX_ROW,col+MAX_COL)] = 0;
                         continue;
                     }
-			bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)] = ZernFunc(row/(MAX_ROW/2), col/(MAX_COL/2));
+		    bitmap->bmap[bitmap->index(row+MAX_ROW,col+MAX_COL)] = ZernFunc(xx, yy);
 		}
 	}
-        double tmp;
-        for(int i = 0; i < MAX_ROW*MAX_COL; i++) {
+        double tmp; int size = bitmap->row_count*bitmap->col_count;
+        for(int i = 0; i < size; i++) {
             tmp = bitmap->bmap[i]*coeff;
             bitmap->bmap[i] = (tmp - floor(tmp)); //modulo 1
         }
@@ -57,7 +58,8 @@ double Z6(double x, double y){ //
 	return (2*sqrt(2))*(-pow(y,3) + 3*y*pow(x,2));
 }
 double Z7(double x, double y){ //Coma along x axis
-	return  (2*sqrt(2))*(3*pow(y,3) + 3*pow(x,2)*y - 2*y);
+//	return  (2*sqrt(2))*(3*pow(y,3) + 3*pow(x,2)*y - 2*y);
+	return  (2*sqrt(2)) *y* (3*y*y + 3*x*x - 2); //optymalizacja mnozen; >0.9s -> <0.7s
 //	return  (3*pow(y,3) + 3*pow(x,2)*y - 2*y);
 }
 double Z8(double x, double y){ //Coma along y axis
@@ -82,7 +84,8 @@ double Z14(double x, double y){
 	return sqrt(10)*(pow(x,4) + pow(y,4) - 6*pow(x,2)*pow(y,2));
 }
 double Z15(double x, double y){
-	return (2*sqrt(3))*(pow(y,5) - 10*pow(x,2)*pow(y,3) + 5*pow(x,4)*y);
+	return (2*sqrt(3))*y*((y*y - 10*x*x)*y*y + 5*pow(x,4)); // poprawa czasu z ~1.2s na 0.8s
+	//return (2*sqrt(3))*(pow(y,5) - 10*pow(x,2)*pow(y,3) + 5*pow(x,4)*y);
 }
 double Z16(double x, double y){
 	return (2*sqrt(3))*(15*pow(x,4)*y + 10*pow(x,2)*pow(y,3) - 12*pow(x,2)*y - 5*pow(y,5) + 4*pow(y,3));
