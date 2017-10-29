@@ -23,15 +23,15 @@ int main(int argc, char** argv){
         std::cout << "LENS...\n";
         start = std::chrono::system_clock::now();
 
-	std::unique_ptr<DiffractiveStructure> soczewka = std::make_unique<Lens>(size,size,probkowanie);
+	std::unique_ptr<DiffractiveStructure> soczewka = std::make_unique<Lens>(size,size,probkowanie, Lens::paraxial_formula);
 
         end = std::chrono::system_clock::now(); diff = end - start;
         std::cout << diff.count() << " seconds\nZERNIK...\n";
         start = end;
 
 
-    std::unique_ptr<DiffractiveStructure> wielomian5 = std::make_unique<Zernike>(size,size,15,Z7);
- //   std::unique_ptr<DiffractiveStructure> wielomian4 = std::make_unique<Zernike>(size,size,3,Z4);
+    std::unique_ptr<DiffractiveStructure> wielomian5 = std::make_unique<Zernike>(size,size,1,Zernike::Z1);
+    std::unique_ptr<DiffractiveStructure> wielomian4 = std::make_unique<Zernike>(size,size,15,Zernike::Z7);
         
     Bitmap mercz(size,size);
 
@@ -42,11 +42,13 @@ int main(int argc, char** argv){
 	std::vector<DiffractiveStructure*> toMerge;
 	toMerge.push_back(soczewka.get());
 	toMerge.push_back(wielomian5.get());
+	toMerge.push_back(wielomian4.get());
 
 	char zernik[] = "zernik.bmp";
 	char socz[] = "soczewka.bmp";
 	char mer[] = "merge.bmp";
 	char psf[] = "psf.bmp";
+	char mergePSF[] = "mergePSF.bmp";
 
         end = std::chrono::system_clock::now(); diff = end - start;
         std::cout << diff.count() << " seconds\nIMAGING...\n";
@@ -68,6 +70,10 @@ int main(int argc, char** argv){
         std::cout << diff.count() << " seconds\nMERGING FINISHED\n";
 
 	mercz.generateImage(mer);
+	Bitmap merczPSF = fft(mercz);
+	merczPSF.generateImage(mergePSF);
+	Bitmap lensPSF = fft(*(soczewka->returnBitmap()));
+	lensPSF.generateImage("lensPSF.bmp");
 
 
 //	wielomian0.returnBitmap()->generateImage("maps/Zer0.bmp");
