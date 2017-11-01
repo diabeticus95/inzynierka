@@ -9,11 +9,12 @@
 #include <iostream>
 #include <cmath>
 #include "Bitmap.h"
-Lens::Lens(int max_row, int max_col, double PROBKOWANIE, double (*LensForm)(double, double, double)):DiffractiveStructure(max_row, max_col),
+Lens::Lens(int max_row, int max_col, double F, double PROBKOWANIE, double (*LensForm)(double, double, double)):
+			DiffractiveStructure(max_row, max_col),
 			probkowanie(PROBKOWANIE)
 			{
 	lambda = 632.8*0.000000001 * probkowanie;
-	f = probkowanie;
+	f = F * probkowanie;
 	coeff = (double)1/lambda;
 	int MAX_ROW = bitmap->row_count;
 	int MAX_COL = bitmap->col_count;
