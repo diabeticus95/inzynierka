@@ -19,39 +19,50 @@ int main(int argc, char** argv){
 
 	int size = 1080;
 	double probkowanie = 125000; //8 mikrometrow: 1m = x * 8um
-	double f = 1.3;
+	double f = 1.33;
+	double lambda = 632.8*0.000000001;
 
         std::cout << "LENS...\n";
         start = std::chrono::system_clock::now();
 
-	std::unique_ptr<DiffractiveStructure> soczewka = std::make_unique<Lens>(size,size, f, probkowanie, Lens::paraxial_formula);
+	std::unique_ptr<DiffractiveStructure> soczewka = std::make_unique<Lens>(size,size, lambda, f, probkowanie, Lens::paraxial_formula);
 
         end = std::chrono::system_clock::now(); diff = end - start;
         std::cout << diff.count() << " seconds\nZERNIK...\n";
         start = end;
 
 
-    std::unique_ptr<DiffractiveStructure> astigmatism5 = std::make_unique<Zernike>(size,size,5,Zernike::Z3);
-    std::unique_ptr<DiffractiveStructure> astigmatism10 = std::make_unique<Zernike>(size,size,10,Zernike::Z3);
-    std::unique_ptr<DiffractiveStructure> astigmatism15 = std::make_unique<Zernike>(size,size,15,Zernike::Z3);
-
-    std::unique_ptr<DiffractiveStructure> defocus5 = std::make_unique<Zernike>(size,size,5,Zernike::Z4);
-    std::unique_ptr<DiffractiveStructure> defocus10 = std::make_unique<Zernike>(size,size,10,Zernike::Z4);
-    std::unique_ptr<DiffractiveStructure> defocus15 = std::make_unique<Zernike>(size,size,15,Zernike::Z4);
-
-    std::unique_ptr<DiffractiveStructure> coma5 = std::make_unique<Zernike>(size,size,5,Zernike::Z7);
-    std::unique_ptr<DiffractiveStructure> coma10 = std::make_unique<Zernike>(size,size,10,Zernike::Z7);
-    std::unique_ptr<DiffractiveStructure> coma15 = std::make_unique<Zernike>(size,size,15,Zernike::Z7);
-
-    std::unique_ptr<DiffractiveStructure> spherical5 = std::make_unique<Zernike>(size,size,5,Zernike::Z12);
-    std::unique_ptr<DiffractiveStructure> spherical10 = std::make_unique<Zernike>(size,size,10,Zernike::Z12);
-    std::unique_ptr<DiffractiveStructure> spherical15 = std::make_unique<Zernike>(size,size,15,Zernike::Z12);
+    std::unique_ptr<DiffractiveStructure> astigmatism5 = std::make_unique<Zernike>(size,size,0.1,Zernike::Z3);
+    std::unique_ptr<DiffractiveStructure> astigmatism10 = std::make_unique<Zernike>(size,size,0.2,Zernike::Z3);
+    std::unique_ptr<DiffractiveStructure> astigmatism15 = std::make_unique<Zernike>(size,size,0.5,Zernike::Z3);
+    std::unique_ptr<DiffractiveStructure> astigmatism15 = std::make_unique<Zernike>(size,size,1,Zernike::Z3);
+    std::unique_ptr<DiffractiveStructure> astigmatism15 = std::make_unique<Zernike>(size,size,2,Zernike::Z3);
 
 
+    std::unique_ptr<DiffractiveStructure> defocus5 = std::make_unique<Zernike>(size,size,0.1,Zernike::Z4);
+    std::unique_ptr<DiffractiveStructure> defocus10 = std::make_unique<Zernike>(size,size,0.2,Zernike::Z4);
+    std::unique_ptr<DiffractiveStructure> defocus15 = std::make_unique<Zernike>(size,size,0.5,Zernike::Z4);
+    std::unique_ptr<DiffractiveStructure> defocus10 = std::make_unique<Zernike>(size,size,1,Zernike::Z4);
+    std::unique_ptr<DiffractiveStructure> defocus15 = std::make_unique<Zernike>(size,size,2,Zernike::Z4);
 
-    std::unique_ptr<DiffractiveStructure> highOrder18 = std::make_unique<Zernike>(size,size,10,Zernike::Z18);
-    std::unique_ptr<DiffractiveStructure> highOrder19 = std::make_unique<Zernike>(size,size,10,Zernike::Z19);
-    std::unique_ptr<DiffractiveStructure> highOrder20 = std::make_unique<Zernike>(size,size,10,Zernike::Z20);
+    std::unique_ptr<DiffractiveStructure> coma5 = std::make_unique<Zernike>(size,size,0.1,Zernike::Z7);
+    std::unique_ptr<DiffractiveStructure> coma10 = std::make_unique<Zernike>(size,size,0.2,Zernike::Z7);
+    std::unique_ptr<DiffractiveStructure> coma15 = std::make_unique<Zernike>(size,size,0.5,Zernike::Z7);
+    std::unique_ptr<DiffractiveStructure> coma10 = std::make_unique<Zernike>(size,size,1,Zernike::Z7);
+    std::unique_ptr<DiffractiveStructure> coma15 = std::make_unique<Zernike>(size,size,2,Zernike::Z7);
+
+    std::unique_ptr<DiffractiveStructure> spherical5 = std::make_unique<Zernike>(size,size,0.1,Zernike::Z12);
+    std::unique_ptr<DiffractiveStructure> spherical10 = std::make_unique<Zernike>(size,size,0.2,Zernike::Z12);
+    std::unique_ptr<DiffractiveStructure> spherical15 = std::make_unique<Zernike>(size,size,0.5,Zernike::Z12);
+    std::unique_ptr<DiffractiveStructure> spherical10 = std::make_unique<Zernike>(size,size,1,Zernike::Z12);
+    std::unique_ptr<DiffractiveStructure> spherical15 = std::make_unique<Zernike>(size,size,2,Zernike::Z12);
+
+
+
+    std::unique_ptr<DiffractiveStructure> highOrder18 = std::make_unique<Zernike>(size,size,0.2,Zernike::Z18);
+    std::unique_ptr<DiffractiveStructure> highOrder19 = std::make_unique<Zernike>(size,size,0.2,Zernike::Z19);
+    std::unique_ptr<DiffractiveStructure> highOrder20 = std::make_unique<Zernike>(size,size,0.2,Zernike::Z20);
+
 
 
         
@@ -266,6 +277,7 @@ int main(int argc, char** argv){
 
         end = std::chrono::system_clock::now(); diff = end - start;
         std::cout << diff.count() << " seconds\nMERGING FINISHED\n";
+        start = end;
 
 
    	 merczAst5.generateImage(a5Mercz);

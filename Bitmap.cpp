@@ -14,7 +14,7 @@
 #include "fftw/fftw3.h"
 #include <algorithm>
 Bitmap::Bitmap(int row_count, int col_count) :
-		norm(255),
+		norm(-195),
 		bit_depth(24) {
 	this->row_count = row_count;
 	this->col_count = col_count;
@@ -74,10 +74,9 @@ void Bitmap::generateImage(char* fileName){
 	AnImage.SetBitDepth(bit_depth);
 	for (int col = 0; col < col_count; col++){
 			for (int row = 0; row < row_count; row++){
-//				if(row_count!=col_count)	std::cout<<"row: "<<row<<"  col:  "<<col<<std::endl;
-				AnImage(row,col)->Green = bmap[index(row,col)]*norm;
-				AnImage(row,col)->Red = bmap[index(row,col)]*norm;
-				AnImage(row,col)->Blue = bmap[index(row,col)]*norm;
+				AnImage(row,col)->Green = bmap[index(row,col)]*norm +236;
+				AnImage(row,col)->Red = bmap[index(row,col)]*norm + 236;
+				AnImage(row,col)->Blue = bmap[index(row,col)]*norm + 236;
 		 }
 	}
 

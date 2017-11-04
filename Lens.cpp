@@ -9,11 +9,11 @@
 #include <iostream>
 #include <cmath>
 #include "Bitmap.h"
-Lens::Lens(int max_row, int max_col, double F, double PROBKOWANIE, double (*LensForm)(double, double, double)):
+Lens::Lens(int max_row, int max_col,double Lambda, double F, double PROBKOWANIE, double (*LensForm)(double, double, double)):
 			DiffractiveStructure(max_row, max_col),
 			probkowanie(PROBKOWANIE)
 			{
-	lambda = 632.8*0.000000001 * probkowanie;
+	lambda = Lambda * probkowanie;
 	f = F * probkowanie;
 	coeff = (double)1/lambda;
 	int MAX_ROW = bitmap->row_count;
@@ -29,8 +29,8 @@ Lens::Lens(int max_row, int max_col, double F, double PROBKOWANIE, double (*Lens
 					// w przyblizeniu przyosiowym
 // 1 - wynik aby odwrocic kolory (minus przed fazą)
             tmp = coeff * LensForm(row, col, f);
-//			 tmp = coeff*(pow(row,2) + pow(col,2));
-			 bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)] = 1-(tmp-floor(tmp));
+			bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)] = 1-(tmp-floor(tmp));
+//            bitmap->bmap[bitmap->index(row+MAX_ROW/2,col+MAX_COL/2)] = (tmp-floor(tmp));
 		}
 	}
 }
