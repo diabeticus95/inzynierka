@@ -48,8 +48,9 @@ int Bitmap::index(int x, int y ) const{
 void Bitmap::printMap(){	//debugging
 	for (int col = 0; col < col_count; col++){
 			for (int row = 0; row < row_count; row++){
-				if (row == row_count - 1) std::cout<<std::endl;
 				std::cout<<bmap[index(row,col)]<<" ";
+				if (row == row_count - 1) std::cout<<std::endl;
+
 			}
 	}
 /*	for (int i = 0; i < col_count*row_count; i++){
@@ -62,8 +63,8 @@ void Bitmap::printMap(char* fileName){
 	plik.open(fileName, std::ios::app);
 	for (int col = 0; col < col_count; col++){
 			for (int row = 0; row < row_count; row++){
-				if (row == row_count - 1) plik<<std::endl;
 				plik<<bmap[index(row,col)]<<" ";
+				if (row == row_count - 1) plik<<std::endl;
 			}
 	}
 	plik<<std::endl<<std::endl;
@@ -112,9 +113,10 @@ void outerMergeMaps(DiffractiveStructure* a, DiffractiveStructure* b){
 }
 void Bitmap::rot90(){
 	int n = row_count;
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < n; j++) {
-			bmap[index(i,j)] = bmap[index(n - j - 1, i)];
+	Bitmap tmp(*this);
+	for (int j = 0; j < n; j++) {
+		for (int i = 0; i < n; i++) {
+			bmap[index(i,j)] = tmp.bmap[index(n - j - 1, i)];
 		}
 	}
 }

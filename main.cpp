@@ -455,7 +455,12 @@ int main(int argc, char** argv){
 	Bitmap rot = rot90(fileName);
 	Bitmap rot180(rot);
 	rot180.rot90();
+	Bitmap rot270(rot180);
+	rot270.rot90();
+	rot.generateImage("rot90.bmp");
+	rot270.generateImage("rot270.bmp");
 	rot180.generateImage("rot180.bmp");
+
 }
 
 
