@@ -21,11 +21,12 @@ Bitmap::Bitmap(int row_count, int col_count) :
 	bmap = std::make_unique<double[]>(row_count * col_count);
 }
 Bitmap::Bitmap(const Bitmap &b){
-	*this = b;
 	norm = b.norm;
 	bit_depth = b.bit_depth;
 	row_count = b.row_count;
 	col_count = b.col_count;
+	*this = b;
+
 }
 Bitmap& Bitmap::operator=(const Bitmap &b){
 	if (row_count != b.row_count)  throw std::invalid_argument("size not matching");
@@ -68,6 +69,7 @@ void Bitmap::printMap(char* fileName){
 	plik<<std::endl<<std::endl;
 	plik.close();
 }
+
 void Bitmap::generateImage(char* fileName){
 	BMP AnImage;
 	AnImage.SetSize(row_count,col_count);
@@ -107,6 +109,14 @@ void outerMergeMaps(DiffractiveStructure* a, DiffractiveStructure* b){
         int size = a->returnBitmap()->row_count*a->returnBitmap()->col_count;
         for(int i=0; i<size; i++)
             b->returnBitmap()->bmap[i] += a->returnBitmap()->bmap[i];
+}
+void Bitmap::rot90(){
+	int n = row_count;
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			bmap[index(i,j)] = bmap[index(n - j - 1, i)];
+		}
+	}
 }
 /*void fftVerticalShift(double *data, int col_count){
 	//parzyste, N>>1 to po prostu N/2 które się szybciej liczy
@@ -157,4 +167,17 @@ Bitmap fft(const Bitmap& b){
 	fftw_free(out);
 	return result;
 }
+Bitmap rot90(char* fileName){
+	BMP AnImage;
+	AnImage.ReadFromFile(fileName);
+	int n = AnImage.TellHeight();
+	Bitmap rot90(n,n);
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			rot90.bmap[rot90.index(i,j)] = AnImage(n - j - 1, i)->Green;
+		}
+	}
+	return rot90;
+}
+
 
