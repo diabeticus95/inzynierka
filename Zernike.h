@@ -12,6 +12,7 @@
 class Zernike : public DiffractiveStructure {
 public:
 	Zernike(int max_row, int max_col,double coeff, double (*ZernFunc)(double, double));
+	Zernike(Bitmap &bitmapOuter);
 	virtual ~Zernike();
 	static double Z0(double x, double y);
 	static double Z1(double x, double y);

@@ -176,7 +176,14 @@ Bitmap rot90(char* fileName){
 	Bitmap rot90(n,n);
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < n; j++) {
-			rot90.bmap[rot90.index(i,j)] = AnImage(n - j - 1, i)->Green;
+			rot90.bmap[rot90.index(i,j)] = (double)AnImage(n - j - 1, i)->Green/255;
+		}
+	}
+	for (int i = -n/2; i < n/2; i++) {
+		for (int j = -n/2; j < n/2; j++) {
+			if (i*i + j*j > pow(n/2,2)){
+				rot90.bmap[rot90.index(i+n/2,j+n/2)] = 0;
+			}
 		}
 	}
 	return rot90;

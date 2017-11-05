@@ -29,6 +29,10 @@ Zernike::Zernike(int max_row, int max_col,double coeff, double (*ZernFunc)(doubl
             bitmap->bmap[i] = (tmp - floor(tmp)); //modulo 1
         }
 }
+Zernike::Zernike(Bitmap &bitmapOuter) :
+			DiffractiveStructure(bitmapOuter.row_count, bitmapOuter.col_count){
+	bitmap.reset(&bitmapOuter);
+}
 
 Zernike::~Zernike() {}
 
