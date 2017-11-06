@@ -14,7 +14,8 @@
 #include "fftw/fftw3.h"
 #include <algorithm>
 Bitmap::Bitmap(int row_count, int col_count) :
-		norm(-195),
+//		norm(-195),
+		norm(255),
 		bit_depth(24) {
 	this->row_count = row_count;
 	this->col_count = col_count;
@@ -53,10 +54,6 @@ void Bitmap::printMap(){	//debugging
 
 			}
 	}
-/*	for (int i = 0; i < col_count*row_count; i++){
-			std::cout<<i<<"  "<<bmap[i]<<std::endl;
-	}
-*/
 }
 void Bitmap::printMap(char* fileName){
 	std::fstream plik;
@@ -74,12 +71,17 @@ void Bitmap::printMap(char* fileName){
 void Bitmap::generateImage(char* fileName){
 	BMP AnImage;
 	AnImage.SetSize(row_count,col_count);
-	AnImage.SetBitDepth(bit_depth);
+	AnImage.SetBitDepth(24);
 	for (int col = 0; col < col_count; col++){
-			for (int row = 0; row < row_count; row++){
+			for (int row = 0; row < row_count; row++){/*
 				AnImage(row,col)->Green = bmap[index(row,col)]*norm +236;
 				AnImage(row,col)->Red = bmap[index(row,col)]*norm + 236;
-				AnImage(row,col)->Blue = bmap[index(row,col)]*norm + 236;
+				AnImage(row,col)->Blue = bmap[index(row,col)]*norm + 236;*/
+
+				AnImage(row,col)->Green = bmap[index(row,col)]*norm;
+				AnImage(row,col)->Red = bmap[index(row,col)]*norm;
+				AnImage(row,col)->Blue = bmap[index(row,col)]*norm;
+
 		 }
 	}
 
@@ -105,7 +107,7 @@ void Bitmap::mergeMaps(std::vector<DiffractiveStructure*> &toMerge){
 
 }
 
-
+//PAMIĘTAJ ŻE MODYFIKUJESZ STRUKTURY!
 void outerMergeMaps(DiffractiveStructure* a, DiffractiveStructure* b){
         int size = a->returnBitmap()->row_count*a->returnBitmap()->col_count;
         for(int i=0; i<size; i++)
@@ -130,36 +132,36 @@ void Bitmap::rot90(){
 Bitmap fft(const Bitmap& b){
 
 	fftw_complex *out;
+	fftw_complex *in;
 	fftw_plan p;
-	int fft_size = (b.row_count/2) + 1;
-	int n_out = (fft_size*b.col_count);
-	Bitmap result(b.row_count, b.col_count);
-	double* tmp_pointer = result.bmap.get();
-	for (int j = 0; j < result.col_count; j++){
-		for (int i = 0; i < result.row_count; i++){
-			tmp_pointer[result.index(i,j)] = b.bmap[b.index(i,j)] * pow(-1,i+j);
+
+	int n_out = b.row_count * b.col_count;
+
+	out = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * n_out);
+	in = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * n_out);
+
+	for (int j = 0; j < b.row_count; j++){
+		for (int i = 0; i < b.row_count; i++){
+			in[b.index(i,j)][0] = sin(b.bmap[b.index(i,j)]) * pow(-1,i+j);
+			in[b.index(i,j)][1] = cos(b.bmap[b.index(i,j)]) * pow(-1,i+j);
 		}
 	}
-	out = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * n_out);
-	p = fftw_plan_dft_r2c_2d(result.row_count, result.col_count, tmp_pointer, out, FFTW_ESTIMATE);
+
+	p = fftw_plan_dft_2d(b.row_count, b.col_count, in, out, FFTW_FORWARD, FFTW_ESTIMATE);
 	fftw_execute(p);
 
 
-
+	Bitmap result(b.row_count, b.col_count);
+	double* tmp_pointer = result.bmap.get();
 	double tmp = 0;
 	double max_val = 0;
-
+//result index i b index to tu to samo. konwersja 2d -> id
 	for (int j = 0; j < b.col_count; j++){
-		for (int i = 0; i < fft_size; i++){
-					tmp = log10(sqrt(pow(out[i+(j*fft_size)][0],2) + pow(out[i+(j*fft_size)][1],2)));
+		for (int i = 0; i < b.row_count; i++){
+					tmp = sqrt(pow(out[b.index(i,j)][0],2) + pow(out[b.index(i,j)][1],2));
 					tmp_pointer[result.index(i,j)] = tmp;
 					if(tmp>max_val) max_val = tmp;
 			}
-		for (int i = fft_size; i < b.row_count; i++){
-					tmp = log10(sqrt(pow(out[b.row_count/2-(i - b.row_count/2)+(j*fft_size)][0],2) + pow(out[b.row_count/2-(i - b.row_count/2)+(j*fft_size)][1],2)));
-					tmp_pointer[result.index(i,j)] = tmp;
-					if(tmp>max_val) max_val = tmp;
-		}
 	}
 	std::cout<<max_val;
 	for (int i = 0; i < result.row_count*result.col_count; i++){
@@ -167,6 +169,7 @@ Bitmap fft(const Bitmap& b){
 	}
 	fftw_destroy_plan(p);
 	fftw_free(out);
+	fftw_free(in);
 	return result;
 }
 Bitmap rot90(char* fileName){
@@ -176,7 +179,7 @@ Bitmap rot90(char* fileName){
 	Bitmap rot90(n,n);
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < n; j++) {
-			rot90.bmap[rot90.index(i,j)] = (double)AnImage(n - j - 1, i)->Green/255;
+			rot90.bmap[rot90.index(i,j)] = (double)((double)AnImage(n - j - 1, i)->Green/255 + (double)AnImage(n - j - 1, i)->Red/255 + (double)AnImage(n - j - 1, i)->Blue/255)/3;
 		}
 	}
 	for (int i = -n/2; i < n/2; i++) {
@@ -187,6 +190,18 @@ Bitmap rot90(char* fileName){
 		}
 	}
 	return rot90;
+}
+Bitmap load2Bitmap(char* fileName){
+	BMP AnImage;
+	AnImage.ReadFromFile(fileName);
+	int n = AnImage.TellHeight();
+	Bitmap loaded(n,n);
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			loaded.bmap[loaded.index(i,j)] = (double)((double)AnImage(n - j - 1, i)->Green/256 + (double)AnImage(n - j - 1, i)->Red/256 + (double)AnImage(n - j - 1, i)->Blue/256)/3;
+		}
+	}
+	return loaded;
 }
 
 
