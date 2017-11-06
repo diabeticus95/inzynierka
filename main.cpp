@@ -23,31 +23,11 @@ int main(int argc, char** argv){
 	rot270b.rot90();
 	Bitmap rot360b(rot270b);
 	rot360b.rot90();
-	Bitmap fixed = load2Bitmap(fileName);
 
-	std::unique_ptr<DiffractiveStructure> fix = std::make_unique<Zernike>(fixed);
 	std::unique_ptr<DiffractiveStructure> rot90 = std::make_unique<Zernike>(rotb);
 	std::unique_ptr<DiffractiveStructure> rot180 = std::make_unique<Zernike>(rot180b);
 	std::unique_ptr<DiffractiveStructure> rot270 = std::make_unique<Zernike>(rot270b);
 	std::unique_ptr<DiffractiveStructure> rot360 = std::make_unique<Zernike>(rot360b);
-/*
-	int size = 1080;
-	double probkowanie = 125000; //8 mikrometrow: 1m = x * 8um
-	double f = 1.17;
-	double lambda = 632.8*0.000000001;
-
-	std::unique_ptr<DiffractiveStructure> soczewka = std::make_unique<Lens>(size,size, lambda, f, probkowanie, Lens::paraxial_formula);
-    std::unique_ptr<DiffractiveStructure> coma1 = std::make_unique<Zernike>(size,size,1,Zernike::Z7);
-	Bitmap mercz(size,size);
-    std::vector<DiffractiveStructure*> toMergeLens;
-    toMergeLens.push_back(soczewka.get());
-    toMergeLens.push_back(rot360.get());
-    toMergeLens.push_back(coma1.get());
-    mercz.mergeMaps(toMergeLens);
-    mercz.generateImage("testy_fixa/soczewka");
-    coma1->returnBitmap()->generateImage("testy_fixa/koma.bmp");
-*/
-
 
         std::chrono::time_point<std::chrono::system_clock> start, end;
         std::chrono::duration<double> diff;
@@ -89,7 +69,7 @@ int main(int argc, char** argv){
     std::unique_ptr<DiffractiveStructure> spherical5 = std::make_unique<Zernike>(size,size,0.1,Zernike::Z12);
     std::unique_ptr<DiffractiveStructure> spherical10 = std::make_unique<Zernike>(size,size,0.2,Zernike::Z12);
     std::unique_ptr<DiffractiveStructure> spherical15 = std::make_unique<Zernike>(size,size,0.5,Zernike::Z12);
-    std::unique_ptr<DiffractiveStructure> spherical1 = std::make_unique<Zernike>(size,size,0.0001,Zernike::Z12);
+    std::unique_ptr<DiffractiveStructure> spherical1 = std::make_unique<Zernike>(size,size,1,Zernike::Z12);
     std::unique_ptr<DiffractiveStructure> spherical2 = std::make_unique<Zernike>(size,size,2,Zernike::Z12);
 
 
@@ -161,117 +141,117 @@ int main(int argc, char** argv){
 	std::vector<DiffractiveStructure*> toMergeDCS;
 
 	toMergeLens.push_back(soczewka.get());
-	toMergeLens.push_back(fix.get());
+	toMergeLens.push_back(rot360.get());
 
 	toMergeAst5.push_back(soczewka.get());
 	toMergeAst5.push_back(astigmatism5.get());
-	toMergeAst5.push_back(fix.get());
+	toMergeAst5.push_back(rot360.get());
 
 	toMergeAst10.push_back(soczewka.get());
 	toMergeAst10.push_back(astigmatism10.get());
-	toMergeAst10.push_back(fix.get());
+	toMergeAst10.push_back(rot360.get());
 
 	toMergeAst15.push_back(soczewka.get());
 	toMergeAst15.push_back(astigmatism15.get());
-	toMergeAst15.push_back(fix.get());
+	toMergeAst15.push_back(rot360.get());
 
 	toMergeAst1.push_back(soczewka.get());
 	toMergeAst1.push_back(astigmatism1.get());
-	toMergeAst1.push_back(fix.get());
+	toMergeAst1.push_back(rot360.get());
 
 	toMergeAst2.push_back(soczewka.get());
 	toMergeAst2.push_back(astigmatism2.get());
-	toMergeAst2.push_back(fix.get());
+	toMergeAst2.push_back(rot360.get());
 
 	toMergeDef5.push_back(soczewka.get());
 	toMergeDef5.push_back(defocus5.get());
-	toMergeDef5.push_back(fix.get());
+	toMergeDef5.push_back(rot360.get());
 
 	toMergeDef10.push_back(soczewka.get());
 	toMergeDef10.push_back(defocus10.get());
-	toMergeDef10.push_back(fix.get());
+	toMergeDef10.push_back(rot360.get());
 
 	toMergeDef15.push_back(soczewka.get());
 	toMergeDef15.push_back(defocus15.get());
-	toMergeDef15.push_back(fix.get());
+	toMergeDef15.push_back(rot360.get());
 
 	toMergeDef1.push_back(soczewka.get());
 	toMergeDef1.push_back(defocus1.get());
-	toMergeDef1.push_back(fix.get());
+	toMergeDef1.push_back(rot360.get());
 
 	toMergeDef2.push_back(soczewka.get());
 	toMergeDef2.push_back(defocus2.get());
-	toMergeDef2.push_back(fix.get());
+	toMergeDef2.push_back(rot360.get());
 
 	toMergeCom5.push_back(soczewka.get());
 	toMergeCom5.push_back(coma5.get());
-	toMergeCom5.push_back(fix.get());
+	toMergeCom5.push_back(rot360.get());
 
 	toMergeCom10.push_back(soczewka.get());
 	toMergeCom10.push_back(coma10.get());
-	toMergeCom10.push_back(fix.get());
+	toMergeCom10.push_back(rot360.get());
 
 	toMergeCom15.push_back(soczewka.get());
 	toMergeCom15.push_back(coma15.get());
-	toMergeCom15.push_back(fix.get());
+	toMergeCom15.push_back(rot360.get());
 
 	toMergeCom1.push_back(soczewka.get());
 	toMergeCom1.push_back(coma1.get());
-	toMergeCom1.push_back(fix.get());
+	toMergeCom1.push_back(rot360.get());
 
 	toMergeCom2.push_back(soczewka.get());
 	toMergeCom2.push_back(coma2.get());
-	toMergeCom2.push_back(fix.get());
+	toMergeCom2.push_back(rot360.get());
 
 	toMergeSph5.push_back(soczewka.get());
 	toMergeSph5.push_back(spherical5.get());
-	toMergeSph5.push_back(fix.get());
+	toMergeSph5.push_back(rot360.get());
 
 	toMergeSph10.push_back(soczewka.get());
 	toMergeSph10.push_back(spherical10.get());
-	toMergeSph10.push_back(fix.get());
+	toMergeSph10.push_back(rot360.get());
 
 	toMergeSph15.push_back(soczewka.get());
 	toMergeSph15.push_back(spherical15.get());
-	toMergeSph15.push_back(fix.get());
+	toMergeSph15.push_back(rot360.get());
 
 	toMergeSph1.push_back(soczewka.get());
 	toMergeSph1.push_back(spherical1.get());
-	toMergeSph1.push_back(fix.get());
+	toMergeSph1.push_back(rot360.get());
 
 	toMergeSph2.push_back(soczewka.get());
 	toMergeSph2.push_back(spherical2.get());
-	toMergeSph2.push_back(fix.get());
+	toMergeSph2.push_back(rot360.get());
 
 	toMergeHO18.push_back(soczewka.get());
 	toMergeHO18.push_back(highOrder18.get());
-	toMergeHO18.push_back(fix.get());
+	toMergeHO18.push_back(rot360.get());
 
 	toMergeHO19.push_back(soczewka.get());
 	toMergeHO19.push_back(highOrder19.get());
-	toMergeHO19.push_back(fix.get());
+	toMergeHO19.push_back(rot360.get());
 
 	toMergeHO20.push_back(soczewka.get());
 	toMergeHO20.push_back(highOrder20.get());
-	toMergeHO20.push_back(fix.get());
+	toMergeHO20.push_back(rot360.get());
 
 	toMergeADC.push_back(soczewka.get());
 	toMergeADC.push_back(astigmatism10.get());
 	toMergeADC.push_back(defocus10.get());
 	toMergeADC.push_back(coma10.get());
-	toMergeADC.push_back(fix.get());
+	toMergeADC.push_back(rot360.get());
 
 	toMergeACS.push_back(soczewka.get());
 	toMergeACS.push_back(astigmatism10.get() );
 	toMergeACS.push_back(coma10.get() );
 	toMergeACS.push_back(spherical10.get() );
-	toMergeACS.push_back(fix.get());
+	toMergeACS.push_back(rot360.get());
 
 	toMergeDCS.push_back(soczewka.get());
 	toMergeDCS.push_back(defocus10.get() );
 	toMergeDCS.push_back(coma10.get());
 	toMergeDCS.push_back(spherical10.get() );
-	toMergeDCS.push_back(fix.get());
+	toMergeDCS.push_back(rot360.get());
 
 	char socz[] = "fix/soczewka.bmp";
 	char  a5[] = "fix/a5.bmp";
@@ -352,8 +332,8 @@ int main(int argc, char** argv){
 	char  ho20MerczPSF[] = "fix/ho20MerczPSF.bmp";
 	char  adcMerczPSF[] = "fix/ADCMerczPSF.bmp";
 	char  acsMerczPSF[] = "fix/ACSMerczPSF.bmp";
-	char  dcsMerczPSF[] = "fix/DCSMerczPSF.bmp";  */
-
+	char  dcsMerczPSF[] = "fix/DCSMerczPSF.bmp";
+*/
 
         end = std::chrono::system_clock::now(); diff = end - start;
         std::cout << diff.count() << " seconds\nIMAGING...\n";

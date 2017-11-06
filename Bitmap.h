@@ -35,7 +35,7 @@ private:
 	int bit_depth;
 
 };
-void outerMergeMaps(DiffractiveStructure* a, DiffractiveStructure* b);
+void outerMergeMaps(Bitmap* a, Bitmap* b);
 Bitmap fft(const Bitmap& b);
 Bitmap rot90(char* fileName);
 Bitmap load2Bitmap(char* fileName);

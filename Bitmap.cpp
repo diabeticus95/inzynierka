@@ -14,8 +14,8 @@
 #include "fftw/fftw3.h"
 #include <algorithm>
 Bitmap::Bitmap(int row_count, int col_count) :
-//		norm(-195),
-		norm(255),
+		norm(-195),
+//		norm(255),
 		bit_depth(24) {
 	this->row_count = row_count;
 	this->col_count = col_count;
@@ -73,14 +73,14 @@ void Bitmap::generateImage(char* fileName){
 	AnImage.SetSize(row_count,col_count);
 	AnImage.SetBitDepth(24);
 	for (int col = 0; col < col_count; col++){
-			for (int row = 0; row < row_count; row++){/*
+			for (int row = 0; row < row_count; row++){
 				AnImage(row,col)->Green = bmap[index(row,col)]*norm +236;
 				AnImage(row,col)->Red = bmap[index(row,col)]*norm + 236;
-				AnImage(row,col)->Blue = bmap[index(row,col)]*norm + 236;*/
+				AnImage(row,col)->Blue = bmap[index(row,col)]*norm + 236;
 
-				AnImage(row,col)->Green = bmap[index(row,col)]*norm;
+				/*AnImage(row,col)->Green = bmap[index(row,col)]*norm;
 				AnImage(row,col)->Red = bmap[index(row,col)]*norm;
-				AnImage(row,col)->Blue = bmap[index(row,col)]*norm;
+				AnImage(row,col)->Blue = bmap[index(row,col)]*norm;*/
 
 		 }
 	}
@@ -90,11 +90,16 @@ void Bitmap::generateImage(char* fileName){
 }
 
 void Bitmap::mergeMaps(std::vector<DiffractiveStructure*> &toMerge){
-	for (auto it = toMerge.begin() + 1; it < toMerge.end(); it++){
-		outerMergeMaps(*(it-1),*it);
+	std::vector<Bitmap> tmpB;
+	for (auto it = toMerge.begin(); it < toMerge.end(); it++){
+		//tworzy wektor nowych bitmap
+		tmpB.push_back(Bitmap(*(*it)->returnBitmap()));
+	}
+	for (auto it = tmpB.begin() + 1; it < tmpB.end(); it++){
+		outerMergeMaps(&(*(it-1)),&(*it));
 	}
 	try{
-		*this = *(toMerge.back()->returnBitmap());
+		*this = tmpB.back();
 	}
 	catch (const std::invalid_argument& e ) {
 		std::cerr << "exception: " << e.what() << std::endl;
@@ -107,11 +112,10 @@ void Bitmap::mergeMaps(std::vector<DiffractiveStructure*> &toMerge){
 
 }
 
-//PAMIĘTAJ ŻE MODYFIKUJESZ STRUKTURY!
-void outerMergeMaps(DiffractiveStructure* a, DiffractiveStructure* b){
-        int size = a->returnBitmap()->row_count*a->returnBitmap()->col_count;
+void outerMergeMaps(Bitmap* a, Bitmap* b){
+        int size = a->row_count*a->col_count;
         for(int i=0; i<size; i++)
-            b->returnBitmap()->bmap[i] += a->returnBitmap()->bmap[i];
+            b->bmap[i] += a->bmap[i];
 }
 void Bitmap::rot90(){
 	int n = row_count;
