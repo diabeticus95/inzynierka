@@ -6,7 +6,6 @@
  */
 #include "DiffractiveStructure.h"
 #include "Bitmap.h"
-#include "math.h"
 #include <iostream>
 #include <vector>
 
@@ -15,6 +14,7 @@
 DiffractiveStructure::DiffractiveStructure(int max_row, int max_col){
 		bitmap = std::make_unique<Bitmap>(max_row, max_col);
 }
+
 
 Bitmap* DiffractiveStructure::returnBitmap(){
 	return bitmap.get();

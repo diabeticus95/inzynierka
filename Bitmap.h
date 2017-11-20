@@ -22,6 +22,8 @@ public:
 	void printMap(char* fileName);
 	void generateImage(char* filename);
 	void mergeMaps(std::vector<DiffractiveStructure*> &toMerge);
+	void rot90();
+
 
 	Bitmap(int row_count, int col_count);
 	Bitmap(const Bitmap &);
@@ -33,6 +35,8 @@ private:
 	int bit_depth;
 
 };
-void outerMergeMaps(DiffractiveStructure* a, DiffractiveStructure* b);
+void outerMergeMaps(Bitmap* a, Bitmap* b);
 Bitmap fft(const Bitmap& b);
+Bitmap rot90(char* fileName);
+Bitmap load2Bitmap(char* fileName);
 #endif /* BITMAP_H_ */
