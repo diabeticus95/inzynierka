@@ -9,32 +9,25 @@
 #include <chrono>
 
 
-/* TO DO:
- * - dodac wersje bez przyblizenia przyosiowego
-*/
-
 int main(int argc, char** argv){
+
 //wczytaj fixy
-	char fileName[] = "cropped.bmp";
+/*	char fileName[] = "cropped.bmp";
 	Bitmap rotb = rot90(fileName);
 	Bitmap rot180b(rotb);
 	rot180b.rot90();
-	Bitmap rot270b(rot180b);
-	rot270b.rot90();
-	Bitmap rot360b(rot270b);
-	rot360b.rot90();
 
-	std::unique_ptr<DiffractiveStructure> rot90 = std::make_unique<Zernike>(rotb);
 	std::unique_ptr<DiffractiveStructure> rot180 = std::make_unique<Zernike>(rot180b);
-	std::unique_ptr<DiffractiveStructure> rot270 = std::make_unique<Zernike>(rot270b);
-	std::unique_ptr<DiffractiveStructure> rot360 = std::make_unique<Zernike>(rot360b);
-
+*/
         std::chrono::time_point<std::chrono::system_clock> start, end;
         std::chrono::duration<double> diff;
 
-	int size = 1080;
-	double probkowanie = 125000; //8 mikrometrow: 1m = x * 8um
-	double f = 1.17;
+//	int size = 1080;
+//	double probkowanie = 125000; //8 mikrometrow: 1m = x * 8um
+//	double f = 1.17;
+    int size = 2048;
+    double probkowanie = 100000;
+    double f = 0.35;
 	double lambda = 632.8*0.000000001;
 
         std::cout << "LENS...\n";
@@ -141,205 +134,205 @@ int main(int argc, char** argv){
 	std::vector<DiffractiveStructure*> toMergeDCS;
 
 	toMergeLens.push_back(soczewka.get());
-	toMergeLens.push_back(rot360.get());
+//	toMergeLens.push_back(rot180.get());
 
 	toMergeAst5.push_back(soczewka.get());
 	toMergeAst5.push_back(astigmatism5.get());
-	toMergeAst5.push_back(rot360.get());
+//	toMergeAst5.push_back(rot180.get());
 
 	toMergeAst10.push_back(soczewka.get());
 	toMergeAst10.push_back(astigmatism10.get());
-	toMergeAst10.push_back(rot360.get());
+//	toMergeAst10.push_back(rot180.get());
 
 	toMergeAst15.push_back(soczewka.get());
 	toMergeAst15.push_back(astigmatism15.get());
-	toMergeAst15.push_back(rot360.get());
+//	toMergeAst15.push_back(rot180.get());
 
 	toMergeAst1.push_back(soczewka.get());
 	toMergeAst1.push_back(astigmatism1.get());
-	toMergeAst1.push_back(rot360.get());
+//	toMergeAst1.push_back(rot180.get());
 
 	toMergeAst2.push_back(soczewka.get());
 	toMergeAst2.push_back(astigmatism2.get());
-	toMergeAst2.push_back(rot360.get());
+//	toMergeAst2.push_back(rot180.get());
 
 	toMergeDef5.push_back(soczewka.get());
 	toMergeDef5.push_back(defocus5.get());
-	toMergeDef5.push_back(rot360.get());
+//	toMergeDef5.push_back(rot180.get());
 
 	toMergeDef10.push_back(soczewka.get());
 	toMergeDef10.push_back(defocus10.get());
-	toMergeDef10.push_back(rot360.get());
+	//toMergeDef10.push_back(rot180.get());
 
 	toMergeDef15.push_back(soczewka.get());
 	toMergeDef15.push_back(defocus15.get());
-	toMergeDef15.push_back(rot360.get());
+//	toMergeDef15.push_back(rot180.get());
 
 	toMergeDef1.push_back(soczewka.get());
 	toMergeDef1.push_back(defocus1.get());
-	toMergeDef1.push_back(rot360.get());
+//	toMergeDef1.push_back(rot180.get());
 
 	toMergeDef2.push_back(soczewka.get());
 	toMergeDef2.push_back(defocus2.get());
-	toMergeDef2.push_back(rot360.get());
+//	toMergeDef2.push_back(rot180.get());
 
 	toMergeCom5.push_back(soczewka.get());
 	toMergeCom5.push_back(coma5.get());
-	toMergeCom5.push_back(rot360.get());
+//	toMergeCom5.push_back(rot180.get());
 
 	toMergeCom10.push_back(soczewka.get());
 	toMergeCom10.push_back(coma10.get());
-	toMergeCom10.push_back(rot360.get());
+//	toMergeCom10.push_back(rot180.get());
 
 	toMergeCom15.push_back(soczewka.get());
 	toMergeCom15.push_back(coma15.get());
-	toMergeCom15.push_back(rot360.get());
+//	toMergeCom15.push_back(rot180.get());
 
 	toMergeCom1.push_back(soczewka.get());
 	toMergeCom1.push_back(coma1.get());
-	toMergeCom1.push_back(rot360.get());
+//	toMergeCom1.push_back(rot180.get());
 
 	toMergeCom2.push_back(soczewka.get());
 	toMergeCom2.push_back(coma2.get());
-	toMergeCom2.push_back(rot360.get());
+//	toMergeCom2.push_back(rot180.get());
 
 	toMergeSph5.push_back(soczewka.get());
 	toMergeSph5.push_back(spherical5.get());
-	toMergeSph5.push_back(rot360.get());
+//	toMergeSph5.push_back(rot180.get());
 
 	toMergeSph10.push_back(soczewka.get());
 	toMergeSph10.push_back(spherical10.get());
-	toMergeSph10.push_back(rot360.get());
+//	toMergeSph10.push_back(rot180.get());
 
 	toMergeSph15.push_back(soczewka.get());
 	toMergeSph15.push_back(spherical15.get());
-	toMergeSph15.push_back(rot360.get());
+//	toMergeSph15.push_back(rot180.get());
 
 	toMergeSph1.push_back(soczewka.get());
 	toMergeSph1.push_back(spherical1.get());
-	toMergeSph1.push_back(rot360.get());
+//	toMergeSph1.push_back(rot180.get());
 
 	toMergeSph2.push_back(soczewka.get());
 	toMergeSph2.push_back(spherical2.get());
-	toMergeSph2.push_back(rot360.get());
+//	toMergeSph2.push_back(rot180.get());
 
 	toMergeHO18.push_back(soczewka.get());
 	toMergeHO18.push_back(highOrder18.get());
-	toMergeHO18.push_back(rot360.get());
+//	toMergeHO18.push_back(rot180.get());
 
 	toMergeHO19.push_back(soczewka.get());
 	toMergeHO19.push_back(highOrder19.get());
-	toMergeHO19.push_back(rot360.get());
+//	toMergeHO19.push_back(rot180.get());
 
 	toMergeHO20.push_back(soczewka.get());
 	toMergeHO20.push_back(highOrder20.get());
-	toMergeHO20.push_back(rot360.get());
+//	toMergeHO20.push_back(rot180.get());
 
 	toMergeADC.push_back(soczewka.get());
 	toMergeADC.push_back(astigmatism10.get());
 	toMergeADC.push_back(defocus10.get());
 	toMergeADC.push_back(coma10.get());
-	toMergeADC.push_back(rot360.get());
+//	toMergeADC.push_back(rot180.get());
 
 	toMergeACS.push_back(soczewka.get());
 	toMergeACS.push_back(astigmatism10.get() );
 	toMergeACS.push_back(coma10.get() );
 	toMergeACS.push_back(spherical10.get() );
-	toMergeACS.push_back(rot360.get());
+//	toMergeACS.push_back(rot180.get());
 
 	toMergeDCS.push_back(soczewka.get());
 	toMergeDCS.push_back(defocus10.get() );
 	toMergeDCS.push_back(coma10.get());
 	toMergeDCS.push_back(spherical10.get() );
-	toMergeDCS.push_back(rot360.get());
+//			toMergeDCS.push_back(rot180.get());
 
-	char socz[] = "fix/soczewka.bmp";
-	char  a5[] = "fix/a5.bmp";
-	char  a10[] = "fix/a10.bmp";
-	char  a15[] = "fix/a15.bmp";
-	char  a1[] = "fix/a1.bmp";
-	char  a2[] = "fix/a2.bmp";
-	char  d5[] = "fix/d5.bmp";
-	char  d10[] = "fix/d10.bmp";
-	char  d15[] = "fix/d15.bmp";
-	char  d1[] = "fix/d1.bmp";
-	char  d2[] = "fix/d2.bmp";
-	char  c5[] = "fix/c5.bmp";
-	char  c10[] = "fix/c10.bmp";
-	char  c15[] = "fix/c15.bmp";
-	char  c1[] = "fix/c1.bmp";
-	char  c2[] = "fix/c2.bmp";
-	char  s5[] = "fix/s5.bmp";
-	char  s10[] = "fix/s10.bmp";
-	char  s15[] = "fix/s15.bmp";
-	char  s1[] = "fix/s1.bmp";
-	char  s2[] = "fix/s2.bmp";
-	char  ho18[] = "fix/ho18.bmp";
-	char  ho19[] = "fix/ho19.bmp";
-	char  ho20[] = "fix/ho20.bmp";
+	char socz[] = "AS_0_35/soczewka.bmp";
+	char  a5[] = "AS_0_35/a5.bmp";
+	char  a10[] = "AS_0_35/a10.bmp";
+	char  a15[] = "AS_0_35/a15.bmp";
+	char  a1[] = "AS_0_35/a1.bmp";
+	char  a2[] = "AS_0_35/a2.bmp";
+	char  d5[] = "AS_0_35/d5.bmp";
+	char  d10[] = "AS_0_35/d10.bmp";
+	char  d15[] = "AS_0_35/d15.bmp";
+	char  d1[] = "AS_0_35/d1.bmp";
+	char  d2[] = "AS_0_35/d2.bmp";
+	char  c5[] = "AS_0_35/c5.bmp";
+	char  c10[] = "AS_0_35/c10.bmp";
+	char  c15[] = "AS_0_35/c15.bmp";
+	char  c1[] = "AS_0_35/c1.bmp";
+	char  c2[] = "AS_0_35/c2.bmp";
+	char  s5[] = "AS_0_35/s5.bmp";
+	char  s10[] = "AS_0_35/s10.bmp";
+	char  s15[] = "AS_0_35/s15.bmp";
+	char  s1[] = "AS_0_35/s1.bmp";
+	char  s2[] = "AS_0_35/s2.bmp";
+	char  ho18[] = "AS_0_35/ho18.bmp";
+	char  ho19[] = "AS_0_35/ho19.bmp";
+	char  ho20[] = "AS_0_35/ho20.bmp";
 
-	char soczMercz[] = "fix/soczMercz.bmp";
-	char  a5Mercz[] = "fix/a5Mercz.bmp";
-	char  a10Mercz[] = "fix/a10Mercz.bmp";
-	char  a15Mercz[] = "fix/a15Mercz.bmp";
-	char  a1Mercz[] = "fix/a1Mercz.bmp";
-	char  a2Mercz[] = "fix/a2Mercz.bmp";
-	char  d5Mercz[] = "fix/d5Mercz.bmp";
-	char  d10Mercz[] = "fix/d10Mercz.bmp";
-	char  d15Mercz[] = "fix/d15Mercz.bmp";
-	char  d1Mercz[] = "fix/d1Mercz.bmp";
-	char  d2Mercz[] = "fix/d2Mercz.bmp";
-	char  c5Mercz[] = "fix/c5Mercz.bmp";
-	char  c10Mercz[] = "fix/c10Mercz.bmp";
-	char  c15Mercz[] = "fix/c15Mercz.bmp";
-	char  c1Mercz[] = "fix/c1Mercz.bmp";
-	char  c2Mercz[] = "fix/c2Mercz.bmp";
-	char  s5Mercz[] = "fix/s5Mercz.bmp";
-	char  s10Mercz[] = "fix/s10Mercz.bmp";
-	char  s15Mercz[] = "fix/s15Mercz.bmp";
-	char  s1Mercz[] = "fix/s1Mercz.bmp";
-	char  s2Mercz[] = "fix/s2Mercz.bmp";
-	char  ho18Mercz[] = "fix/ho18Mercz.bmp";
-	char  ho19Mercz[] = "fix/ho19Mercz.bmp";
-	char  ho20Mercz[] = "fix/ho20Mercz.bmp";
-	char  adcMercz[] = "fix/ADCMercz.bmp";
-	char  acsMercz[] = "fix/ACSMercz.bmp";
-	char  dcsMercz[] = "fix/DCSMercz.bmp";
+	char soczMercz[] = "AS_0_35/soczMercz.bmp";
+	char  a5Mercz[] = "AS_0_35/a5Mercz.bmp";
+	char  a10Mercz[] = "AS_0_35/a10Mercz.bmp";
+	char  a15Mercz[] = "AS_0_35/a15Mercz.bmp";
+	char  a1Mercz[] = "AS_0_35/a1Mercz.bmp";
+	char  a2Mercz[] = "AS_0_35/a2Mercz.bmp";
+	char  d5Mercz[] = "AS_0_35/d5Mercz.bmp";
+	char  d10Mercz[] = "AS_0_35/d10Mercz.bmp";
+	char  d15Mercz[] = "AS_0_35/d15Mercz.bmp";
+	char  d1Mercz[] = "AS_0_35/d1Mercz.bmp";
+	char  d2Mercz[] = "AS_0_35/d2Mercz.bmp";
+	char  c5Mercz[] = "AS_0_35/c5Mercz.bmp";
+	char  c10Mercz[] = "AS_0_35/c10Mercz.bmp";
+	char  c15Mercz[] = "AS_0_35/c15Mercz.bmp";
+	char  c1Mercz[] = "AS_0_35/c1Mercz.bmp";
+	char  c2Mercz[] = "AS_0_35/c2Mercz.bmp";
+	char  s5Mercz[] = "AS_0_35/s5Mercz.bmp";
+	char  s10Mercz[] = "AS_0_35/s10Mercz.bmp";
+	char  s15Mercz[] = "AS_0_35/s15Mercz.bmp";
+	char  s1Mercz[] = "AS_0_35/s1Mercz.bmp";
+	char  s2Mercz[] = "AS_0_35/s2Mercz.bmp";
+	char  ho18Mercz[] = "AS_0_35/ho18Mercz.bmp";
+	char  ho19Mercz[] = "AS_0_35/ho19Mercz.bmp";
+	char  ho20Mercz[] = "AS_0_35/ho20Mercz.bmp";
+	char  adcMercz[] = "AS_0_35/ADCMercz.bmp";
+	char  acsMercz[] = "AS_0_35/ACSMercz.bmp";
+	char  dcsMercz[] = "AS_0_35/DCSMercz.bmp";
 
-/*	char soczPSF[] = "fix/soczewkaPSF.bmp";
-	char  a5MerczPSF[] = "fix/a5MerczPSF.bmp";
-	char  a10MerczPSF[] = "fix/a10MerczPSF.bmp";
-	char  a15MerczPSF[] = "fix/a15MerczPSF.bmp";
-	char  a1MerczPSF[] = "fix/a1MerczPSF.bmp";
-	char  a2MerczPSF[] = "fix/a2MerczPSF.bmp";
-	char  d5MerczPSF[] = "fix/d5MerczPSF.bmp";
-	char  d10MerczPSF[] = "fix/d10MerczPSF.bmp";
-	char  d15MerczPSF[] = "fix/d15MerczPSF.bmp";
-	char  d1MerczPSF[] = "fix/d1MerczPSF.bmp";
-	char  d2MerczPSF[] = "fix/d2MerczPSF.bmp";
-	char  c5MerczPSF[] = "fix/c5MerczPSF.bmp";
-	char  c10MerczPSF[] = "fix/c10MerczPSF.bmp";
-	char  c15MerczPSF[] = "fix/c15MerczPSF.bmp";
-	char  c1MerczPSF[] = "fix/c1MerczPSF.bmp";
-	char  c2MerczPSF[] = "fix/c2MerczPSF.bmp";
-	char  s5MerczPSF[] = "fix/s5MerczPSF.bmp";
-	char  s10MerczPSF[] = "fix/s10MerczPSF.bmp";
-	char  s15MerczPSF[] = "fix/s15MerczPSF.bmp";
-	char  s1MerczPSF[] = "fix/s1MerczPSF.bmp";
-	char  s2MerczPSF[] = "fix/s2MerczPSF.bmp";
-	char  ho18MerczPSF[] = "fix/ho18MerczPSF.bmp";
-	char  ho19MerczPSF[] = "fix/ho19MerczPSF.bmp";
-	char  ho20MerczPSF[] = "fix/ho20MerczPSF.bmp";
-	char  adcMerczPSF[] = "fix/ADCMerczPSF.bmp";
-	char  acsMerczPSF[] = "fix/ACSMerczPSF.bmp";
-	char  dcsMerczPSF[] = "fix/DCSMerczPSF.bmp";
-*/
+	char soczPSF[] = "AS_0_35/soczewkaPSF.bmp";
+	char  a5MerczPSF[] = "AS_0_35/a5MerczPSF.bmp";
+	char  a10MerczPSF[] = "AS_0_35/a10MerczPSF.bmp";
+	char  a15MerczPSF[] = "AS_0_35/a15MerczPSF.bmp";
+	char  a1MerczPSF[] = "AS_0_35/a1MerczPSF.bmp";
+	char  a2MerczPSF[] = "AS_0_35/a2MerczPSF.bmp";
+	char  d5MerczPSF[] = "AS_0_35/d5MerczPSF.bmp";
+	char  d10MerczPSF[] = "AS_0_35/d10MerczPSF.bmp";
+	char  d15MerczPSF[] = "AS_0_35/d15MerczPSF.bmp";
+	char  d1MerczPSF[] = "AS_0_35/d1MerczPSF.bmp";
+	char  d2MerczPSF[] = "AS_0_35/d2MerczPSF.bmp";
+	char  c5MerczPSF[] = "AS_0_35/c5MerczPSF.bmp";
+	char  c10MerczPSF[] = "AS_0_35/c10MerczPSF.bmp";
+	char  c15MerczPSF[] = "AS_0_35/c15MerczPSF.bmp";
+	char  c1MerczPSF[] = "AS_0_35/c1MerczPSF.bmp";
+	char  c2MerczPSF[] = "AS_0_35/c2MerczPSF.bmp";
+	char  s5MerczPSF[] = "AS_0_35/s5MerczPSF.bmp";
+	char  s10MerczPSF[] = "AS_0_35/s10MerczPSF.bmp";
+	char  s15MerczPSF[] = "AS_0_35/s15MerczPSF.bmp";
+	char  s1MerczPSF[] = "AS_0_35/s1MerczPSF.bmp";
+	char  s2MerczPSF[] = "AS_0_35/s2MerczPSF.bmp";
+	char  ho18MerczPSF[] = "AS_0_35/ho18MerczPSF.bmp";
+	char  ho19MerczPSF[] = "AS_0_35/ho19MerczPSF.bmp";
+	char  ho20MerczPSF[] = "AS_0_35/ho20MerczPSF.bmp";
+	char  adcMerczPSF[] = "AS_0_35/ADCMerczPSF.bmp";
+	char  acsMerczPSF[] = "AS_0_35/ACSMerczPSF.bmp";
+	char  dcsMerczPSF[] = "AS_0_35/DCSMerczPSF.bmp";
+
 
         end = std::chrono::system_clock::now(); diff = end - start;
         std::cout << diff.count() << " seconds\nIMAGING...\n";
         start = end;
 
-     astigmatism5->returnBitmap()->generateImage(a5);
+/*     astigmatism5->returnBitmap()->generateImage(a5);
      astigmatism10->returnBitmap()->generateImage(a10);
      astigmatism15->returnBitmap()->generateImage(a15);
      astigmatism1->returnBitmap()->generateImage(a1);
@@ -364,7 +357,7 @@ int main(int argc, char** argv){
      highOrder20->returnBitmap()->generateImage(ho20);
 
 	soczewka->returnBitmap()->generateImage(socz);
-
+*/
 		end = std::chrono::system_clock::now(); diff = end - start;
         std::cout << diff.count() << " seconds\nMERGING...\n";
         start = end;
@@ -434,7 +427,7 @@ int main(int argc, char** argv){
      	 std::cout << diff.count() << " seconds\nPSFing...\n";
      	 start = end;
 
- /*   Bitmap lensPSF = fft(*(soczewka->returnBitmap()));
+/*    Bitmap lensPSF = fft(*(soczewka->returnBitmap()));
 	lensPSF.generateImage(soczPSF);
     Bitmap merczAst5PSF = fft(merczAst5);
     Bitmap merczAst10PSF = fft(merczAst10);
@@ -462,6 +455,7 @@ int main(int argc, char** argv){
     Bitmap ADCPSF = fft(ADC);
     Bitmap ACSPSF = fft(ACS);
     Bitmap DCSPSF = fft(DCS);
+    Bitmap ZernikComa = fft(*(coma1->returnBitmap()));
 
 
   	 merczAst5PSF.generateImage(a5MerczPSF);
@@ -491,10 +485,6 @@ int main(int argc, char** argv){
   	 ACSPSF.generateImage(acsMerczPSF);
   	 DCSPSF.generateImage(dcsMerczPSF);
   	 */
-/*
-	 end = std::chrono::system_clock::now(); diff = end - start;
-	 std::cout << diff.count() << " seconds\ndone\n";
-*/
 }
 
 

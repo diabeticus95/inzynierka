@@ -6,7 +6,6 @@
  */
 #include "DiffractiveStructure.h"
 #include "Bitmap.h"
-#include "math.h"
 #include <iostream>
 #include <vector>
 

@@ -14,8 +14,8 @@
 #include "fftw/fftw3.h"
 #include <algorithm>
 Bitmap::Bitmap(int row_count, int col_count) :
-		norm(-195),
-//		norm(255),
+//		norm(-195),
+		norm(255),
 		bit_depth(24) {
 	this->row_count = row_count;
 	this->col_count = col_count;
@@ -73,14 +73,14 @@ void Bitmap::generateImage(char* fileName){
 	AnImage.SetSize(row_count,col_count);
 	AnImage.SetBitDepth(24);
 	for (int col = 0; col < col_count; col++){
-			for (int row = 0; row < row_count; row++){
+			for (int row = 0; row < row_count; row++){/*
 				AnImage(row,col)->Green = bmap[index(row,col)]*norm +236;
 				AnImage(row,col)->Red = bmap[index(row,col)]*norm + 236;
 				AnImage(row,col)->Blue = bmap[index(row,col)]*norm + 236;
-
-				/*AnImage(row,col)->Green = bmap[index(row,col)]*norm;
+*/
+				AnImage(row,col)->Green = bmap[index(row,col)]*norm;
 				AnImage(row,col)->Red = bmap[index(row,col)]*norm;
-				AnImage(row,col)->Blue = bmap[index(row,col)]*norm;*/
+				AnImage(row,col)->Blue = bmap[index(row,col)]*norm;
 
 		 }
 	}
@@ -146,14 +146,12 @@ Bitmap fft(const Bitmap& b){
 
 	for (int j = 0; j < b.row_count; j++){
 		for (int i = 0; i < b.row_count; i++){
-			in[b.index(i,j)][0] = sin(b.bmap[b.index(i,j)]) * pow(-1,i+j);
-			in[b.index(i,j)][1] = cos(b.bmap[b.index(i,j)]) * pow(-1,i+j);
+			in[b.index(i,j)][0] = cos(2*M_PI*b.bmap[b.index(i,j)]) * pow(-1,i+j);
+			in[b.index(i,j)][1] = sin(2*M_PI*b.bmap[b.index(i,j)]) * pow(-1,i+j);
 		}
 	}
-
 	p = fftw_plan_dft_2d(b.row_count, b.col_count, in, out, FFTW_FORWARD, FFTW_ESTIMATE);
 	fftw_execute(p);
-
 
 	Bitmap result(b.row_count, b.col_count);
 	double* tmp_pointer = result.bmap.get();
@@ -162,18 +160,19 @@ Bitmap fft(const Bitmap& b){
 //result index i b index to tu to samo. konwersja 2d -> id
 	for (int j = 0; j < b.col_count; j++){
 		for (int i = 0; i < b.row_count; i++){
-					tmp = sqrt(pow(out[b.index(i,j)][0],2) + pow(out[b.index(i,j)][1],2));
+					tmp = log(sqrt(pow(out[b.index(i,j)][0],2) + pow(out[b.index(i,j)][1],2)));
 					tmp_pointer[result.index(i,j)] = tmp;
 					if(tmp>max_val) max_val = tmp;
 			}
 	}
-	std::cout<<max_val;
 	for (int i = 0; i < result.row_count*result.col_count; i++){
 		tmp_pointer[i] /= (double)max_val;
 	}
+
 	fftw_destroy_plan(p);
 	fftw_free(out);
 	fftw_free(in);
+
 	return result;
 }
 Bitmap rot90(char* fileName){
