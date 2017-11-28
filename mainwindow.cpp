@@ -40,6 +40,7 @@ void MainWindow::on_button_genLens_clicked()
 	QByteArray ba = nazwaStr.toLatin1();
 	char *nazwa = ba.data();
 	soczewka->returnBitmap()->generateImage(nazwa);
+	this->ui->push_addToVector->setEnabled(true);
 }
 
 void MainWindow::on_push_addToVector_clicked()
@@ -50,6 +51,17 @@ void MainWindow::on_push_addToVector_clicked()
 																			 zernFuncs[this->ui->boxZernike->currentIndex()]);
 	toMerge.push_back(zernik.get());
 	zernikList.push_back(std::move(zernik));
+}
+void MainWindow::on_push_miniMapZern_clicked()
+{
+	int size = 256;
+	char nazwa[] = "tmp/zernTMP.bmp";
+	std::unique_ptr<DiffractiveStructure> zernik = std::make_unique<Zernike>(size,size,
+																			 this->ui->lineZernCoeff->text().toDouble(),
+																			 zernFuncs[this->ui->boxZernike->currentIndex()]);
+	zernik->returnBitmap()->generateImage(nazwa);
+	QPixmap pixmap("tmp/zernTMP.bmp");
+	this->ui->label_ZernPic->setPixmap(pixmap);
 }
 
 void MainWindow::on_push_generateZern_clicked()
@@ -76,12 +88,12 @@ void MainWindow::on_push_miniMap_clicked()
 		soczewkaMINI = std::make_unique<Lens>(size,size, lambda, f, probkowanie, Lens::paraxial_formula);
 	else
 		soczewkaMINI = std::make_unique<Lens>(size,size, lambda, f, probkowanie, Lens::non_paraxial_formula);
-	QString nazwaStr = "tmp/lensTMP.bmp";
-	QByteArray ba = nazwaStr.toLatin1();
-	char *nazwa = ba.data();
+	char nazwa[] = "tmp/lensTMP.bmp";
 	soczewkaMINI->returnBitmap()->generateImage(nazwa);
 	QPixmap pixmap("tmp/lensTMP.bmp");
 	this->ui->label_LensPic->setPixmap(pixmap);
 //	label.setMask(pixmap.mask());
 //	label.show();
 }
+
+

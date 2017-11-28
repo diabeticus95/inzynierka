@@ -29,6 +29,8 @@ private slots:
 
 	void on_push_miniMap_clicked();
 
+	void on_push_miniMapZern_clicked();
+
 private:
 	Ui::MainWindow *ui;
 	std::unique_ptr<DiffractiveStructure> soczewka;

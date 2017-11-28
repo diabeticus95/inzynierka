@@ -1,10 +1,12 @@
 #include "mainwindow.h"
 #include <QApplication>
-#include <windows.h>
+#include <Qdir>
 
 int main(int argc, char *argv[])
 {
-	CreateDirectoryA("tmp", NULL);
+	if(!QDir("Folder").exists()){
+		QDir().mkdir("tmp");
+	}
 
 	QApplication a(argc, argv);
 	MainWindow w;
