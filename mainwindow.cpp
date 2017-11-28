@@ -18,7 +18,6 @@ MainWindow::MainWindow(QWidget *parent) :
 	for (int i = 0; i < 21; i++){
 			ui->boxZernike->addItem("Z "+QString::number(i));
 	}
-
 }
 
 MainWindow::~MainWindow()
@@ -28,12 +27,15 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_button_genLens_clicked()
 {
-	double f = this->ui->textEdit_ogniskowa->toPlainText().toDouble();
-	int size =  this->ui->textEdit_size->toPlainText().toInt();
-	double probkowanie =  (double)1000000/this->ui->textEdit_sampling->toPlainText().toDouble();
-	double lambda =  this->ui->textEdit_lambda->toPlainText().toDouble() * 0.000000001;
-	this->soczewka = std::make_unique<Lens>(size,size, lambda, f, probkowanie, Lens::paraxial_formula);
-	QString nazwaStr = this->ui->lineEdit_nazwa->text();
+	double f = this->ui->doubleSpinBox_ogniskowa->value();
+	int size =  this->ui->spinBox_size->value();
+	double probkowanie =  (double)1000000/this->ui->spinBox_sampling->value();
+	double lambda =  this->ui->doubleSpinBox_wavelenght->value() * 0.000000001;
+	if(this->ui->checkBox_paraxial->isChecked() == true)
+		soczewka = std::make_unique<Lens>(size,size, lambda, f, probkowanie, Lens::paraxial_formula);
+	else
+		soczewka = std::make_unique<Lens>(size,size, lambda, f, probkowanie, Lens::non_paraxial_formula);
+	QString nazwaStr = this->ui->lineEdit_nazwaPliku->text();
 	nazwaStr.append(".bmp");
 	QByteArray ba = nazwaStr.toLatin1();
 	char *nazwa = ba.data();
@@ -47,17 +49,39 @@ void MainWindow::on_push_addToVector_clicked()
 																			 this->ui->lineZernCoeff->text().toDouble(),
 																			 zernFuncs[this->ui->boxZernike->currentIndex()]);
 	toMerge.push_back(zernik.get());
+	zernikList.push_back(std::move(zernik));
 }
 
 void MainWindow::on_push_generateZern_clicked()
 {
 	toMerge.push_back(soczewka.get());
 	Bitmap merczLens(soczewka->returnBitmap()->row_count,soczewka->returnBitmap()->row_count);
-/*	merczLens.mergeMaps(toMerge);
+	merczLens.mergeMaps(toMerge);
 	QString nazwaStr = this->ui->lineEdit_nazwaZern->text();
 	nazwaStr.append(".bmp");
 	QByteArray ba = nazwaStr.toLatin1();
 	char *nazwa = ba.data();
 	merczLens.generateImage(nazwa);
-*/
+}
+
+
+void MainWindow::on_push_miniMap_clicked()
+{
+	double f = this->ui->doubleSpinBox_ogniskowa->value();
+	int size =  256;
+	double probkowanie =  (double)1000000/this->ui->spinBox_sampling->value();
+	double lambda =  this->ui->doubleSpinBox_wavelenght->value() * 0.000000001;
+	std::unique_ptr<DiffractiveStructure> soczewkaMINI;
+	if(this->ui->checkBox_paraxial->isChecked() == true)
+		soczewkaMINI = std::make_unique<Lens>(size,size, lambda, f, probkowanie, Lens::paraxial_formula);
+	else
+		soczewkaMINI = std::make_unique<Lens>(size,size, lambda, f, probkowanie, Lens::non_paraxial_formula);
+	QString nazwaStr = "tmp/lensTMP.bmp";
+	QByteArray ba = nazwaStr.toLatin1();
+	char *nazwa = ba.data();
+	soczewkaMINI->returnBitmap()->generateImage(nazwa);
+	QPixmap pixmap("tmp/lensTMP.bmp");
+	this->ui->label_LensPic->setPixmap(pixmap);
+//	label.setMask(pixmap.mask());
+//	label.show();
 }

@@ -17,6 +17,7 @@ public:
 	Bitmap* returnBitmap();
 protected:
 	std::unique_ptr<Bitmap> bitmap;
+
 };
 
 #endif
