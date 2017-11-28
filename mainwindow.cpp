@@ -47,17 +47,26 @@ void MainWindow::on_push_addToVector_clicked()
 {
 	std::unique_ptr<DiffractiveStructure> zernik = std::make_unique<Zernike>(soczewka->returnBitmap()->row_count,
 																			 soczewka->returnBitmap()->row_count,
-																			 this->ui->lineZernCoeff->text().toDouble(),
+																			 this->ui->ZernCoeffSpinbox->value(),
 																			 zernFuncs[this->ui->boxZernike->currentIndex()]);
-	toMerge.push_back(zernik.get());
+//	toMerge.push_back(zernik.get());
 	zernikList.push_back(std::move(zernik));
+	QString string = this->ui->ZernCoeffSpinbox->textFromValue(this->ui->ZernCoeffSpinbox->value()) + " " + this->ui->boxZernike->currentText();
+	this->ui->list_Zernik->addItem(string);
+	this->ui->push_generateZern->setEnabled(true);
+}
+
+void MainWindow::on_listDeleter_clicked()
+{
+	int index = this->ui->list_Zernik->currentIndex().row();
+	std::cerr<<index;
 }
 void MainWindow::on_push_miniMapZern_clicked()
 {
 	int size = 256;
 	char nazwa[] = "tmp/zernTMP.bmp";
 	std::unique_ptr<DiffractiveStructure> zernik = std::make_unique<Zernike>(size,size,
-																			 this->ui->lineZernCoeff->text().toDouble(),
+																			 this->ui->ZernCoeffSpinbox->value(),
 																			 zernFuncs[this->ui->boxZernike->currentIndex()]);
 	zernik->returnBitmap()->generateImage(nazwa);
 	QPixmap pixmap("tmp/zernTMP.bmp");
@@ -66,6 +75,9 @@ void MainWindow::on_push_miniMapZern_clicked()
 
 void MainWindow::on_push_generateZern_clicked()
 {
+	for (const auto& zern : zernikList){
+		toMerge.push_back(zern.get());
+	}
 	toMerge.push_back(soczewka.get());
 	Bitmap merczLens(soczewka->returnBitmap()->row_count,soczewka->returnBitmap()->row_count);
 	merczLens.mergeMaps(toMerge);
@@ -96,4 +108,14 @@ void MainWindow::on_push_miniMap_clicked()
 //	label.show();
 }
 
+
+
+void MainWindow::on_push_deleteLens_clicked()
+{
+	soczewka.reset(nullptr);
+	this->ui->push_addToVector->setEnabled(false);
+	if (zernikList.size() == 0){
+		this->ui->push_generateZern->setEnabled(false);
+	}
+}
 
