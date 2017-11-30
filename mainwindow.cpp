@@ -9,6 +9,7 @@
 #include <iostream>
 #include <QByteArray>
 #include <QString>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
@@ -136,3 +137,8 @@ void MainWindow::on_push_miniMap_clicked()
 }
 
 
+
+void MainWindow::on_actionO_programie_triggered()
+{
+	QMessageBox::about(0,"LEns GENerator based on Diffraction & Aberrations.","Autor: Patryk Kowalski\nOpiekun naukowy: Dr inż Agnieszka Siemion\n\nProgram jest narzędziem umożliwiajacym generację soczewek dyfrakcyjnych z aberracjami, oraz symulowanie ich funkcji rozmycia punktu.\nZostał opracowany w ramach pracy inżynierskiej\nKontakt z autorem: patryk95kowalski@gmail.com");
+ }
