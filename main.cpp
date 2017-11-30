@@ -4,7 +4,7 @@
 
 int main(int argc, char *argv[])
 {
-	if(!QDir("Folder").exists()){
+	if(!QDir("tmp").exists()){
 		QDir().mkdir("tmp");
 	}
 

@@ -74,8 +74,20 @@ void MainWindow::on_listDeleter_clicked()
 	if (zernikList.size() == 0){
 		this->ui->listDeleter->setEnabled(false);
 		this->ui->push_generateZern->setEnabled(false);
+			this->ui->push_deleteAllZern->setEnabled(true);
 	}
 }
+
+
+void MainWindow::on_push_deleteAllZern_clicked()
+{
+	this->ui->list_Zernik->clear();
+	zernikList.clear();
+	this->ui->listDeleter->setEnabled(false);
+	this->ui->push_generateZern->setEnabled(false);
+	this->ui->push_deleteAllZern->setEnabled(false);
+}
+
 void MainWindow::on_push_miniMapZern_clicked()
 {
 	int size = 256;
@@ -122,8 +134,5 @@ void MainWindow::on_push_miniMap_clicked()
 //	label.setMask(pixmap.mask());
 //	label.show();
 }
-
-
-
 
 

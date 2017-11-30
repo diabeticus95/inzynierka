@@ -35,6 +35,8 @@ private slots:
 
 	void on_listDeleter_clicked();
 
+	void on_push_deleteAllZern_clicked();
+
 private:
 	Ui::MainWindow *ui;
 	std::unique_ptr<DiffractiveStructure> soczewka;
