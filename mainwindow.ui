@@ -633,6 +633,9 @@
         </item>
         <item row="4" column="0">
          <widget class="QPushButton" name="listDeleter">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string>Usuń zaznaczone</string>
           </property>

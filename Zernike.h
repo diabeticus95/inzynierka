@@ -10,14 +10,11 @@
 #include "Bitmap.h"
 #include "DiffractiveStructure.h"
 class Zernike : public DiffractiveStructure {
-private:
-	int counter;
 public:
-	Zernike(int max_row, int max_col,double coeff, double (*ZernFunc)(double, double));
+	Zernike(int max_row, int max_col,double Coeff, double (*ZernFunc)(double, double));
+	double coeff;
 	Zernike(Bitmap &bitmapOuter);
 	virtual ~Zernike();
-	int getCounter();
-	void setCounter();
 	static double Z0(double x, double y);
 	static double Z1(double x, double y);
 	static double Z2(double x, double y);

@@ -10,8 +10,9 @@
 #include "bmp/EasyBMP.h"
 #include <cmath>
 #include "Bitmap.h"
-Zernike::Zernike(int max_row, int max_col,double coeff, double (*ZernFunc)(double, double)) :
-			DiffractiveStructure(max_row, max_col) {
+Zernike::Zernike(int max_row, int max_col,double Coeff, double (*ZernFunc)(double, double)) :
+			DiffractiveStructure(max_row, max_col),
+			coeff(Coeff){
 	int MAX_ROW = bitmap->row_count;
 	int MAX_COL = bitmap->col_count;
         for (double col = -MAX_COL/2; col < MAX_COL/2; col++){
@@ -34,7 +35,9 @@ Zernike::Zernike(Bitmap &bitmapOuter) :
 	bitmap.reset(&bitmapOuter);
 }
 
-Zernike::~Zernike() {}
+Zernike::~Zernike() {
+	std::cerr<<"usuwam zernike o wspolczynniku"<<coeff<<std::endl;
+}
 
 double Zernike::Z0(double x, double y){ //Piston
     (void)x; (void)y;

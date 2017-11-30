@@ -41,6 +41,16 @@ void MainWindow::on_button_genLens_clicked()
 	char *nazwa = ba.data();
 	soczewka->returnBitmap()->generateImage(nazwa);
 	this->ui->push_addToVector->setEnabled(true);
+	this->ui->button_genLens->setEnabled(false);
+}
+void MainWindow::on_push_deleteLens_clicked()
+{
+	soczewka.reset(nullptr);
+	this->ui->push_addToVector->setEnabled(false);
+	if (zernikList.size() == 0){
+		this->ui->push_generateZern->setEnabled(false);
+	}
+	this->ui->button_genLens->setEnabled(true);
 }
 
 void MainWindow::on_push_addToVector_clicked()
@@ -49,17 +59,22 @@ void MainWindow::on_push_addToVector_clicked()
 																			 soczewka->returnBitmap()->row_count,
 																			 this->ui->ZernCoeffSpinbox->value(),
 																			 zernFuncs[this->ui->boxZernike->currentIndex()]);
-//	toMerge.push_back(zernik.get());
 	zernikList.push_back(std::move(zernik));
 	QString string = this->ui->ZernCoeffSpinbox->textFromValue(this->ui->ZernCoeffSpinbox->value()) + " " + this->ui->boxZernike->currentText();
 	this->ui->list_Zernik->addItem(string);
 	this->ui->push_generateZern->setEnabled(true);
+	this->ui->listDeleter->setEnabled(true);
 }
 
 void MainWindow::on_listDeleter_clicked()
 {
 	int index = this->ui->list_Zernik->currentIndex().row();
-	std::cerr<<index;
+	this->ui->list_Zernik->takeItem(index);
+	zernikList.erase(zernikList.begin()+index);
+	if (zernikList.size() == 0){
+		this->ui->listDeleter->setEnabled(false);
+		this->ui->push_generateZern->setEnabled(false);
+	}
 }
 void MainWindow::on_push_miniMapZern_clicked()
 {
@@ -110,12 +125,5 @@ void MainWindow::on_push_miniMap_clicked()
 
 
 
-void MainWindow::on_push_deleteLens_clicked()
-{
-	soczewka.reset(nullptr);
-	this->ui->push_addToVector->setEnabled(false);
-	if (zernikList.size() == 0){
-		this->ui->push_generateZern->setEnabled(false);
-	}
-}
+
 
