@@ -36,7 +36,7 @@ int main(int argc, char** argv){
 //	toMergeLens.push_back(zernik3.get());
 //	mercz3.mergeMaps(toMergeLens);
 //	Bitmap fftTest = fft(mercz,f*probkowanie,lambda*probkowanie);
-	Bitmap fftTest2 = fft(mercz2,f*probkowanie,lambda*probkowanie, probkowanie);
+	Bitmap fftTest2 = fft(mercz2,f*probkowanie,lambda*probkowanie);
 //	Bitmap fftTest3 = fft(mercz3,f*probkowanie,lambda*probkowanie);
 //	fftTest.generateImage("test.bmp");
 	fftTest2.generateImage("test2.bmp");
