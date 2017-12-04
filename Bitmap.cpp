@@ -133,7 +133,7 @@ void Bitmap::rot90(){
 	else
 		std::rotate(&data[0], &data[(col_count>>1) + 1], &data[col_count]);
 }*/
-Bitmap fft(const Bitmap& b){
+Bitmap fft(const Bitmap& b, double f, double lambda){
 
 	fftw_complex *out;
 	fftw_complex *in;
@@ -153,16 +153,33 @@ Bitmap fft(const Bitmap& b){
 	p = fftw_plan_dft_2d(b.row_count, b.col_count, in, out, FFTW_FORWARD, FFTW_ESTIMATE);
 	fftw_execute(p);
 
+	double k = 2*M_PI/lambda;
+	double const_cos = cos(k*f)/(lambda * f);
+	double const_sin = sin(k*f)/(lambda * f);
+	double kernel = k/(2*f);
+
 	Bitmap result(b.row_count, b.col_count);
 	double* tmp_pointer = result.bmap.get();
 	double tmp = 0;
 	double max_val = 0;
-//result index i b index to tu to samo. konwersja 2d -> id
+	double lz = (double)1/ (lambda * f);
+//result index i b index to tu to samo. konwersja 2d -> 1d
 	for (int j = 0; j < b.col_count; j++){
 		for (int i = 0; i < b.row_count; i++){
-					tmp = log(sqrt(pow(out[b.index(i,j)][0],2) + pow(out[b.index(i,j)][1],2)));
-					tmp_pointer[result.index(i,j)] = tmp;
-					if(tmp>max_val) max_val = tmp;
+			tmp = log(pow(
+					out[b.index(i,j)][1] * const_cos * cos(kernel*(i*i*lz*lz + j*j*lz*lz)) +
+					out[b.index(i,j)][0] * const_cos * sin(kernel*(i*i*lz*lz + j*j*lz*lz)) +
+					out[b.index(i,j)][0] * const_sin * cos(kernel*(i*i*lz*lz + j*j*lz*lz)) -
+					out[b.index(i,j)][1] * const_sin * sin(kernel*(i*i*lz*lz + j*j*lz*lz)),2) +
+				pow(
+					out[b.index(i,j)][1] * const_cos * sin(kernel*(i*i*lz*lz + j*j*lz*lz)) -
+					out[b.index(i,j)][0] * const_cos * cos(kernel*(i*i*lz*lz + j*j*lz*lz)) +
+					out[b.index(i,j)][1] * const_sin * cos(kernel*(i*i*lz*lz + j*j*lz*lz)) +
+					out[b.index(i,j)][0] + const_sin + sin(kernel*(i*i*lz*lz + j*j*lz*lz)),2));
+
+					//tmp = log(sqrt(pow(out[b.index(i,j)][0],2) + pow(out[b.index(i,j)][1],2)));
+				tmp_pointer[result.index(i,j)] = tmp;
+				if(tmp>max_val) max_val = tmp;
 			}
 	}
 	for (int i = 0; i < result.row_count*result.col_count; i++){
