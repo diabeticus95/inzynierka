@@ -28,7 +28,7 @@ int main(int argc, char** argv){
 //	mercz.mergeMaps(toMergeLens);
 	toMergeLens.clear();
 	toMergeLens.push_back(soczewka.get());
-	toMergeLens.push_back(zernik2.get());
+	toMergeLens.push_back(zernik3.get());
 	mercz2.mergeMaps(toMergeLens);
 	mercz2.generateImage("mer.bmp");
 //	toMergeLens.clear();
@@ -36,7 +36,7 @@ int main(int argc, char** argv){
 //	toMergeLens.push_back(zernik3.get());
 //	mercz3.mergeMaps(toMergeLens);
 //	Bitmap fftTest = fft(mercz,f*probkowanie,lambda*probkowanie);
-	Bitmap fftTest2 = fft(mercz2,f*probkowanie,lambda*probkowanie);
+	Bitmap fftTest2 = fft(mercz2,f*probkowanie,lambda*probkowanie, probkowanie);
 //	Bitmap fftTest3 = fft(mercz3,f*probkowanie,lambda*probkowanie);
 //	fftTest.generateImage("test.bmp");
 	fftTest2.generateImage("test2.bmp");
