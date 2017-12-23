@@ -202,7 +202,7 @@
            </size>
           </property>
           <property name="text">
-           <string>Długość fali [μm]</string>
+           <string>Długość fali [nm]</string>
           </property>
          </widget>
         </item>
@@ -266,7 +266,7 @@
            <double>2000.000000000000000</double>
           </property>
           <property name="value">
-           <double>100.000000000000000</double>
+           <double>632.799999999999955</double>
           </property>
          </widget>
         </item>

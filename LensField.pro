@@ -48,6 +48,5 @@ FORMS += \
 
 
 INCLUDEPATH += "D:/QTprojects/LensField/fftw3.h"
-#LIBS += "D:\QTprojects\LensField\fftw\libfftw3-3.lib"
 LIBS += -LD:/QTprojects/LensField/fftw
 LIBS += -llibfftw3-3
