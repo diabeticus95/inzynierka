@@ -25,6 +25,7 @@ public:
 	void rot90();
 
 
+
 	Bitmap(int row_count, int col_count);
 	Bitmap(const Bitmap &);
 	Bitmap& operator=(const Bitmap &b);
@@ -36,7 +37,7 @@ private:
 
 };
 void outerMergeMaps(Bitmap* a, Bitmap* b);
-Bitmap fft(const Bitmap& b, double f, double lambda);
+Bitmap fft(const Bitmap& b, double f, double lambda, double(*dynFunc)(double));
 Bitmap rot90(char* fileName);
 Bitmap load2Bitmap(char* fileName);
 #endif /* BITMAP_H_ */

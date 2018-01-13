@@ -133,7 +133,7 @@ void Bitmap::rot90(){
 	else
 		std::rotate(&data[0], &data[(col_count>>1) + 1], &data[col_count]);
 }*/
-Bitmap fft(const Bitmap& b, double f, double lambda){
+Bitmap fft(const Bitmap& b, double f, double lambda, double(*dynFunc)(double)){
 //Przygotowanie zmiennych na liczby zespolone
 	fftw_complex *out;
 	fftw_complex *in;
@@ -173,7 +173,7 @@ Bitmap fft(const Bitmap& b, double f, double lambda){
 //Wykonanie iloczynów
 	for (double j = -MAX_COL/2; j < MAX_COL/2; j++){
 		for (double i = -MAX_ROW/2; i < MAX_ROW/2; i++){
-			tmp = sqrt(pow(
+			tmp = dynFunc(pow(
 					out[b.index(i+(MAX_ROW/2), j+(MAX_COL/2))][1] * const_cos * cos(kernel*(i*i*lz*lz + j*j*lz*lz)) +
 					out[b.index(i+(MAX_ROW/2), j+(MAX_COL/2))][0] * const_cos * sin(kernel*(i*i*lz*lz + j*j*lz*lz)) +
 					out[b.index(i+(MAX_ROW/2), j+(MAX_COL/2))][0] * const_sin * cos(kernel*(i*i*lz*lz + j*j*lz*lz)) -

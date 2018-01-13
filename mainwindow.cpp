@@ -36,6 +36,9 @@ void MainWindow::on_button_genLens_clicked()
 		soczewka = std::make_unique<Lens>(size,size, lambda, f, probkowanie, Lens::paraxial_formula);
 	else
 		soczewka = std::make_unique<Lens>(size,size, lambda, f, probkowanie, Lens::non_paraxial_formula);
+	lensWvl = lambda;
+	lensSam = probkowanie;
+	lensF = f;
 	QString nazwaStr = this->ui->lineEdit_nazwaPliku->text();
 	nazwaStr.append(".bmp");
 	QByteArray ba = nazwaStr.toLatin1();
@@ -107,13 +110,14 @@ void MainWindow::on_push_generateZern_clicked()
 		toMerge.push_back(zern.get());
 	}
 	toMerge.push_back(soczewka.get());
-	Bitmap merczLens(soczewka->returnBitmap()->row_count,soczewka->returnBitmap()->row_count);
-	merczLens.mergeMaps(toMerge);
+	mergedMap = std::make_unique<Bitmap>(soczewka->returnBitmap()->row_count,soczewka->returnBitmap()->col_count);
+	mergedMap->mergeMaps(toMerge);
 	QString nazwaStr = this->ui->lineEdit_nazwaZern->text();
 	nazwaStr.append(".bmp");
 	QByteArray ba = nazwaStr.toLatin1();
 	char *nazwa = ba.data();
-	merczLens.generateImage(nazwa);
+	mergedMap->generateImage(nazwa);
+	this->ui->push_FFT->setEnabled(true);
 }
 
 
@@ -142,3 +146,22 @@ void MainWindow::on_actionO_programie_triggered()
 {
 	QMessageBox::about(0,"LEns GENerator based on Diffraction & Aberrations.","Opracowany na Wydziale Fizyki Politechniki Warszawskiej\nAutor: Patryk Kowalski\nOpiekun naukowy: Dr inż Agnieszka Siemion\n\nProgram jest narzędziem umożliwiajacym generację soczewek dyfrakcyjnych z aberracjami, oraz symulowanie ich funkcji rozmycia punktu.\nZostał opracowany w ramach pracy inżynierskiej\nKontakt z autorem: patryk95kowalski@gmail.com");
  }
+
+void MainWindow::on_push_FFT_clicked()
+{
+
+	if (this->ui->radioAmp->isChecked()){
+		Bitmap fftMap = fft(*mergedMap, lensF*lensSam,lensWvl*lensSam, sqrt);
+		QString nazwaStr = this->ui->lineEdit_nazwaZern->text() + "AmpPSF";
+		nazwaStr.append(".bmp");
+		QByteArray ba = nazwaStr.toLatin1();
+		char *nazwa = ba.data();
+		fftMap.generateImage(nazwa);}
+	else if (this->ui->radioLog->isChecked()){
+		Bitmap fftMap = fft(*mergedMap, lensF*lensSam,lensWvl*lensSam, log);
+		QString nazwaStr = this->ui->lineEdit_nazwaZern->text() + "LogPSF";
+		nazwaStr.append(".bmp");
+		QByteArray ba = nazwaStr.toLatin1();
+		char *nazwa = ba.data();
+		fftMap.generateImage(nazwa);}
+}
