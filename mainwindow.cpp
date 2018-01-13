@@ -10,6 +10,8 @@
 #include <QByteArray>
 #include <QString>
 #include <QMessageBox>
+#include <QDir>
+#include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
@@ -39,10 +41,11 @@ void MainWindow::on_button_genLens_clicked()
 	lensWvl = lambda;
 	lensSam = probkowanie;
 	lensF = f;
-	QString nazwaStr = this->ui->lineEdit_nazwaPliku->text();
+	QString nazwaStr = filePath + "/" + this->ui->lineEdit_nazwaPliku->text();
 	nazwaStr.append(".bmp");
 	QByteArray ba = nazwaStr.toLatin1();
 	char *nazwa = ba.data();
+	std::cout<<nazwa<<std::endl;
 	soczewka->returnBitmap()->generateImage(nazwa);
 	this->ui->push_addToVector->setEnabled(true);
 	this->ui->button_genLens->setEnabled(false);
@@ -68,17 +71,20 @@ void MainWindow::on_push_addToVector_clicked()
 	this->ui->list_Zernik->addItem(string);
 	this->ui->push_generateZern->setEnabled(true);
 	this->ui->listDeleter->setEnabled(true);
+	this->ui->push_deleteAllZern->setEnabled(true);
 }
 
 void MainWindow::on_listDeleter_clicked()
 {
 	int index = this->ui->list_Zernik->currentIndex().row();
+	if (index == -1) return;
 	this->ui->list_Zernik->takeItem(index);
 	zernikList.erase(zernikList.begin()+index);
 	if (zernikList.size() == 0){
 		this->ui->listDeleter->setEnabled(false);
 		this->ui->push_generateZern->setEnabled(false);
-			this->ui->push_deleteAllZern->setEnabled(true);
+		this->ui->push_deleteAllZern->setEnabled(false);
+		this->ui->push_FFT->setEnabled(false);
 	}
 }
 
@@ -90,6 +96,7 @@ void MainWindow::on_push_deleteAllZern_clicked()
 	this->ui->listDeleter->setEnabled(false);
 	this->ui->push_generateZern->setEnabled(false);
 	this->ui->push_deleteAllZern->setEnabled(false);
+	this->ui->push_FFT->setEnabled(false);
 }
 
 void MainWindow::on_push_miniMapZern_clicked()
@@ -110,14 +117,17 @@ void MainWindow::on_push_generateZern_clicked()
 		toMerge.push_back(zern.get());
 	}
 	toMerge.push_back(soczewka.get());
+	mergedMap.release();
+	std::cerr<<toMerge.size()<<std::endl;
 	mergedMap = std::make_unique<Bitmap>(soczewka->returnBitmap()->row_count,soczewka->returnBitmap()->col_count);
 	mergedMap->mergeMaps(toMerge);
-	QString nazwaStr = this->ui->lineEdit_nazwaZern->text();
+	QString nazwaStr = filePath + "/" + this->ui->lineEdit_nazwaZern->text();
 	nazwaStr.append(".bmp");
 	QByteArray ba = nazwaStr.toLatin1();
 	char *nazwa = ba.data();
 	mergedMap->generateImage(nazwa);
 	this->ui->push_FFT->setEnabled(true);
+	toMerge.clear();
 }
 
 
@@ -152,16 +162,24 @@ void MainWindow::on_push_FFT_clicked()
 
 	if (this->ui->radioAmp->isChecked()){
 		Bitmap fftMap = fft(*mergedMap, lensF*lensSam,lensWvl*lensSam, sqrt);
-		QString nazwaStr = this->ui->lineEdit_nazwaZern->text() + "AmpPSF";
+		QString nazwaStr = filePath + "/" + this->ui->lineEdit_nazwaZern->text() + "AmpPSF";
 		nazwaStr.append(".bmp");
 		QByteArray ba = nazwaStr.toLatin1();
 		char *nazwa = ba.data();
 		fftMap.generateImage(nazwa);}
 	else if (this->ui->radioLog->isChecked()){
 		Bitmap fftMap = fft(*mergedMap, lensF*lensSam,lensWvl*lensSam, log);
-		QString nazwaStr = this->ui->lineEdit_nazwaZern->text() + "LogPSF";
+		QString nazwaStr = filePath + "/" + this->ui->lineEdit_nazwaZern->text() + "LogPSF";
 		nazwaStr.append(".bmp");
 		QByteArray ba = nazwaStr.toLatin1();
 		char *nazwa = ba.data();
 		fftMap.generateImage(nazwa);}
+}
+
+void MainWindow::on_actionWybierz_folder_zapisu_triggered()
+{
+	filePath = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
+																"/home",
+																QFileDialog::ShowDirsOnly
+																| QFileDialog::DontResolveSymlinks);
 }

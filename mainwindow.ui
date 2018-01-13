@@ -309,6 +309,9 @@
         <property name="sizeConstraint">
          <enum>QLayout::SetMinimumSize</enum>
         </property>
+        <property name="topMargin">
+         <number>6</number>
+        </property>
         <property name="verticalSpacing">
          <number>7</number>
         </property>
@@ -606,6 +609,9 @@
             <property name="text">
              <string>Amp</string>
             </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
            </widget>
           </item>
          </layout>
@@ -630,19 +636,19 @@
      <string>Menu</string>
     </property>
     <addaction name="actionO_programie"/>
-   </widget>
-   <widget class="QMenu" name="menuWybierz_cie_k_zapisu">
-    <property name="title">
-     <string>Wybierz folder zapisu</string>
-    </property>
+    <addaction name="actionWybierz_folder_zapisu"/>
    </widget>
    <addaction name="menuMenu"/>
-   <addaction name="menuWybierz_cie_k_zapisu"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionO_programie">
    <property name="text">
     <string>O programie</string>
+   </property>
+  </action>
+  <action name="actionWybierz_folder_zapisu">
+   <property name="text">
+    <string>Wybierz folder zapisu</string>
    </property>
   </action>
  </widget>

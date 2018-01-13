@@ -90,6 +90,10 @@ void Bitmap::generateImage(char* fileName){
 }
 
 void Bitmap::mergeMaps(std::vector<DiffractiveStructure*> &toMerge){
+	if (toMerge.size() < 2){
+		std::cerr<<"wektor ma jeden element"<<std::endl;
+		return;
+	}
 	std::vector<Bitmap> tmpB;
 	for (auto it = toMerge.begin(); it < toMerge.end(); it++){
 		//tworzy wektor nowych bitmap
