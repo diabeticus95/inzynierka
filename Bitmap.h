@@ -36,7 +36,7 @@ private:
 
 };
 void outerMergeMaps(Bitmap* a, Bitmap* b);
-Bitmap fft(const Bitmap& b);
+Bitmap fft(const Bitmap& b, double f, double lambda);
 Bitmap rot90(char* fileName);
 Bitmap load2Bitmap(char* fileName);
 #endif /* BITMAP_H_ */

@@ -133,37 +133,62 @@ void Bitmap::rot90(){
 	else
 		std::rotate(&data[0], &data[(col_count>>1) + 1], &data[col_count]);
 }*/
-Bitmap fft(const Bitmap& b){
-
+Bitmap fft(const Bitmap& b, double f, double lambda){
+//Przygotowanie zmiennych na liczby zespolone
 	fftw_complex *out;
 	fftw_complex *in;
 	fftw_plan p;
 
 	int n_out = b.row_count * b.col_count;
+	int MAX_COL = b.col_count;
+	int MAX_ROW = b.row_count;
+//Definiowanie zmiennych pomocniczych
+	double k = 2*M_PI/lambda;
+	double const_cos = cos(k*f)/(lambda * f);
+	double const_sin = sin(k*f)/(lambda * f);
+	double kernel = k/(2*f);
+	double lz = (double)1 / (lambda * f);
 
 	out = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * n_out);
 	in = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * n_out);
+//Mnożenie przez czynnik fazowy oraz shift.
+	for (double j = -MAX_COL/2; j < MAX_COL/2; j++){
+		for (double i = -MAX_ROW/2; i < MAX_ROW/2; i++){
+			in[b.index(i+(MAX_COL/2),j+(MAX_COL/2))][0] = (cos(2*M_PI*b.bmap[b.index(i+(MAX_COL/2),j+(MAX_COL/2))]) * cos(kernel * (i*i + j*j)) -
+								  sin(2*M_PI*b.bmap[b.index(i+(MAX_COL/2),j+(MAX_COL/2))]) * sin(kernel * (i*i + j*j))) * pow(-1,i+j);
 
-	for (int j = 0; j < b.row_count; j++){
-		for (int i = 0; i < b.row_count; i++){
-			in[b.index(i,j)][0] = cos(2*M_PI*b.bmap[b.index(i,j)]) * pow(-1,i+j);
-			in[b.index(i,j)][1] = sin(2*M_PI*b.bmap[b.index(i,j)]) * pow(-1,i+j);
+			in[b.index(i+(MAX_COL/2),j+(MAX_COL/2))][1] = (sin(2*M_PI*b.bmap[b.index(i+(MAX_COL/2),j+(MAX_COL/2))]) * cos(kernel * (i*i + j*j)) +
+								  cos(2*M_PI*b.bmap[b.index(i+(MAX_COL/2),j+(MAX_COL/2))]) * sin(kernel * (i*i + j*j))) * pow(-1,i+j);
 		}
 	}
+//Wykonanie transformaty
 	p = fftw_plan_dft_2d(b.row_count, b.col_count, in, out, FFTW_FORWARD, FFTW_ESTIMATE);
 	fftw_execute(p);
+
 
 	Bitmap result(b.row_count, b.col_count);
 	double* tmp_pointer = result.bmap.get();
 	double tmp = 0;
 	double max_val = 0;
-//result index i b index to tu to samo. konwersja 2d -> id
-	for (int j = 0; j < b.col_count; j++){
-		for (int i = 0; i < b.row_count; i++){
-					tmp = log(sqrt(pow(out[b.index(i,j)][0],2) + pow(out[b.index(i,j)][1],2)));
-					tmp_pointer[result.index(i,j)] = tmp;
-					if(tmp>max_val) max_val = tmp;
+//Wykonanie iloczynów
+	for (double j = -MAX_COL/2; j < MAX_COL/2; j++){
+		for (double i = -MAX_ROW/2; i < MAX_ROW/2; i++){
+			tmp = sqrt(pow(
+					out[b.index(i+(MAX_ROW/2), j+(MAX_COL/2))][1] * const_cos * cos(kernel*(i*i*lz*lz + j*j*lz*lz)) +
+					out[b.index(i+(MAX_ROW/2), j+(MAX_COL/2))][0] * const_cos * sin(kernel*(i*i*lz*lz + j*j*lz*lz)) +
+					out[b.index(i+(MAX_ROW/2), j+(MAX_COL/2))][0] * const_sin * cos(kernel*(i*i*lz*lz + j*j*lz*lz)) -
+					out[b.index(i+(MAX_ROW/2), j+(MAX_COL/2))][1] * const_sin * sin(kernel*(i*i*lz*lz + j*j*lz*lz)),2) +
+				pow(
+					out[b.index(i+(MAX_ROW/2), j+(MAX_COL/2))][1] * const_cos * sin(kernel*(i*i*lz*lz + j*j*lz*lz)) -
+					out[b.index(i+(MAX_ROW/2), j+(MAX_COL/2))][0] * const_cos * cos(kernel*(i*i*lz*lz + j*j*lz*lz)) +
+					out[b.index(i+(MAX_ROW/2), j+(MAX_COL/2))][1] * const_sin * cos(kernel*(i*i*lz*lz + j*j*lz*lz)) +
+					out[b.index(i+(MAX_ROW/2), j+(MAX_COL/2))][0] + const_sin + sin(kernel*(i*i*lz*lz + j*j*lz*lz)),2));
+
+					//tmp = sqrt(sqrt(pow(out[b.index(i,j)][0],2) + pow(out[b.index(i,j)][1],2)));
+				tmp_pointer[result.index(i+(MAX_ROW/2), j+(MAX_COL/2))] = tmp;
+				if(tmp>max_val) max_val = tmp;
 			}
+//Normalizacja
 	}
 	for (int i = 0; i < result.row_count*result.col_count; i++){
 		tmp_pointer[i] /= (double)max_val;
