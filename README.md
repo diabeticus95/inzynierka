@@ -7,7 +7,7 @@ Program z graficznym interfejsem umożliwia:
 
 Więcej informacji i instrukcja korzystania z programu w pdf'ie z pracą.
 _____
-Engineering honors thesis on Physics Faculty, WUT. 
+Engineering thesis on Physics Faculty, WUT. 
 Program with graphic interface can be used for:
 * generating diffractive lenses with selected parameters
 * adding Zernike aberrations
